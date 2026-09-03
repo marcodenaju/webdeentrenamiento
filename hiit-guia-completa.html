@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HIIT — Guía Completa</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0a;--surface:#111;--surface2:#161616;--surface3:#1c1c1c;
+  --border:#242424;--border2:#2e2e2e;
+  --accent:#e8ff00;--accent2:#ff4d00;--accent3:#00c8ff;--accent4:#ff0055;
+  --text:#f0f0f0;--muted:#7a7a7a;--muted2:#484848;
+  --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;--display:'Bebas Neue',sans-serif
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.65;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,10,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem}
+.nav-logo{font-family:var(--display);font-size:1.4rem;color:var(--accent4);letter-spacing:.06em}
+.nav-links{display:flex;flex-wrap:wrap}
+.nav-links a{font-family:var(--mono);font-size:.62rem;color:var(--muted);text-decoration:none;padding:.35rem .65rem;text-transform:uppercase;letter-spacing:.06em;transition:color .2s}
+.nav-links a:hover{color:var(--accent4)}
+.subnav{border-bottom:1px solid var(--border)}
+.subnav-links{max-width:1000px;margin:0 auto;padding:.9rem 2rem;justify-content:center;display:flex;flex-wrap:wrap}
+.subnav-links a{font-family:var(--mono);font-size:.62rem;color:var(--muted);text-decoration:none;padding:.35rem .65rem;text-transform:uppercase;letter-spacing:.06em;transition:color .2s}
+.subnav-links a:hover{color:var(--accent4)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:8rem 3rem 4.5rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero-grid{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,0,85,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,0,85,.04) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse 80% 65% at 50% 50%,black 30%,transparent 100%)}
+.hero-tag{font-family:var(--mono);font-size:.68rem;color:var(--accent4);letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:.8rem;margin-bottom:1.8rem}
+.hero-tag::before{content:'';width:2.2rem;height:1px;background:var(--accent4)}
+.hero h1{font-family:var(--display);font-size:clamp(5rem,16vw,13rem);line-height:.85;letter-spacing:.02em;margin-bottom:1rem}
+.hero h1 .sub{font-size:clamp(1.8rem,4vw,3.5rem);color:var(--muted);display:block;letter-spacing:.06em;margin-top:.6rem}
+.hero-desc{font-size:.95rem;color:var(--muted);max-width:580px;line-height:1.75;margin-bottom:3rem}
+.hero-stats{display:flex;flex-wrap:wrap;gap:2.5rem}
+.hs{display:flex;flex-direction:column;gap:.2rem}
+.hs-num{font-family:var(--display);font-size:2.4rem;color:var(--accent4);line-height:1}
+.hs-label{font-family:var(--mono);font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.09em}
+
+/* SECTION */
+.section{max-width:1100px;margin:0 auto;padding:5rem 2.5rem}
+.sec-header{display:flex;align-items:flex-start;gap:1.5rem;margin-bottom:2.8rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.sec-num{font-family:var(--mono);font-size:.65rem;color:var(--accent4);letter-spacing:.1em;margin-top:.5rem;min-width:2.2rem}
+.sec-header h2{font-family:var(--display);font-size:clamp(2rem,5vw,3.4rem);line-height:.95;letter-spacing:.03em}
+.sec-header h2 em{font-style:normal;color:var(--accent4)}
+.sec-intro{font-size:.88rem;color:var(--muted);line-height:1.8;max-width:700px;margin-bottom:2.5rem}
+hr.div{border:none;border-top:1px solid var(--border)}
+
+/* INFOBOX */
+.infobox{padding:1.6rem 2rem;border:1px solid var(--border2);margin-bottom:2rem}
+.infobox.red{background:rgba(255,0,85,.04);border-color:rgba(255,0,85,.18)}
+.infobox.yellow{background:rgba(232,255,0,.04);border-color:rgba(232,255,0,.18)}
+.infobox.orange{background:rgba(255,77,0,.04);border-color:rgba(255,77,0,.18)}
+.infobox.blue{background:rgba(0,200,255,.04);border-color:rgba(0,200,255,.18)}
+.infobox-label{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
+.infobox.red .infobox-label{color:var(--accent4)}
+.infobox.yellow .infobox-label{color:var(--accent)}
+.infobox.orange .infobox-label{color:var(--accent2)}
+.infobox.blue .infobox-label{color:var(--accent3)}
+.infobox p{font-size:.87rem;color:var(--muted);line-height:1.8}
+.infobox p strong{color:var(--text);font-weight:400}
+
+/* CONCEPT BLOCKS */
+.concept-block{background:var(--surface);border:1px solid var(--border);display:grid;grid-template-columns:72px 1fr;gap:2rem;padding:2.2rem 2.5rem;margin-bottom:1px;transition:border-color .2s,background .2s;position:relative;overflow:hidden}
+.concept-block::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--accent4);transition:height .3s ease}
+.concept-block:hover{background:var(--surface2)}
+.concept-block:hover::before{height:100%}
+.concept-block.yellow::before{background:var(--accent)}
+.concept-block.orange::before{background:var(--accent2)}
+.concept-block.blue::before{background:var(--accent3)}
+.cb-num{font-family:var(--display);font-size:3.8rem;color:var(--border2);line-height:1;text-align:right;transition:color .2s}
+.concept-block:hover .cb-num{color:rgba(255,0,85,.15)}
+.concept-block.yellow:hover .cb-num{color:rgba(232,255,0,.15)}
+.concept-block.orange:hover .cb-num{color:rgba(255,77,0,.15)}
+.concept-block.blue:hover .cb-num{color:rgba(0,200,255,.15)}
+.cb-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.04em;margin-bottom:.6rem}
+.cb-desc{font-size:.87rem;color:var(--muted);line-height:1.8}
+.cb-desc strong{color:var(--text);font-weight:400}
+.cb-formula{margin-top:1rem;padding:.75rem 1rem;background:var(--bg);border-left:2px solid var(--accent4);font-family:var(--mono);font-size:.78rem;color:var(--accent4);letter-spacing:.04em;line-height:1.6}
+.cb-formula.yellow{border-left-color:var(--accent);color:var(--accent)}
+.cb-formula.orange{border-left-color:var(--accent2);color:var(--accent2)}
+.cb-formula.blue{border-left-color:var(--accent3);color:var(--accent3)}
+
+/* CARDS */
+.cards{display:grid;gap:1px;background:var(--border)}
+.cards-2{grid-template-columns:1fr 1fr}
+.cards-3{grid-template-columns:repeat(3,1fr)}
+.cards-4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--surface);padding:2rem 2.2rem;transition:background .2s;position:relative;overflow:hidden}
+.card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--accent4);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.card:hover{background:var(--surface2)}
+.card:hover::after{transform:scaleX(1)}
+.card.yellow::after{background:var(--accent)}
+.card.orange::after{background:var(--accent2)}
+.card.blue::after{background:var(--accent3)}
+.card-icon{font-size:1.4rem;margin-bottom:1rem}
+.card h3{font-family:var(--display);font-size:1.35rem;letter-spacing:.04em;margin-bottom:.6rem}
+.card p{font-size:.84rem;color:var(--muted);line-height:1.75}
+.card p strong{color:var(--text);font-weight:400}
+.card-tag{display:inline-block;margin-top:1rem;font-family:var(--mono);font-size:.62rem;color:var(--accent4);letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(255,0,85,.25);padding:.18rem .5rem}
+.card-tag.yellow{color:var(--accent);border-color:rgba(232,255,0,.25)}
+.card-tag.orange{color:var(--accent2);border-color:rgba(255,77,0,.25)}
+.card-tag.blue{color:var(--accent3);border-color:rgba(0,200,255,.25)}
+.card-tag.green{color:#00c87a;border-color:rgba(0,200,122,.25)}
+
+/* METHOD CARD */
+.method-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);margin-bottom:2rem}
+.method-card{background:var(--surface);padding:0;overflow:hidden;transition:background .2s}
+.method-card:hover{background:var(--surface2)}
+.method-header{padding:1.5rem 2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.method-name{font-family:var(--display);font-size:1.6rem;letter-spacing:.04em}
+.method-badge{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;padding:.18rem .5rem;border-radius:2px}
+.mb-red{background:rgba(255,0,85,.1);color:var(--accent4)}
+.mb-orange{background:rgba(255,77,0,.1);color:var(--accent2)}
+.mb-yellow{background:rgba(232,255,0,.1);color:var(--accent)}
+.mb-blue{background:rgba(0,200,255,.1);color:var(--accent3)}
+.mb-green{background:rgba(0,200,122,.1);color:#00c87a}
+.method-body{display:none;padding:1.5rem 2rem}
+.method-card.open .method-body{display:block}
+.method-toggle{font-family:var(--mono);font-size:.62rem;color:var(--accent4)}
+.method-grid-inner{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1rem}
+.mi-label{font-family:var(--mono);font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.4rem}
+.mi-val{font-family:var(--display);font-size:1.4rem;color:var(--accent4);letter-spacing:.04em}
+.mi-val.yellow{color:var(--accent)}
+.mi-val.orange{color:var(--accent2)}
+.mi-val.blue{color:var(--accent3)}
+.mi-desc{font-size:.82rem;color:var(--muted);line-height:1.7;margin-top:.3rem}
+.method-protocol{padding:.75rem 1rem;background:var(--bg);border-left:2px solid var(--accent4);font-family:var(--mono);font-size:.74rem;color:var(--accent4);line-height:1.6;margin-top:.8rem}
+.method-protocol.yellow{border-left-color:var(--accent);color:var(--accent)}
+.method-protocol.orange{border-left-color:var(--accent2);color:var(--accent2)}
+.method-protocol.blue{border-left-color:var(--accent3);color:var(--accent3)}
+.method-note{font-size:.8rem;color:var(--muted);line-height:1.7;margin-top:.8rem}
+
+/* EXERCISE LIST */
+.ex-list{display:grid;gap:1px;background:var(--border);margin-bottom:2rem}
+.ex-item{background:var(--surface);padding:1.5rem 2rem;display:grid;grid-template-columns:2.5rem 1fr auto;align-items:center;gap:1.5rem;cursor:pointer;transition:background .2s}
+.ex-item:hover{background:var(--surface2)}
+.ex-icon{font-size:1.3rem;text-align:center}
+.ex-name{font-family:var(--display);font-size:1.3rem;letter-spacing:.04em;margin-bottom:.2rem}
+.ex-meta{font-family:var(--mono);font-size:.62rem;color:var(--muted);letter-spacing:.06em}
+.ex-toggle{font-family:var(--mono);font-size:.62rem;color:var(--accent4);white-space:nowrap}
+.ex-detail{display:none;grid-column:1/-1;padding-top:1.2rem;margin-top:.8rem;border-top:1px solid var(--border)}
+.ex-item.open .ex-detail{display:block}
+.ex-detail-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem}
+.ex-detail-label{font-family:var(--mono);font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
+.ex-detail p,.ex-detail li{font-size:.82rem;color:var(--muted);line-height:1.7}
+.ex-detail ul{list-style:none}
+.ex-detail li{padding-left:1rem;position:relative;margin-bottom:.3rem}
+.ex-detail li::before{content:'→';position:absolute;left:0;color:var(--accent4);font-size:.72rem}
+.ex-detail li strong{color:var(--text);font-weight:400}
+
+/* STRUCTURE TABLE */
+.struct-table-wrap{overflow-x:auto;margin-bottom:2rem}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+thead tr{border-bottom:2px solid var(--accent4)}
+th{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.09em;color:var(--accent4);padding:.9rem 1.3rem;text-align:left}
+td{padding:.9rem 1.3rem;border-bottom:1px solid var(--border);color:var(--muted)}
+tr:hover td{background:var(--surface2);color:var(--text)}
+td:first-child{color:var(--text)}
+.badge{display:inline-block;padding:.12rem .45rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.05em;border-radius:2px}
+.bg-r{background:rgba(255,0,85,.1);color:var(--accent4)}
+.bg-y{background:rgba(232,255,0,.1);color:var(--accent)}
+.bg-o{background:rgba(255,77,0,.1);color:var(--accent2)}
+.bg-b{background:rgba(0,200,255,.1);color:var(--accent3)}
+.bg-g{background:rgba(0,200,122,.1);color:#00c87a}
+
+/* INTERVAL VISUAL */
+.interval-visual{background:var(--surface);border:1px solid var(--border);padding:2.5rem;margin-bottom:2rem}
+.iv-title{font-family:var(--display);font-size:1.6rem;letter-spacing:.04em;margin-bottom:.4rem}
+.iv-sub{font-family:var(--mono);font-size:.65rem;color:var(--muted);letter-spacing:.07em;margin-bottom:2rem}
+.iv-track{display:flex;gap:2px;height:60px;margin-bottom:1.2rem;align-items:stretch;border:1px solid var(--border)}
+.iv-seg{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.6rem;letter-spacing:.05em}
+.iv-work{background:rgba(255,0,85,.25);border-left:2px solid var(--accent4);color:var(--accent4);text-transform:uppercase}
+.iv-rest{background:rgba(0,200,255,.1);border-left:2px solid var(--accent3);color:var(--accent3);text-transform:uppercase}
+.iv-legend{display:flex;gap:2rem}
+.iv-leg-item{display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.65rem;color:var(--muted)}
+.iv-dot{width:10px;height:10px;border-radius:2px}
+
+/* BENEFITS GRID */
+.benefit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-bottom:2rem}
+.benefit-card{background:var(--surface);padding:1.8rem;transition:background .2s;position:relative}
+.benefit-card:hover{background:var(--surface2)}
+.benefit-num{font-family:var(--display);font-size:3rem;color:var(--border2);line-height:1;margin-bottom:.3rem;transition:color .2s}
+.benefit-card:hover .benefit-num{color:rgba(255,0,85,.2)}
+.benefit-title{font-family:var(--display);font-size:1.2rem;letter-spacing:.04em;margin-bottom:.5rem}
+.benefit-desc{font-size:.82rem;color:var(--muted);line-height:1.7}
+.benefit-evidence{margin-top:.7rem;font-family:var(--mono);font-size:.6rem;color:var(--accent4);text-transform:uppercase;letter-spacing:.07em}
+
+/* WEEK GRID */
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);margin-bottom:2rem}
+.day-card{background:var(--surface);padding:1.3rem .8rem;text-align:center;transition:background .2s}
+.day-card:hover{background:var(--surface2)}
+.day-name{font-family:var(--mono);font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.6rem}
+.day-type{font-family:var(--display);font-size:1rem;letter-spacing:.04em;line-height:1.2;margin-bottom:.5rem}
+.day-card.hiit{border-top:2px solid var(--accent4)}
+.day-card.hiit .day-type{color:var(--accent4)}
+.day-card.strength{border-top:2px solid var(--accent)}
+.day-card.strength .day-type{color:var(--accent)}
+.day-card.rest{border-top:2px solid var(--border2)}
+.day-card.rest .day-type{color:var(--muted2)}
+.day-card.cardio{border-top:2px solid var(--accent3)}
+.day-card.cardio .day-type{color:var(--accent3)}
+.day-note{font-size:.68rem;color:var(--muted2);margin-top:.3rem;line-height:1.4}
+
+/* ROUTINE CARDS */
+.routine-tabs{display:flex;gap:0;margin-bottom:0;border-bottom:2px solid var(--border)}
+.rtab{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;padding:.8rem 1.5rem;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s}
+.rtab.active{color:var(--accent4);border-bottom-color:var(--accent4)}
+.routine-panel{display:none;background:var(--surface);border:1px solid var(--border);border-top:none}
+.routine-panel.active{display:block}
+.rp-header{padding:2rem 2.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.rp-title{font-family:var(--display);font-size:2rem;letter-spacing:.04em}
+.rp-meta{display:flex;gap:1rem;flex-wrap:wrap}
+.rp-stat{text-align:center}
+.rp-stat-val{font-family:var(--display);font-size:1.5rem;color:var(--accent4);line-height:1}
+.rp-stat-label{font-family:var(--mono);font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.rp-body{padding:2rem 2.5rem}
+.rp-section-title{font-family:var(--mono);font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.exercise-row{display:grid;grid-template-columns:2rem 1fr repeat(4,auto);gap:1rem;align-items:center;padding:.9rem 0;border-bottom:1px solid var(--border)}
+.exercise-row:last-child{border-bottom:none}
+.er-num{font-family:var(--mono);font-size:.65rem;color:var(--muted2)}
+.er-name{font-size:.88rem;color:var(--text);font-weight:400}
+.er-name span{display:block;font-size:.75rem;color:var(--muted);margin-top:.1rem}
+.er-val{font-family:var(--mono);font-size:.72rem;text-align:right;white-space:nowrap}
+.er-label{font-family:var(--mono);font-size:.55rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;text-align:right}
+.er-cell{text-align:right}
+.rp-tip{margin-top:1.5rem;padding:1rem 1.2rem;background:var(--bg);border-left:2px solid var(--accent4);font-family:var(--mono);font-size:.72rem;color:var(--accent4);line-height:1.6}
+.rp-warmup{background:var(--surface2);padding:1.2rem 1.5rem;margin-bottom:1.5rem;border-left:2px solid var(--border2)}
+.rp-warmup-title{font-family:var(--mono);font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.5rem}
+.rp-warmup p{font-size:.82rem;color:var(--muted);line-height:1.6}
+
+/* NUTRITION TABLE */
+.nutr-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-bottom:2rem}
+.nutr-card{background:var(--surface);padding:2rem 2.2rem}
+.nutr-title{font-family:var(--display);font-size:1.4rem;letter-spacing:.04em;margin-bottom:.3rem}
+.nutr-moment{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem;display:inline-block;padding:.18rem .5rem}
+.nt-red{background:rgba(255,0,85,.1);color:var(--accent4)}
+.nt-yellow{background:rgba(232,255,0,.1);color:var(--accent)}
+.nt-orange{background:rgba(255,77,0,.1);color:var(--accent2)}
+.nt-blue{background:rgba(0,200,255,.1);color:var(--accent3)}
+.nt-green{background:rgba(0,200,122,.1);color:#00c87a}
+.nutr-list{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.nutr-list li{font-size:.83rem;color:var(--muted);padding-left:1.1rem;position:relative;line-height:1.65}
+.nutr-list li::before{content:'·';position:absolute;left:0;color:var(--accent4);font-size:1rem;line-height:1.3}
+.nutr-list li strong{color:var(--text);font-weight:400}
+
+/* FADE IN */
+.fade-in{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}
+.fade-in.visible{opacity:1;transform:none}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:3rem;text-align:center;font-family:var(--mono);font-size:.65rem;color:var(--muted2);letter-spacing:.09em;text-transform:uppercase}
+footer span{color:var(--accent4)}
+
+/* RESPONSIVE */
+@media(max-width:800px){
+  .cards-2,.cards-3,.cards-4,.method-grid,.benefit-grid,.nutr-grid{grid-template-columns:1fr}
+  .week-grid{grid-template-columns:repeat(4,1fr)}
+  .nav-links{display:none}
+  .hero{padding:7rem 1.5rem 3rem}
+  .section{padding:3rem 1.2rem}
+  .concept-block{grid-template-columns:1fr}
+  .cb-num{text-align:left;font-size:2.5rem}
+  .ex-item{grid-template-columns:2rem 1fr}
+  .ex-toggle{display:none}
+  .ex-detail-grid{grid-template-columns:1fr}
+  .exercise-row{grid-template-columns:2rem 1fr 1fr;gap:.5rem}
+  .er-label{display:none}
+  .rp-header{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">HIIT</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-tag">Entrenamiento interválico de alta intensidad — Guía completa</div>
+  <h1>HIIT<span class="sub">HIGH INTENSITY INTERVAL TRAINING</span></h1>
+  <p class="hero-desc">Todo lo que necesitás saber para entrenar con intervalos de alta intensidad: ciencia, métodos, variables, programación, nutrición y rutinas desde cero hasta avanzado.</p>
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-num">20"</div><div class="hs-label">Intervalo mínimo</div></div>
+    <div class="hs"><div class="hs-num">2–4×</div><div class="hs-label">Por semana</div></div>
+    <div class="hs"><div class="hs-num">85%+</div><div class="hs-label">FC máx trabajo</div></div>
+    <div class="hs"><div class="hs-num">EPOC</div><div class="hs-label">Postcombustión</div></div>
+  </div>
+</section>
+
+<div class="subnav">
+  <div class="subnav-links">
+    <a href="#que-es">Qué es</a>
+    <a href="#tipos">Tipos</a>
+    <a href="#variables">Variables</a>
+    <a href="#ejercicios">Ejercicios</a>
+    <a href="#beneficios">Beneficios</a>
+    <a href="#fuerza">Fuerza</a>
+    <a href="#semana">Semana</a>
+    <a href="#nutricion">Nutrición</a>
+    <a href="#rutinas">Rutinas</a>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ══════════════════════════════════
+     01 — QUÉ ES EL HIIT
+══════════════════════════════════ -->
+<div id="que-es">
+<div class="section fade-in">
+  <div class="sec-header">
+    <span class="sec-num">01</span>
+    <h2>QUÉ ES EL<br><em>HIIT</em></h2>
+  </div>
+
+  <p class="sec-intro">El HIIT no es simplemente "cardio fuerte". Es un sistema estructurado de entrenamiento basado en la alternancia entre períodos de esfuerzo máximo o casi máximo y períodos de recuperación activa o pasiva. La clave está en la palabra <em>intervalo</em>: sin estructura de trabajo/descanso definida, no es HIIT.</p>
+
+  <div class="concept-block">
+    <div class="cb-num">Def</div>
+    <div>
+      <div class="cb-title">DEFINICIÓN TÉCNICA</div>
+      <p class="cb-desc">El HIIT consiste en <strong>repeticiones cortas de ejercicio a alta intensidad</strong> (tipicamente ≥80–90% del VO₂max o 85–95% de la frecuencia cardíaca máxima) intercaladas con períodos de <strong>recuperación a baja o moderada intensidad</strong>. La duración total de la sesión es breve comparada con el cardio continuo tradicional, pero el estímulo fisiológico es significativamente mayor por unidad de tiempo.<br><br>Lo que diferencia al HIIT del entrenamiento continuo es la <strong>acumulación de tiempo a intensidad muy alta</strong>. Una sesión de cardio moderado puede tardar 45 minutos en generar el mismo estímulo cardiovascular que 15–20 minutos de HIIT bien ejecutado.</p>
+      <div class="cb-formula">HIIT = Intervalos de trabajo (85–100% esfuerzo) + Intervalos de recuperación (30–60% esfuerzo)</div>
+    </div>
+  </div>
+
+  <div class="cards cards-3" style="margin-bottom:2rem">
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <h3>EPOC — POST-COMBUSTIÓN</h3>
+      <p>El HIIT genera un fenómeno llamado <strong>EPOC</strong> (Excess Post-exercise Oxygen Consumption): el cuerpo sigue quemando calorías a tasa elevada por 12–48 horas después de la sesión para restaurar el equilibrio metabólico. Este efecto es mucho mayor que en el cardio continuo de baja intensidad.</p>
+      <span class="card-tag">Efecto posterior</span>
+    </div>
+    <div class="card orange">
+      <div class="card-icon">🫀</div>
+      <h3>ADAPTACIÓN CARDIOVASCULAR</h3>
+      <p>El HIIT genera adaptaciones en el <strong>sistema cardiovascular y mitocondrial</strong> más rápidas que el cardio tradicional: mayor densidad mitocondrial, mayor volumen sistólico, mejor eficiencia en el uso del oxígeno. Estudios muestran mejoras comparables con menos tiempo total de entrenamiento.</p>
+      <span class="card-tag orange">Adaptación</span>
+    </div>
+    <div class="card blue">
+      <div class="card-icon">🧬</div>
+      <h3>VO₂MAX Y UMBRAL LÁCTICO</h3>
+      <p>El HIIT es uno de los métodos más eficaces para mejorar el <strong>VO₂max</strong> (capacidad aeróbica máxima) y elevar el <strong>umbral láctico</strong> (el punto donde el lactato se acumula más rápido de lo que se elimina). Ambas mejoras se traducen en mayor rendimiento y menor fatiga en cualquier actividad física.</p>
+      <span class="card-tag blue">VO₂max</span>
+    </div>
+  </div>
+
+  <div class="infobox red">
+    <div class="infobox-label">⚠️ HIIT ≠ Cardio intenso sin estructura</div>
+    <p>Hacer 30 minutos de running rápido no es HIIT. Hacer un circuito de ejercicios sin descansos definidos tampoco lo es. El HIIT tiene <strong>intervalos de trabajo y recuperación precisamente definidos</strong>. Sin esa estructura, es simplemente cardio de alta intensidad continuo (lo que se conoce como cardio moderado-intenso o "threshold training"), que tiene sus propios beneficios pero no es lo mismo.</p>
+  </div>
+</div>
+</div>
+
+<hr class="div">
+
+<!-- ══════════════════════════════════
+     02 — TIPOS / MÉTODOS
+══════════════════════════════════ -->
+<div id="tipos">
+<div class="section fade-in">
+  <div class="sec-header">
+    <span class="sec-num">02</span>
+    <h2>MÉTODOS Y TIPOS<br><em>DE HIIT</em></h2>
+  </div>
+  <p class="sec-intro">Existen múltiples protocolos de HIIT, cada uno con una relación trabajo/descanso y objetivo fisiológico distinto. Conocerlos te permite elegir el adecuado para tu nivel y objetivo.</p>
+
+  <div class="method-grid">
+
+    <!-- TABATA -->
+    <div class="method-card" id="m-tabata">
+      <div class="method-header" onclick="toggleMethod('m-tabata')">
+        <div>
+          <div class="method-name">TABATA</div>
+          <div style="font-family:var(--mono);font-size:.62rem;color:var(--muted)">Izumi Tabata, 1996 · Instituto Nacional de Fitness, Japón</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:.8rem">
+          <span class="method-badge mb-red">Máxima intensidad</span>
+          <span class="method-toggle">+ ver</span>
+        </div>
+      </div>
+      <div class="method-body">
+        <div class="method-grid-inner">
+          <div><div class="mi-label">Trabajo</div><div class="mi-val">20 seg</div></div>
+          <div><div class="mi-label">Descanso</div><div class="mi-val">10 seg</div></div>
+          <div><div class="mi-label">Rondas</div><div class="mi-val">8 rondas</div></div>
+          <div><div class="mi-label">Duración total</div><div class="mi-val">4 minutos</div></div>
+        </div>
+        <p class="method-note">El protocolo original de Tabata fue estudiado en ciclistas de élite que pedaleaban al <strong>170% del VO₂max</strong> durante los 20 segundos de trabajo. Eso significa esfuerzo absolutamente máximo, no "fuerte". Para la mayoría de las personas, la versión original es extrema: los 20 segundos de trabajo deben ser al límite real de capacidad. Un Tabata "cómodo" no es Tabata.</p>
+        <div class="method-protocol">Protocolo: 20" trabajo máximo → 10" descanso × 8 = 4 min por ejercicio<br>Ejemplo: sprints en bicicleta / burpees / sentadillas con salto al máximo</div>
+        <p class="method-note" style="margin-top:.8rem">El estudio original mostró que 6 semanas de Tabata 5 días/semana mejoraron el VO₂max un 14% y la capacidad anaeróbica un 28%, superando los resultados del cardio continuo moderado.</p>
+      </div>
+    </div>
+
+    <!-- LITTLE-GIBALA -->
+    <div class="method-card" id="m-gibala">
+      <div class="method-header" onclick="toggleMethod('m-gibala')">
+        <div>
+          <div class="method-name">MÉTODO LITTLE-GIBALA</div>
+          <div style="font-family:var(--mono);font-size:.62rem;color:var(--muted)">Jonathan Little & Martin Gibala, 2009 · McMaster University</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:.8rem">
+          <span class="method-badge mb-orange">Alta intensidad</span>
+          <span class="method-toggle">+ ver</span>
+        </div>
+      </div>
+      <div class="method-body">
+        <div class="method-grid-inner">
+          <div><div class="mi-label">Trabajo</div><div class="mi-val mi-val orange">60 seg</div></div>
+          <div><div class="mi-label">Descanso</div><div class="mi-val mi-val orange">75 seg</div></div>
+          <div><div class="mi-label">Rondas</div><div class="mi-val mi-val orange">8–12</div></div>
+          <div><div class="mi-label">Duración total</div><div class="mi-val mi-val orange">~18–27 min</div></div>
+        </div>
+        <p class="method-note">Desarrollado como alternativa al Tabata con intervalos más largos y menos demandantes del SNC. Los intervalos de trabajo se ejecutan al <strong>~90% del VO₂max</strong> (muy intenso pero sostenible durante 60 segundos). El estudio demostró adaptaciones similares al entrenamiento continuo moderado de mayor duración, con mucho menos tiempo total invertido.</p>
+        <div class="method-protocol method-protocol orange">60" trabajo (~90% VO₂max) → 75" recuperación activa × 8–12 series<br>Ideal para: ciclismo, remo, carrera, ski ergómetro</div>
+        <p class="method-note" style="margin-top:.8rem">Uno de los protocolos mejor estudiados. Generó adaptaciones similares a 5 horas de cardio moderado en solo 90 minutos semanales de HIIT total (incluyendo calentamiento y enfriamiento).</p>
+      </div>
+    </div>
+
+    <!-- TIMMONS / SIT -->
+    <div class="method-card" id="m-timmons">
+      <div class="method-header" onclick="toggleMethod('m-timmons')">
+        <div>
+          <div class="method-name">MÉTODO TIMMONS (SIT)</div>
+          <div style="font-family:var(--mono);font-size:.62rem;color:var(--muted)">Jamie Timmons · Sprint Interval Training · Loughborough University</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:.8rem">
+          <span class="method-badge mb-red">Sprints máximos</span>
+          <span class="method-toggle">+ ver</span>
+        </div>
+      </div>
+      <div class="method-body">
+        <div class="method-grid-inner">
+          <div><div class="mi-label">Trabajo</div><div class="mi-val">30 seg</div></div>
+          <div><div class="mi-label">Descanso</div><div class="mi-val">4 min</div></div>
+          <div><div class="mi-label">Rondas</div><div class="mi-val">3</div></div>
+          <div><div class="mi-label">Duración total</div><div class="mi-val">~10–12 min</div></div>
+        </div>
+        <p class="method-note">El protocolo más extremo en relación volumen/intensidad. Los <strong>30 segundos son sprints absolutamente máximos</strong> (Wingate test). El descanso largo (4 minutos) permite recuperación casi completa para el siguiente sprint máximo. Es famoso por el documental de la BBC "The Truth About Exercise" donde se mostraron mejoras en sensibilidad a la insulina en solo 2 semanas con 3 sesiones de 10 minutos.</p>
+        <div class="method-protocol">3 × 30" sprint máximo con 4 min descanso pasivo entre sprints<br>Tiempo efectivo de trabajo: solo 90 segundos por sesión</div>
+        <p class="method-note" style="margin-top:.8rem">Requiere equipamiento especializado (bicicleta de sprint) para la versión original. Adaptable a sprints en cinta o colina. Muy demandante para el sistema nervioso: no más de 2–3 veces por semana.</p>
+      </div>
+    </div>
+
+    <!-- MODELO NORUEGO 4x4 -->
+    <div class="method-card" id="m-noruego">
+      <div class="method-header" onclick="toggleMethod('m-noruego')">
+        <div>
+          <div class="method-name">MODELO NORUEGO 4×4</div>
+          <div style="font-family:var(--mono);font-size:.62rem;color:var(--muted)">Jan Helgerud · Norwegian University of Science and Technology</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:.8rem">
+          <span class="method-badge mb-yellow">Capacidad aeróbica</span>
+          <span class="method-toggle">+ ver</span>
+        </div>
+      </div>
+      <div class="method-body">
+        <div class="method-grid-inner">
+          <div><div class="mi-label">Trabajo</div><div class="mi-val mi-val yellow">4 min</div></div>
+          <div><div class="mi-label">Descanso</div><div class="mi-val mi-val yellow">3 min</div></div>
+          <div><div class="mi-label">Rondas</div><div class="mi-val mi-val yellow">4</div></div>
+          <div><div class="mi-label">Duración total</div><div class="mi-val mi-val yellow">~40 min</div></div>
+        </div>
+        <p class="method-note">Desarrollado para maximizar el VO₂max en deportistas. Los intervalos de 4 minutos se hacen al <strong>85–95% de la FC máxima</strong>, una intensidad muy alta pero sostenible. Es el protocolo con mayor evidencia científica para mejora del VO₂max en población general y deportista. Los 3 minutos de recuperación activa (caminar o trotar suave) permiten comenzar el siguiente intervalo con buena recuperación.</p>
+        <div class="method-protocol method-protocol yellow">4 × [4 min al 90–95% FCmáx + 3 min recuperación activa]<br>Calentamiento: 10 min · Enfriamiento: 5 min · Total sesión: ~50–55 min</div>
+        <p class="method-note" style="margin-top:.8rem">El estudio de Helgerud (2007) mostró que este método generó las mayores mejoras en VO₂max comparado con otros protocolos de igual duración. Referencia para atletas y para salud cardiovascular.</p>
+      </div>
+    </div>
+
+    <!-- PROTOCOLOS 1:1 -->
+    <div class="method-card" id="m-uno">
+      <div class="method-header" onclick="toggleMethod('m-uno')">
+        <div>
+          <div class="method-name">PROTOCOLOS 1:1 Y 2:1</div>
+          <div style="font-family:var(--mono);font-size:.62rem;color:var(--muted)">Relaciones trabajo/descanso para distintos objetivos</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:.8rem">
+          <span class="method-badge mb-blue">Flexible</span>
+          <span class="method-toggle">+ ver</span>
+        </div>
+      </div>
+      <div class="method-body">
+        <div class="method-grid-inner">
+          <div><div class="mi-label">Relación 1:1</div><div class="mi-val mi-val blue">30" / 30"</div></div>
+          <div><div class="mi-label">Relación 2:1</div><div class="mi-val mi-val blue">40" / 20"</div></div>
+          <div><div class="mi-label">Relación 1:2</div><div class="mi-val mi-val blue">20" / 40"</div></div>
+          <div><div class="mi-label">Relación 1:4</div><div class="mi-val mi-val blue">30" / 2 min</div></div>
+        </div>
+        <p class="method-note">Las relaciones trabajo/descanso determinan el tipo de adaptación predominante. <strong>1:1</strong> equilibra capacidad aeróbica y anaeróbica. <strong>2:1</strong> (más trabajo que descanso) aumenta resistencia a la fatiga y es más metabólico. <strong>1:2 y 1:4</strong> permiten mayor calidad en cada intervalo de trabajo y son más adecuados para sprints máximos o cuando se busca potencia pico.</p>
+        <div class="method-protocol method-protocol blue">1:1 → fuerza resistencia · 2:1 → resistencia metabólica · 1:2+ → potencia anaeróbica</div>
+      </div>
+    </div>
+
+    <!-- HIIT FUNCIONAL / CrossFit style -->
+    <div class="method-card" id="m-func">
+      <div class="method-header" onclick="toggleMethod('m-func')">
+        <div>
+          <div class="method-name">HIIT FUNCIONAL / AMRAP</div>
+          <div style="font-family:var(--mono);font-size:.62rem;color:var(--muted)">As Many Rounds As Possible · Circuitos de alta intensidad</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:.8rem">
+          <span class="method-badge mb-green">Accesible</span>
+          <span class="method-toggle">+ ver</span>
+        </div>
+      </div>
+      <div class="method-body">
+        <div class="method-grid-inner">
+          <div><div class="mi-label">Trabajo</div><div class="mi-val" style="color:#00c87a">Variable</div></div>
+          <div><div class="mi-label">Descanso</div><div class="mi-val" style="color:#00c87a">Por reps o tiempo</div></div>
+          <div><div class="mi-label">Ejercicios</div><div class="mi-val" style="color:#00c87a">3–6</div></div>
+          <div><div class="mi-label">Duración</div><div class="mi-val" style="color:#00c87a">10–20 min</div></div>
+        </div>
+        <p class="method-note">Formato más flexible y accesible. Se arman circuitos de ejercicios funcionales realizados con alta intensidad, con descanso entre rondas o entre ejercicios. Es el formato más popular en clases grupales y aplicaciones de fitness. No siempre alcanza la intensidad del HIIT "clásico" pero genera buenas adaptaciones cardiovasculares y musculares simultáneamente.</p>
+        <div class="method-protocol" style="border-left-color:#00c87a;color:#00c87a">Ejemplo: 40" trabajo / 20" descanso × 5 ejercicios × 3 rondas = 15 min total<br>Ejercicios: burpees · mountain climbers · sentadillas con salto · jumping jacks · plank up-downs</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="infobox yellow">
+    <div class="infobox-label">¿Cuál método elegir?</div>
+    <p><strong>Principiante:</strong> HIIT Funcional o relaciones 1:2 (más descanso que trabajo) para acostumbrarse a la intensidad alta. <strong>Intermedio:</strong> Little-Gibala, 4×4 Noruego, protocolos 1:1. <strong>Avanzado:</strong> Tabata real, SIT Timmons, protocolos 2:1 con ejercicios de alta demanda. El mejor método es el que podés ejecutar con intensidad real y consistencia.</p>
+  </div>
+</div>
+</div>
+
+<hr class="div">
+
+<!-- ══════════════════════════════════
+     03 — VARIABLES DEL INTERVALO
+══════════════════════════════════ -->
+<div id="variables">
+<div class="section fade-in">
+  <div class="sec-header">
+    <span class="sec-num">03</span>
+    <h2>VARIABLES DEL<br><em>INTERVALO</em></h2>
+  </div>
+  <p class="sec-intro">Seis variables definen la estructura de cualquier sesión HIIT. Modificarlas cambia el estímulo, la dificultad y el tipo de adaptación generada. Entenderlas te permite diseñar o ajustar cualquier protocolo.</p>
+
+  <div class="interval-visual">
+    <div class="iv-title">ANATOMÍA DE UN INTERVALO</div>
+    <div class="iv-sub">TRABAJO → RECUPERACIÓN → TRABAJO → RECUPERACIÓN → ...</div>
+    <div class="iv-track">
+      <div class="iv-seg iv-work" style="flex:2">TRABAJO<br>85–100%</div>
+      <div class="iv-seg iv-rest" style="flex:2">RECUP.<br>30–50%</div>
+      <div class="iv-seg iv-work" style="flex:2">TRABAJO<br>85–100%</div>
+      <div class="iv-seg iv-rest" style="flex:2">RECUP.<br>30–50%</div>
+      <div class="iv-seg iv-work" style="flex:2">TRABAJO<br>85–100%</div>
+      <div class="iv-seg iv-rest" style="flex:1" style="flex:1.5">RECUP.</div>
+      <div class="iv-seg" style="flex:.8;background:rgba(255,255,255,.03);border-left:1px solid var(--border);font-family:var(--mono);font-size:.55rem;color:var(--muted2);justify-content:center">...</div>
+    </div>
+    <div class="iv-legend">
+      <div class="iv-leg-item"><div class="iv-dot" style="background:rgba(255,0,85,.5)"></div>Intervalo de trabajo — Alta intensidad</div>
+      <div class="iv-leg-item"><div class="iv-dot" style="background:rgba(0,200,255,.3)"></div>Intervalo de recuperación — Baja intensidad</div>
+    </div>
+  </div>
+
+  <div class="concept-block yellow">
+    <div class="cb-num">01</div>
+    <div>
+      <div class="cb-title">INTENSIDAD DEL TRABAJO</div>
+      <p class="cb-desc">La variable más importante del HIIT. <strong>Si la intensidad del trabajo no es alta, no es HIIT</strong>. El umbral mínimo es aproximadamente el 80% del VO₂max o el 85% de la frecuencia cardíaca máxima. En la práctica, debería sentirse como un esfuerzo que no podés sostener por más de 30–60 segundos sin parar.<br><br>La FC máxima se estima como <strong>220 − edad</strong> (fórmula básica) o <strong>208 − (0.7 × edad)</strong> (fórmula de Tanaka, más precisa). Para un trabajo real de HIIT, la zona objetivo es el <strong>85–100% de la FCmáx</strong>.</p>
+      <div class="cb-formula yellow">FCmáx estimada = 208 − (0.7 × edad) · Zona HIIT = 85–100% de ese valor</div>
+    </div>
+  </div>
+
+  <div class="concept-block">
+    <div class="cb-num">02</div>
+    <div>
+      <div class="cb-title">DURACIÓN DEL INTERVALO DE TRABAJO</div>
+      <p class="cb-desc">La duración del intervalo de trabajo determina qué sistema energético predomina y qué tipo de adaptación se genera. Intervalos cortos (6–20 seg) son predominantemente anaeróbicos alácticos (PCr). Intervalos medios (20–60 seg) mezclan anaeróbico láctico y aeróbico. Intervalos largos (2–5 min) son predominantemente aeróbicos con componente anaeróbico.<br><br>Para hipertrofia y acondicionamiento general, los rangos de <strong>20–60 segundos</strong> son los más utilizados. Para mejora del VO₂max, los intervalos de <strong>3–5 minutos</strong> a intensidad alta son los más efectivos.</p>
+      <div class="cb-formula">Corto (6–20"): potencia anaeróbica · Medio (20–60"): mixto · Largo (2–5'): VO₂max</div>
+    </div>
+  </div>
+
+  <div class="concept-block orange">
+    <div class="cb-num">03</div>
+    <div>
+      <div class="cb-title">INTENSIDAD DE LA RECUPERACIÓN</div>
+      <p class="cb-desc">La recuperación entre intervalos puede ser <strong>activa</strong> (movimiento suave: caminar, pedalear suave) o <strong>pasiva</strong> (parar completamente). La recuperación activa mantiene el flujo sanguíneo, acelera la eliminación de lactato y permite mantener la intensidad en los siguientes intervalos.<br><br>Para la mayoría de los protocolos HIIT, la recuperación activa a <strong>30–50% del esfuerzo máximo</strong> es superior a la pasiva. La recuperación pasiva se usa cuando los intervalos de trabajo son absolutamente máximos (sprints tipo Wingate, Tabata real) y la recuperación incompleta perjudicaría la calidad del siguiente esfuerzo.</p>
+      <div class="cb-formula orange">Recuperación activa: 30–50% FCmáx (caminar, rodar suave) — preferida en la mayoría de protocolos</div>
+    </div>
+  </div>
+
+  <div class="concept-block blue">
+    <div class="cb-num">04</div>
+    <div>
+      <div class="cb-title">DURACIÓN DE LA RECUPERACIÓN</div>
+      <p class="cb-desc">La relación entre el tiempo de trabajo y el de recuperación (ratio W:R) define el protocolo. Un ratio <strong>1:1</strong> (igual tiempo trabajo y descanso) mantiene cierta fatiga acumulada. Un ratio <strong>1:2</strong> (el doble de descanso) permite mayor calidad en cada intervalo. Un ratio <strong>1:4 o mayor</strong> permite esfuerzos casi máximos con buena recuperación.<br><br>Como regla general: cuanto más corto e intenso el intervalo de trabajo, mayor debe ser la proporción de descanso. Un sprint de 10 segundos al 100% necesita más descanso relativo que un intervalo de 1 minuto al 85%.</p>
+      <div class="cb-formula blue">Principiante / recuperación baja → ratio 1:3 o 1:4 · Avanzado / alta capacidad → ratio 1:1 o 2:1</div>
+    </div>
+  </div>
+
+  <div class="concept-block yellow">
+    <div class="cb-num">05</div>
+    <div>
+      <div class="cb-title">NÚMERO DE INTERVALOS</div>
+      <p class="cb-desc">El volumen total de una sesión HIIT se mide en número de intervalos (o tiempo total de trabajo de alta intensidad). <strong>Más intervalos no siempre es mejor</strong>: a medida que se acumulan intervalos, la calidad baja. Si los últimos intervalos de trabajo ya no alcanzan el umbral de intensidad necesario, el estímulo se pierde.<br><br>La zona productiva para la mayoría: entre <strong>6 y 12 intervalos</strong> por sesión (dependiendo de su duración). Para sprints máximos cortos, hasta 10–15 repeticiones pueden mantenerse la calidad si el descanso es suficiente.</p>
+      <div class="cb-formula yellow">Regla práctica: si la intensidad baja notablemente antes de completar la sesión, hay demasiados intervalos</div>
+    </div>
+  </div>
+
+  <div class="concept-block">
+    <div class="cb-num">06</div>
+    <div>
+      <div class="cb-title">FRECUENCIA SEMANAL</div>
+      <p class="cb-desc">El HIIT genera una fatiga sistémica significativa. A diferencia del cardio de baja intensidad, el HIIT <strong>requiere recuperación entre sesiones</strong>. La recomendación estándar es <strong>2–3 sesiones por semana</strong>, con al menos 48 horas entre sesiones de HIIT.<br><br>Para principiantes: empezar con <strong>1–2 sesiones semanales</strong>. Para intermedios: <strong>2–3 sesiones</strong>. Para avanzados que ya tienen buena base aeróbica: hasta <strong>4 sesiones</strong>, aunque raramente es necesario o beneficioso superar este límite. Más HIIT semanal no siempre significa mejores resultados: el sobreentrenamiento cardiovascular es real.</p>
+      <div class="cb-formula">Principiante: 1–2×/sem · Intermedio: 2–3×/sem · Avanzado: 3–4×/sem · Máximo recomendado: 4×/sem</div>
+    </div>
+  </div>
+
+  <div class="struct-table-wrap">
+    <table>
+      <thead><tr><th>Variable</th><th>Principiante</th><th>Intermedio</th><th>Avanzado</th><th>Objetivo principal</th></tr></thead>
+      <tbody>
+        <tr><td>Intensidad trabajo</td><td>80–85% FCmáx</td><td>85–92% FCmáx</td><td>90–100% FCmáx</td><td>Mayor intensidad = mayor EPOC y VO₂max</td></tr>
+        <tr><td>Duración intervalo trabajo</td><td>20–30 seg</td><td>30–60 seg</td><td>20 seg – 4 min</td><td>Según protocolo elegido</td></tr>
+        <tr><td>Intensidad recuperación</td><td>Activa 40–50%</td><td>Activa 30–45%</td><td>Activa o pasiva</td><td>Mantener flujo sanguíneo</td></tr>
+        <tr><td>Duración recuperación</td><td>Ratio 1:3 – 1:4</td><td>Ratio 1:2</td><td>Ratio 1:1 – 2:1</td><td>Calidad de intervalos</td></tr>
+        <tr><td>Nº de intervalos</td><td>6–8</td><td>8–12</td><td>8–16</td><td>Volumen total de estímulo</td></tr>
+        <tr><td>Frecuencia semanal</td><td><span class="badge bg-g">1–2×</span></td><td><span class="badge bg-y">2–3×</span></td><td><span class="badge bg-o">3–4×</span></td><td>Evitar sobreentrenamiento</td></tr>
+        <tr><td>Duración sesión (sin calentamiento)</td><td>10–15 min</td><td>15–20 min</td><td>15–25 min</td><td>Calidad > cantidad</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<hr class="div">
+
+<!-- ══════════════════════════════════
+     04 — EJERCICIOS PARA HIIT
+══════════════════════════════════ -->
+<div id="ejercicios">
+<div class="section fade-in">
+  <div class="sec-header">
+    <span class="sec-num">04</span>
+    <h2>EJERCICIOS PARA<br><em>HIIT</em></h2>
+  </div>
+  <p class="sec-intro">No todos los ejercicios son igualmente efectivos para HIIT. Los mejores son los que involucran grandes grupos musculares, permiten acelerar rápidamente la intensidad y se pueden ejecutar con técnica segura bajo fatiga.</p>
+
+  <div class="ex-list">
+    <div class="ex-item" onclick="toggleEx(this)">
+      <div class="ex-icon">🏃</div>
+      <div><div class="ex-name">SPRINTS (carrera / bicicleta / remo)</div><div class="ex-meta">CARDIO CLÁSICO · Alta demanda cardiovascular · Bajo riesgo técnico</div></div>
+      <div class="ex-toggle">+ ver</div>
+      <div class="ex-detail">
+        <div class="ex-detail-grid">
+          <div><div class="ex-detail-label">Por qué es ideal para HIIT</div><p>Los sprints son el ejercicio de HIIT más estudiado y efectivo. Permiten alcanzar intensidades muy altas rápidamente, involucran toda la musculatura del tren inferior y el core, y son fácilmente escalables. En bicicleta estática o remo ergómetro, el impacto articular es mínimo.</p></div>
+          <div><div class="ex-detail-label">Variantes</div><ul><li><strong>Sprint en cinta:</strong> accesible, controlado. Cuidado con la aceleración de la cinta.</li><li><strong>Sprint en exterior (colina):</strong> máxima demanda, mayor EPOC.</li><li><strong>Bicicleta estática:</strong> impacto cero, intensidad máxima posible.</li><li><strong>Remo ergómetro:</strong> involucra tren superior + inferior.</li><li><strong>Ski erg / Air bike:</strong> cuerpo completo, muy demandante.</li></ul></div>
+          <div><div class="ex-detail-label">Protocolo sugerido</div><p>20–30" sprint al 90%+ → 40–60" recuperación activa (caminata/pedaleo suave) × 8–12 repeticiones. Para principiantes en bicicleta: empezar con 15–20" de sprint al 80% y 60–90" de recuperación.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ex-item" onclick="toggleEx(this)">
+      <div class="ex-icon">💪</div>
+      <div><div class="ex-name">BURPEES</div><div class="ex-meta">CUERPO COMPLETO · Alta demanda metabólica · Sin equipamiento</div></div>
+      <div class="ex-toggle">+ ver</div>
+      <div class="ex-detail">
+        <div class="ex-detail-grid">
+          <div><div class="ex-detail-label">Por qué es ideal para HIIT</div><p>Involucra prácticamente todo el cuerpo: tren inferior (salto y squat), tren superior (plancha), core y sistema cardiovascular. La transición al suelo y vuelta arriba genera una respuesta cardiovascular masiva. Es uno de los ejercicios que más eleva la FC en el menor tiempo.</p></div>
+          <div><div class="ex-detail-label">Variantes por nivel</div><ul><li><strong>Burpee sin salto:</strong> principiante, menor impacto.</li><li><strong>Burpee estándar:</strong> con salto al final.</li><li><strong>Burpee con push-up:</strong> mayor demanda de tren superior.</li><li><strong>Burpee box jump:</strong> avanzado, máxima potencia.</li></ul></div>
+          <div><div class="ex-detail-label">Consideración técnica</div><p>Bajo fatiga extrema, la técnica del burpee se deteriora rápidamente (espalda arqueada, rodillas colapsando). Es mejor hacer menos reps con buena técnica que muchas reps chapuceras. Limitar a 20–30 segundos máximo por intervalo.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ex-item" onclick="toggleEx(this)">
+      <div class="ex-icon">🦵</div>
+      <div><div class="ex-name">SENTADILLA CON SALTO</div><div class="ex-meta">TREN INFERIOR · Potencia · Alta demanda cardiovascular</div></div>
+      <div class="ex-toggle">+ ver</div>
+      <div class="ex-detail">
+        <div class="ex-detail-grid">
+          <div><div class="ex-detail-label">Por qué es ideal para HIIT</div><p>Combina fuerza y potencia del tren inferior con alta demanda cardiovascular. El componente de salto activa el sistema nervioso de forma explosiva y acelera la FC rápidamente. Excelente para desarrollar potencia de piernas mientras se hace HIIT.</p></div>
+          <div><div class="ex-detail-label">Variantes</div><ul><li><strong>Squat jump estándar:</strong> posición de sentadilla → salto → aterrizaje suave.</li><li><strong>Box jump:</strong> mayor potencia, impacto absorbido en la caja.</li><li><strong>Squat jump 180°:</strong> rotación en el aire, demanda coordinativa.</li><li><strong>Pulse squat (sin salto):</strong> variante de bajo impacto.</li></ul></div>
+          <div><div class="ex-detail-label">Nota</div><p>No es el ejercicio más recomendado si ya hacés sentadilla pesada ese día: la fatiga en cuádriceps puede afectar el rendimiento en el entrenamiento de fuerza. Programarlo en días separados del trabajo de fuerza de piernas.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ex-item" onclick="toggleEx(this)">
+      <div class="ex-icon">🧗</div>
+      <div><div class="ex-name">MOUNTAIN CLIMBERS</div><div class="ex-meta">CORE + CARDIO · Bajo impacto · Técnica simple</div></div>
+      <div class="ex-toggle">+ ver</div>
+      <div class="ex-detail">
+        <div class="ex-detail-grid">
+          <div><div class="ex-detail-label">Por qué es ideal para HIIT</div><p>Excelente relación entre demanda cardiovascular y trabajo de core. No requiere equipamiento, tiene bajo impacto articular comparado con los saltos, y permite sostener la intensidad durante más tiempo con menos riesgo de lesión bajo fatiga.</p></div>
+          <div><div class="ex-detail-label">Variantes</div><ul><li><strong>Estándar:</strong> manos en el suelo, alternar rodillas al pecho.</li><li><strong>Cross mountain climbers:</strong> rodilla hacia el codo opuesto, mayor activación oblicuos.</li><li><strong>Slow mountain climbers:</strong> ritmo controlado, más trabajo de core.</li><li><strong>Mountain climbers en sliders:</strong> mayor rango y activación core.</li></ul></div>
+          <div><div class="ex-detail-label">Técnica clave</div><p>Mantener las caderas bajas (no dejar que suban). Las manos deben estar debajo de los hombros. La velocidad de las piernas determina la intensidad cardiovascular. A máxima velocidad con buena posición del core es uno de los mejores ejercicios de HIIT sin impacto.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ex-item" onclick="toggleEx(this)">
+      <div class="ex-icon">🔄</div>
+      <div><div class="ex-name">KETTLEBELL SWINGS</div><div class="ex-meta">CADENA POSTERIOR + CARDIO · Potencia de cadera · Requiere técnica</div></div>
+      <div class="ex-toggle">+ ver</div>
+      <div class="ex-detail">
+        <div class="ex-detail-grid">
+          <div><div class="ex-detail-label">Por qué es ideal para HIIT</div><p>El swing de kettlebell es único: combina fuerza de glúteos e isquiotibiales con alta demanda cardiovascular en un movimiento balístico. Estudios muestran que el swing al 35–53% del 1RM de peso muerto genera una respuesta cardiovascular similar al sprinting, con un componente de fuerza posterior significativo.</p></div>
+          <div><div class="ex-detail-label">Variantes</div><ul><li><strong>Swing a dos manos:</strong> aprendizaje, base técnica.</li><li><strong>Swing a una mano:</strong> mayor demanda antirotacional del core.</li><li><strong>American swing (sobre la cabeza):</strong> mayor rango, requiere más movilidad.</li><li><strong>Dead stop swing:</strong> comenzar desde el suelo cada rep, máxima potencia.</li></ul></div>
+          <div><div class="ex-detail-label">Advertencia</div><p>Requiere dominar la bisagra de cadera antes de hacer swings a alta intensidad. Un swing técnicamente malo a alta velocidad bajo fatiga es una receta para lesionar la zona lumbar. Aprendé el movimiento primero con peso ligero y sin fatiga.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ex-item" onclick="toggleEx(this)">
+      <div class="ex-icon">🤸</div>
+      <div><div class="ex-name">JUMPING JACKS / SKIPPING / HIGH KNEES</div><div class="ex-meta">BAJO IMPACTO RELATIVO · Principiantes · Calentamiento HIIT</div></div>
+      <div class="ex-toggle">+ ver</div>
+      <div class="ex-detail">
+        <div class="ex-detail-grid">
+          <div><div class="ex-detail-label">Rol en el HIIT</div><p>Son los ejercicios más accesibles para HIIT de principiantes. Permiten elevar la FC significativamente sin el impacto de los saltos ni la complejidad técnica de otros ejercicios. Excelentes para las primeras semanas o como componente de calentamiento en sesiones HIIT más complejas.</p></div>
+          <div><div class="ex-detail-label">Variantes</div><ul><li><strong>Jumping jacks:</strong> clásico, ritmado, fácil de controlar.</li><li><strong>Skipping (rodillas al pecho corriendo en el lugar):</strong> mayor demanda caderas.</li><li><strong>High knees rápidos:</strong> el más cardiovascular del grupo.</li><li><strong>Butt kicks:</strong> activación isquiotibiales + cardio.</li></ul></div>
+          <div><div class="ex-detail-label">Limitación</div><p>Para usuarios intermedios/avanzados, estos ejercicios solos no alcanzan la intensidad necesaria para HIIT real. Pueden combinarse con ejercicios más demandantes dentro del mismo circuito.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="div">
+
+<!-- ══════════════════════════════════
+     05 — BENEFICIOS + MÚSCULO + FUERZA
+══════════════════════════════════ -->
+<div id="beneficios">
+<div class="section fade-in">
+  <div class="sec-header">
+    <span class="sec-num">05</span>
+    <h2>BENEFICIOS,<br><em>MÚSCULO Y FUERZA</em></h2>
+  </div>
+
+  <div class="benefit-grid">
+    <div class="benefit-card">
+      <div class="benefit-num">01</div>
+      <div class="benefit-title">MEJORA DEL VO₂MAX</div>
+      <div class="benefit-desc">El HIIT es el método más eficiente para elevar el VO₂max (capacidad aeróbica máxima). Mejoras del 4–10% en 6–12 semanas son comunes incluso en personas con buena condición base. A mayor VO₂max, menor riesgo de mortalidad por todas las causas.</div>
+      <div class="benefit-evidence">Evidencia: muy alta</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-num">02</div>
+      <div class="benefit-title">SALUD CARDIOVASCULAR</div>
+      <div class="benefit-desc">Mejora la presión arterial, la función endotelial (calidad de los vasos sanguíneos), reduce triglicéridos y mejora el perfil de HDL/LDL. Meta-análisis muestran que el HIIT supera al cardio continuo en mejoras de función cardíaca en pacientes con enfermedades cardiovasculares.</div>
+      <div class="benefit-evidence">Evidencia: muy alta</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-num">03</div>
+      <div class="benefit-title">SENSIBILIDAD A LA INSULINA</div>
+      <div class="benefit-desc">El HIIT mejora la sensibilidad a la insulina y la captación de glucosa muscular de forma aguda y crónica. El protocolo de Timmons (3 × 30") demostró mejoras significativas en este marcador en solo 2 semanas. Muy relevante para prevención y manejo de diabetes tipo 2.</div>
+      <div class="benefit-evidence">Evidencia: alta</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-num">04</div>
+      <div class="benefit-title">PÉRDIDA DE GRASA</div>
+      <div class="benefit-desc">El HIIT es efectivo para reducción de grasa corporal, especialmente grasa abdominal visceral. El efecto EPOC (postcombustión de 12–48h) suma calorías adicionales al gasto de la sesión. Sin embargo, la diferencia con cardio de igual calórico total no es enorme: la dieta sigue siendo el factor dominante.</div>
+      <div class="benefit-evidence">Evidencia: alta</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-num">05</div>
+      <div class="benefit-title">EFICIENCIA DE TIEMPO</div>
+      <div class="benefit-desc">20 minutos de HIIT producen adaptaciones cardiovasculares comparables a 45–60 minutos de cardio continuo moderado. Para personas con tiempo limitado, es el método más eficiente. Una sesión completa con calentamiento y vuelta a la calma cabe en 30 minutos.</div>
+      <div class="benefit-evidence">Evidencia: muy alta</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-num">06</div>
+      <div class="benefit-title">ADAPTACIÓN MITOCONDRIAL</div>
+      <div class="benefit-desc">El HIIT estimula la biogénesis mitocondrial (creación de nuevas mitocondrias) en el músculo esquelético vía PGC-1α, similar al efecto del entrenamiento de resistencia continuo pero en menor tiempo total. Más mitocondrias = mayor capacidad de producir energía aeróbica y menor fatiga.</div>
+      <div class="benefit-evidence">Evidencia: alta</div>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--display);font-size:1.8rem;letter-spacing:.04em;margin-bottom:1.2rem">¿SE PUEDE GANAR MÚSCULO HACIENDO HIIT?</h3>
+
+  <div class="infobox orange">
+    <div class="infobox-label">Respuesta corta: poco, en personas sin entrenamiento previo</div>
+    <p>El HIIT <strong>no es un método eficiente para ganar masa muscular</strong>. La hipertrofia requiere estímulos de tensión mecánica sostenida con carga progresiva, que el HIIT no provee de forma suficiente. Sin embargo, personas completamente sedentarias que empiezan HIIT pueden notar cierto aumento de masa muscular inicial, especialmente en piernas, porque el umbral de estímulo para adaptación es muy bajo al principio.<br><br>En personas con algo de entrenamiento previo, el HIIT <strong>puede mantener la masa muscular</strong> existente pero generalmente no la incrementa significativamente. Para ganancia muscular real, el entrenamiento de fuerza con sobrecarga progresiva no tiene reemplazo.</p>
+  </div>
+
+  <h3 style="font-family:var(--display);font-size:1.8rem;letter-spacing:.04em;margin-bottom:1.2rem">¿AFECTA MIS GANANCIAS DE FUERZA E HIPERTROFIA?</h3>
+
+  <div class="cards cards-2" style="margin-bottom:2rem">
+    <div class="card orange">
+      <div class="card-icon">⚠️</div>
+      <h3>EL EFECTO DE INTERFERENCIA</h3>
+      <p>Cuando se combinan entrenamiento de fuerza y cardio de alta intensidad, puede ocurrir el <strong>"efecto de interferencia"</strong>: las señales moleculares activadas por el cardio (AMPK, que favorece catabolismo y economía energética) pueden suprimir parcialmente las vías anabólicas del entrenamiento de fuerza (mTOR, que favorece síntesis proteica y crecimiento).<br><br>Este efecto es real pero <strong>frecuentemente sobreestimado</strong>. Su magnitud depende de la frecuencia, el volumen y la proximidad temporal entre ambos tipos de entrenamiento.</p>
+      <span class="card-tag orange">Señalización molecular</span>
+    </div>
+    <div class="card yellow">
+      <div class="card-icon">📊</div>
+      <h3>QUÉ DICE LA EVIDENCIA</h3>
+      <p>Meta-análisis recientes (Wilson et al., Hickson et al.) muestran que el efecto de interferencia es <strong>mínimo a moderado cuando el cardio es de baja-moderada intensidad</strong>, pero puede ser significativo cuando se combina HIIT frecuente + entrenamiento de fuerza de alto volumen sin suficiente recuperación.<br><br>Las ganancias de fuerza se ven más afectadas que las de hipertrofia. La reducción típica en ganancias de fuerza cuando se añade cardio de alta intensidad es del <strong>30–45%</strong> según algunos estudios, aunque varía mucho según el protocolo.</p>
+      <span class="card-tag yellow">Meta-análisis</span>
+    </div>
+  </div>
+
+  <div class="infobox yellow">
+    <div class="infobox-label">✅ Cómo minimizar la interferencia</div>
+    <p>
+      1. <strong>Separar en días:</strong> el método más efectivo. HIIT y fuerza en días distintos elimina casi completamente la interferencia.<br>
+      2. <strong>Si es el mismo día, fuerza primero:</strong> el HIIT post-fuerza genera menos interferencia que el HIIT pre-fuerza.<br>
+      3. <strong>Al menos 6 horas de separación</strong> si es el mismo día (mañana fuerza, noche HIIT o viceversa).<br>
+      4. <strong>Limitar la frecuencia de HIIT:</strong> 2 sesiones semanales tienen interferencia mínima. Más de 4 sesiones pueden comenzar a frenar las ganancias de fuerza.<br>
+      5. <strong>El HIIT de tren superior</strong> (remo, boxeo, swimming) interfiere menos con el trabajo de fuerza de piernas que el HIIT de sprints.
+    </p>
+  </div>
+</div>
+</div>
+
+<hr class="div">
+
+<!-- ══════════════════════════════════
+     06 — SEMANA: FUERZA + HIIT
+══════════════════════════════════ -->
+<div id="semana">
+<div class="section fade-in">
+  <div class="sec-header">
+    <span class="sec-num">06</span>
+    <h2>DISTRIBUCIÓN<br><em>SEMANAL</em></h2>
+  </div>
+  <p class="sec-intro">Cómo organizar una semana que combina entrenamiento de fuerza, HIIT y recuperación adecuada. El principio rector: los estímulos de alta intensidad necesitan recuperación; no apilés dos sesiones demandantes seguidas.</p>
+
+  <h3 style="font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;margin-bottom:1rem">OPCIÓN A — 3 FUERZA + 2 HIIT (Recomendado para la mayoría)</h3>
+  <div class="week-grid" style="margin-bottom:2rem">
+    <div class="day-card strength"><div class="day-name">Lunes</div><div class="day-type">FUERZA</div><span class="badge bg-y">Principal</span><div class="day-note">Tren inferior o full body</div></div>
+    <div class="day-card hiit"><div class="day-name">Martes</div><div class="day-type">HIIT</div><span class="badge bg-r">Corto</span><div class="day-note">15–20 min · Tren superior o ciclo</div></div>
+    <div class="day-card strength"><div class="day-name">Miércoles</div><div class="day-type">FUERZA</div><span class="badge bg-y">Principal</span><div class="day-note">Tren superior</div></div>
+    <div class="day-card rest"><div class="day-name">Jueves</div><div class="day-type">DESCANSO</div><span class="badge" style="background:rgba(80,80,80,.2);color:var(--muted2)">Off</span><div class="day-note">Movilidad o caminata</div></div>
+    <div class="day-card strength"><div class="day-name">Viernes</div><div class="day-type">FUERZA</div><span class="badge bg-y">Principal</span><div class="day-note">Full body o piernas</div></div>
+    <div class="day-card hiit"><div class="day-name">Sábado</div><div class="day-type">HIIT</div><span class="badge bg-r">Corto</span><div class="day-note">15–20 min · Circuito o sprints</div></div>
+    <div class="day-card rest"><div class="day-name">Domingo</div><div class="day-type">DESCANSO</div><span class="badge" style="background:rgba(80,80,80,.2);color:var(--muted2)">Off</span><div class="day-note">Recuperación total</div></div>
+  </div>
+
+  <h3 style="font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;margin-bottom:1rem">OPCIÓN B — 4 FUERZA + 2 HIIT (Para avanzados con buen historial)</h3>
+  <div class="week-grid" style="margin-bottom:2rem">
+    <div class="day-card strength"><div class="day-name">Lunes</div><div class="day-type">FUERZA</div><span class="badge bg-y">Principal</span><div class="day-note">Piernas / empuje</div></div>
+    <div class="day-card strength"><div class="day-name">Martes</div><div class="day-type">FUERZA</div><span class="badge bg-y">Principal</span><div class="day-note">Espalda / tracción</div></div>
+    <div class="day-card hiit"><div class="day-name">Miércoles</div><div class="day-type">HIIT</div><span class="badge bg-r">Tren sup</span><div class="day-note">Remo / ciclo / core</div></div>
+    <div class="day-card strength"><div class="day-name">Jueves</div><div class="day-type">FUERZA</div><span class="badge bg-y">Principal</span><div class="day-note">Piernas / bisagra</div></div>
+    <div class="day-card strength"><div class="day-name">Viernes</div><div class="day-type">FUERZA</div><span class="badge bg-y">Principal</span><div class="day-note">Push / pull ligero</div></div>
+    <div class="day-card hiit"><div class="day-name">Sábado</div><div class="day-type">HIIT</div><span class="badge bg-r">Corto</span><div class="day-note">Sprints o funcional</div></div>
+    <div class="day-card rest"><div class="day-name">Domingo</div><div class="day-type">DESCANSO</div><span class="badge" style="background:rgba(80,80,80,.2);color:var(--muted2)">Off</span><div class="day-note">Recuperación</div></div>
+  </div>
+
+  <h3 style="font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;margin-bottom:1rem">OPCIÓN C — Fuerza + HIIT mismo día (si el tiempo obliga)</h3>
+  <div class="week-grid" style="margin-bottom:2rem">
+    <div class="day-card strength"><div class="day-name">Lunes</div><div class="day-type">FUERZA + HIIT</div><span class="badge bg-o">Combinado</span><div class="day-note">Fuerza primero · HIIT 10–15 min al final</div></div>
+    <div class="day-card rest"><div class="day-name">Martes</div><div class="day-type">DESCANSO</div><span class="badge" style="background:rgba(80,80,80,.2);color:var(--muted2)">Off</span><div class="day-note">Obligatorio</div></div>
+    <div class="day-card strength"><div class="day-name">Miércoles</div><div class="day-type">FUERZA + HIIT</div><span class="badge bg-o">Combinado</span><div class="day-note">Fuerza primero · HIIT 10–15 min</div></div>
+    <div class="day-card rest"><div class="day-name">Jueves</div><div class="day-type">DESCANSO</div><span class="badge" style="background:rgba(80,80,80,.2);color:var(--muted2)">Off</span><div class="day-note">Caminata suave</div></div>
+    <div class="day-card strength"><div class="day-name">Viernes</div><div class="day-type">FUERZA + HIIT</div><span class="badge bg-o">Combinado</span><div class="day-note">Fuerza primero · HIIT 10–15 min</div></div>
+    <div class="day-card rest"><div class="day-name">Sábado</div><div class="day-type">DESCANSO</div><span class="badge" style="background:rgba(80,80,80,.2);color:var(--muted2)">Off</span><div class="day-note">Activo o total</div></div>
+    <div class="day-card rest"><div class="day-name">Domingo</div><div class="day-type">DESCANSO</div><span class="badge" style="background:rgba(80,80,80,.2);color:var(--muted2)">Off</span><div class="day-note">Total</div></div>
+  </div>
+
+  <div class="infobox red">
+    <div class="infobox-label">⚠️ Reglas de oro de la distribución semanal</div>
+    <p>
+      <strong>Nunca dos sesiones de alta intensidad consecutivas.</strong> HIIT después de fuerza pesada (o viceversa) sin día de descanso intermedio lleva al sobreentrenamiento rápidamente.<br><br>
+      <strong>HIIT de piernas y entrenamiento de fuerza de piernas no deben ser días consecutivos:</strong> sentadilla o peso muerto el lunes + sprints el martes es una receta para lesión o sobreentrenamiento de cuádriceps/isquiotibiales.<br><br>
+      <strong>Cuando hagas HIIT el mismo día que fuerza:</strong> siempre fuerza primero, HIIT al final. Máximo 10–15 minutos de HIIT post-fuerza para no comprometer la recuperación.<br><br>
+      <strong>Prioridad clara:</strong> si tu objetivo es ganar fuerza o masa muscular, la fuerza es el entrenamiento principal. El HIIT es suplementario. Si empezás a notar que el HIIT frena tu progreso en fuerza, reducí la frecuencia o el volumen del HIIT antes que nada.
+    </p>
+  </div>
+</div>
+</div>
+
+<hr class="div">
+
+<!-- ══════════════════════════════════
+     07 — NUTRICIÓN + SUPLEMENTACIÓN
+══════════════════════════════════ -->
+<div id="nutricion">
+<div class="section fade-in">
+  <div class="sec-header">
+    <span class="sec-num">07</span>
+    <h2>NUTRICIÓN,<br><em>SUPLEMENTACIÓN Y AYUNAS</em></h2>
+  </div>
+
+  <div class="nutr-grid">
+    <div class="nutr-card">
+      <div class="nutr-title">ANTES DEL HIIT</div>
+      <span class="nutr-moment nt-yellow">1–2 horas antes</span>
+      <ul class="nutr-list">
+        <li><strong>Hidratos de carbono de digestión media:</strong> avena, arroz, fruta, pan integral. Proveen glucógeno disponible para la alta intensidad.</li>
+        <li><strong>Proteína moderada (20–30g):</strong> para minimizar catabolismo durante la sesión.</li>
+        <li><strong>Evitar grasas en cantidad y fibra excesiva</strong> justo antes: ralentizan la digestión y pueden causar malestar gastrointestinal durante el ejercicio intenso.</li>
+        <li><strong>Hidratación:</strong> comenzar la sesión bien hidratado. 500 ml de agua 1–2 horas antes.</li>
+        <li>Ejemplo: 1 banana + 30g de avena + café negro, 90 minutos antes.</li>
+      </ul>
+    </div>
+    <div class="nutr-card">
+      <div class="nutr-title">DESPUÉS DEL HIIT</div>
+      <span class="nutr-moment nt-orange">0–60 minutos después</span>
+      <ul class="nutr-list">
+        <li><strong>Proteína rápida (25–40g):</strong> whey, huevos claros, pollo. La ventana anabólica post-ejercicio intenso es real, aunque no tan crítica como se creía. Dentro de la hora es óptimo.</li>
+        <li><strong>Hidratos de carbono para recuperar glucógeno:</strong> frutas, arroz, patata. Cantidad según objetivo (más si se busca rendimiento, menos si pérdida de grasa).</li>
+        <li><strong>Rehidratación:</strong> reponer líquido perdido. Regla simple: beber hasta orinar claro.</li>
+        <li>Ejemplo: 1 scoop de whey + banana, dentro de los 30 minutos post-sesión.</li>
+      </ul>
+    </div>
+    <div class="nutr-card">
+      <div class="nutr-title">HIIT EN AYUNAS</div>
+      <span class="nutr-moment nt-red">Mañana sin comer</span>
+      <ul class="nutr-list">
+        <li><strong>¿Quema más grasa?</strong> En términos de oxidación de grasa durante la sesión, sí. Pero el balance calórico total del día sigue siendo el factor determinante de la pérdida de grasa corporal.</li>
+        <li><strong>El problema:</strong> el HIIT en ayunas puede reducir la intensidad alcanzable (el glucógeno bajo limita el rendimiento a alta intensidad), comprometiendo el estímulo real.</li>
+        <li><strong>Riesgo de catabolismo:</strong> sin sustrato disponible, el cuerpo puede degradar proteína muscular más fácilmente durante el ejercicio intenso en ayunas.</li>
+        <li><strong>Solución práctica:</strong> si entrenás en ayunas por preferencia o practicidad, tomá al menos <strong>10g de BCAA o EAA antes</strong> para proteger el músculo sin romper el ayuno de forma significativa.</li>
+        <li><strong>Para principiantes:</strong> no recomendado. El rendimiento bajo afecta la calidad de aprendizaje y adaptación inicial.</li>
+      </ul>
+    </div>
+    <div class="nutr-card">
+      <div class="nutr-title">HIIT Y PÉRDIDA DE GRASA</div>
+      <span class="nutr-moment nt-blue">Estrategia</span>
+      <ul class="nutr-list">
+        <li><strong>El HIIT es una herramienta de gasto calórico</strong>, no una solución mágica. Sin déficit calórico, no habrá pérdida de grasa independientemente de cuánto HIIT hagas.</li>
+        <li><strong>Déficit calórico moderado (300–500 kcal/día):</strong> permite pérdida de grasa sostenida sin comprometer el rendimiento ni la masa muscular.</li>
+        <li><strong>Proteína alta (1.8–2.5g/kg de peso corporal):</strong> protege la masa muscular durante la pérdida de grasa, especialmente cuando se combina HIIT con entrenamiento de fuerza.</li>
+        <li><strong>No cortar hidratos drásticamente:</strong> el glucógeno es el combustible del HIIT. Sin hidratos, la intensidad cae y el estímulo se pierde.</li>
+        <li>HIIT 2–3×/sem + entrenamiento de fuerza 3×/sem + déficit moderado = combinación óptima para recomposición corporal.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--display);font-size:1.6rem;letter-spacing:.04em;margin-bottom:1.2rem">SUPLEMENTACIÓN RELEVANTE PARA HIIT</h3>
+  <div class="cards cards-3">
+    <div class="card yellow">
+      <div class="card-icon">☕</div>
+      <h3>CAFEÍNA</h3>
+      <p>El suplemento más respaldado para rendimiento en HIIT. <strong>3–6 mg/kg de peso corporal</strong>, 30–60 minutos antes. Mejora la potencia en sprints, retrasa la fatiga y aumenta la oxidación de grasa. El café negro funciona bien. Tolerancia individual varía.</p>
+      <span class="card-tag yellow">Evidencia: muy alta</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🥩</div>
+      <h3>CREATINA</h3>
+      <p>Útil para HIIT de sprints cortos y máximos (sistema de fosfato de creatina). <strong>3–5g/día</strong> de creatina monohidrato mejora la potencia pico en sprints repetidos y acelera la recuperación entre esfuerzos máximos. También protege la masa muscular.</p>
+      <span class="card-tag">Evidencia: muy alta</span>
+    </div>
+    <div class="card orange">
+      <div class="card-icon">🧪</div>
+      <h3>BETA-ALANINA</h3>
+      <p>Precursor de carnosina muscular, que actúa como buffer del lactato. Útil para intervalos de <strong>60–240 segundos</strong> donde la acumulación de lactato es un factor limitante. Dosis: <strong>3.2–6.4g/día</strong>. Produce hormigueo (parestesia), inofensivo. Efecto a largo plazo (4–8 semanas de uso continuado).</p>
+      <span class="card-tag orange">Evidencia: moderada-alta</span>
+    </div>
+  </div>
+
+  <div class="infobox blue">
+    <div class="infobox-label">💡 Suplementos que NO necesitás para HIIT</div>
+    <p>Pre-workouts complejos, quemadores de grasa, L-carnitina, CLA, y la mayoría de los suplementos de marketing agresivo tienen evidencia débil o nula para mejorar el rendimiento en HIIT. <strong>Cafeína + creatina + proteína de calidad + buena alimentación</strong> cubren el 95% de lo que la suplementación puede aportar a alguien que entrena HIIT.</p>
+  </div>
+</div>
+</div>
+
+<hr class="div">
+
+<!-- ══════════════════════════════════
+     08 — RUTINAS EJEMPLO
+══════════════════════════════════ -->
+<div id="rutinas">
+<div class="section fade-in">
+  <div class="sec-header">
+    <span class="sec-num">08</span>
+    <h2>RUTINAS<br><em>EJEMPLO</em></h2>
+  </div>
+  <p class="sec-intro">Tres rutinas completas según nivel. Incluyen calentamiento, estructura de intervalos, ejercicios y progresión sugerida.</p>
+
+  <div class="routine-tabs">
+    <div class="rtab active" onclick="showTab('principiante',this)">Principiante</div>
+    <div class="rtab" onclick="showTab('intermedio',this)">Intermedio</div>
+    <div class="rtab" onclick="showTab('avanzado',this)">Avanzado</div>
+  </div>
+
+  <!-- PRINCIPIANTE -->
+  <div class="routine-panel active" id="tab-principiante">
+    <div class="rp-header">
+      <div>
+        <div class="rp-title">HIIT PRINCIPIANTE — CIRCUITO BASE</div>
+        <div style="font-family:var(--mono);font-size:.65rem;color:var(--muted);margin-top:.3rem">Sin equipamiento · Bajo impacto · Adaptable</div>
+      </div>
+      <div class="rp-meta">
+        <div class="rp-stat"><div class="rp-stat-val">20"</div><div class="rp-stat-label">Trabajo</div></div>
+        <div class="rp-stat"><div class="rp-stat-val">40"</div><div class="rp-stat-label">Descanso</div></div>
+        <div class="rp-stat"><div class="rp-stat-val">3</div><div class="rp-stat-label">Rondas</div></div>
+        <div class="rp-stat"><div class="rp-stat-val">~18'</div><div class="rp-stat-label">Total</div></div>
+      </div>
+    </div>
+    <div class="rp-body">
+      <div class="rp-warmup">
+        <div class="rp-warmup-title">⏱ CALENTAMIENTO — 5 minutos</div>
+        <p>Caminata rápida 2 min → Marcha en el lugar con brazos 1 min → Circles de cadera y hombros 1 min → Jumping jacks suaves 1 min</p>
+      </div>
+      <div class="rp-section-title">BLOQUE HIIT — 3 rondas · 20" trabajo / 40" descanso</div>
+      <div class="exercise-row" style="background:var(--surface2);border-bottom:1px solid var(--border)">
+        <div class="er-num">#</div>
+        <div><div class="er-name">Ejercicio</div></div>
+        <div class="er-cell"><div class="er-val">Trabajo</div><div class="er-label">Duración</div></div>
+        <div class="er-cell"><div class="er-val">Descanso</div><div class="er-label">Duración</div></div>
+        <div class="er-cell"><div class="er-val">RPE</div><div class="er-label">Esfuerzo</div></div>
+        <div class="er-cell"><div class="er-val">Notas</div><div class="er-label">Técnica</div></div>
+      </div>
+      <div class="exercise-row">
+        <div class="er-num">1</div>
+        <div><div class="er-name">Marcha rápida en el lugar con rodillas altas<span>High knees suaves — bajo impacto</span></div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent4)">20 seg</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent3)">40 seg</div></div>
+        <div class="er-cell"><div class="er-val">7–8</div></div>
+        <div class="er-cell"><div class="er-val" style="font-size:.72rem;color:var(--muted)">Brazos activos</div></div>
+      </div>
+      <div class="exercise-row">
+        <div class="er-num">2</div>
+        <div><div class="er-name">Sentadilla sin peso<span>Squat a peso corporal, profundidad cómoda</span></div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent4)">20 seg</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent3)">40 seg</div></div>
+        <div class="er-cell"><div class="er-val">7–8</div></div>
+        <div class="er-cell"><div class="er-val" style="font-size:.72rem;color:var(--muted)">Máx reps posibles</div></div>
+      </div>
+      <div class="exercise-row">
+        <div class="er-num">3</div>
+        <div><div class="er-name">Jumping jacks<span>Clásico — cardio de todo el cuerpo</span></div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent4)">20 seg</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent3)">40 seg</div></div>
+        <div class="er-cell"><div class="er-val">7–8</div></div>
+        <div class="er-cell"><div class="er-val" style="font-size:.72rem;color:var(--muted)">Ritmo constante</div></div>
+      </div>
+      <div class="exercise-row">
+        <div class="er-num">4</div>
+        <div><div class="er-name">Mountain climbers lentos<span>Control del core — sin correr las piernas</span></div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent4)">20 seg</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent3)">40 seg</div></div>
+        <div class="er-cell"><div class="er-val">7–8</div></div>
+        <div class="er-cell"><div class="er-val" style="font-size:.72rem;color:var(--muted)">Caderas bajas</div></div>
+      </div>
+      <div class="exercise-row">
+        <div class="er-num">5</div>
+        <div><div class="er-name">Burpee sin salto (step-out)<span>Parado → manos al suelo → step back → step forward → arriba</span></div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent4)">20 seg</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent3)">40 seg</div></div>
+        <div class="er-cell"><div class="er-val">8</div></div>
+        <div class="er-cell"><div class="er-val" style="font-size:.72rem;color:var(--muted)">Técnica > velocidad</div></div>
+      </div>
+      <div style="padding:.8rem 0;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:.65rem;color:var(--muted)">— DESCANSO ENTRE RONDAS: 90 segundos —</div>
+      <div class="rp-warmup" style="margin-top:1.5rem;border-left-color:var(--accent3)">
+        <div class="rp-warmup-title">🏁 VUELTA A LA CALMA — 5 minutos</div>
+        <p>Caminata lenta 2 min → Estiramiento de cuádriceps 30 seg c/lado → Estiramiento de isquiotibiales 30 seg c/lado → Respiración abdominal 1 min</p>
+      </div>
+      <div class="rp-tip">PROGRESIÓN: Semanas 1–2: 2 rondas · Semanas 3–4: 3 rondas · Semanas 5–6: 3 rondas con 25" trabajo / 35" descanso · Semana 7+: pasar a protocolo intermedio</div>
+    </div>
+  </div>
+
+  <!-- INTERMEDIO -->
+  <div class="routine-panel" id="tab-intermedio">
+    <div class="rp-header">
+      <div>
+        <div class="rp-title">HIIT INTERMEDIO — TABATA MODIFICADO</div>
+        <div style="font-family:var(--mono);font-size:.65rem;color:var(--muted);margin-top:.3rem">Sin equipamiento o con mancuernas livianas · 4 bloques</div>
+      </div>
+      <div class="rp-meta">
+        <div class="rp-stat"><div class="rp-stat-val">30"</div><div class="rp-stat-label">Trabajo</div></div>
+        <div class="rp-stat"><div class="rp-stat-val">20"</div><div class="rp-stat-label">Descanso</div></div>
+        <div class="rp-stat"><div class="rp-stat-val">4</div><div class="rp-stat-label">Bloques</div></div>
+        <div class="rp-stat"><div class="rp-stat-val">~22'</div><div class="rp-stat-label">Total</div></div>
+      </div>
+    </div>
+    <div class="rp-body">
+      <div class="rp-warmup">
+        <div class="rp-warmup-title">⏱ CALENTAMIENTO — 5–7 minutos</div>
+        <p>Trote suave 2 min → Movilidad dinámica de cadera y hombros 2 min → Sentadillas lentas × 10 → Jumping jacks × 20 → 5 burpees lentos</p>
+      </div>
+      <div class="rp-section-title">BLOQUE A — 30" / 20" × 4 series — PIERNAS + CARDIO</div>
+      <div class="exercise-row">
+        <div class="er-num">A1</div>
+        <div><div class="er-name">Sentadilla con salto<span>Máxima potencia · Aterrizaje suave</span></div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent4)">30 seg</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent3)">20 seg</div></div>
+        <div class="er-cell"><div class="er-val">8–9</div></div>
+        <div class="er-cell"><div class="er-val" style="font-size:.72rem;color:var(--muted)">Máx saltos</div></div>
+      </div>
+      <div class="exercise-row">
+        <div class="er-num">A2</div>
+        <div><div class="er-name">Lunge alternado con salto<span>Jump lunges · controlar el aterrizaje</span></div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent4)">30 seg</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent3)">20 seg</div></div>
+        <div class="er-cell"><div class="er-val">8–9</div></div>
+        <div class="er-cell"><div class="er-val" style="font-size:.72rem;color:var(--muted)">Rodilla no al suelo</div></div>
+      </div>
+      <div style="padding:.6rem 0;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:.62rem;color:var(--muted)">— DESCANSO BLOQUE: 60 segundos —</div>
+      <div class="rp-section-title" style="margin-top:1rem">BLOQUE B — 30" / 20" × 4 series — CORE + CARDIO</div>
+      <div class="exercise-row">
+        <div class="er-num">B1</div>
+        <div><div class="er-name">Mountain climbers rápidos<span>Máxima velocidad de piernas · caderas bajas</span></div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent4)">30 seg</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent3)">20 seg</div></div>
+        <div class="er-cell"><div class="er-val">8–9</div></div>
+        <div class="er-cell"><div class="er-val" style="font-size:.72rem;color:var(--muted)">Velocidad máxima</div></div>
+      </div>
+      <div class="exercise-row">
+        <div class="er-num">B2</div>
+        <div><div class="er-name">Burpee completo con salto<span>Full burpee · máxima explosividad en el salto</span></div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent4)">30 seg</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent3)">20 seg</div></div>
+        <div class="er-cell"><div class="er-val">9</div></div>
+        <div class="er-cell"><div class="er-val" style="font-size:.72rem;color:var(--muted)">Técnica + esfuerzo</div></div>
+      </div>
+      <div style="padding:.6rem 0;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:.62rem;color:var(--muted)">— DESCANSO BLOQUE: 60 segundos —</div>
+      <div class="rp-section-title" style="margin-top:1rem">BLOQUE C — 30" / 20" × 4 series — TREN SUPERIOR + CARDIO</div>
+      <div class="exercise-row">
+        <div class="er-num">C1</div>
+        <div><div class="er-name">Push-up explosivo<span>Bajar controlado, empujar con potencia</span></div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent4)">30 seg</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent3)">20 seg</div></div>
+        <div class="er-cell"><div class="er-val">8</div></div>
+        <div class="er-cell"><div class="er-val" style="font-size:.72rem;color:var(--muted)">Máx reps limpias</div></div>
+      </div>
+      <div class="exercise-row">
+        <div class="er-num">C2</div>
+        <div><div class="er-name">Remo con banda elástica o mancuernas<span>Si no hay material: high pulls con rotación de tronco</span></div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent4)">30 seg</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent3)">20 seg</div></div>
+        <div class="er-cell"><div class="er-val">8</div></div>
+        <div class="er-cell"><div class="er-val" style="font-size:.72rem;color:var(--muted)">Control excéntrica</div></div>
+      </div>
+      <div style="padding:.6rem 0;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:.62rem;color:var(--muted)">— DESCANSO BLOQUE: 60 segundos —</div>
+      <div class="rp-section-title" style="margin-top:1rem">BLOQUE D — 30" / 20" × 4 series — FINALIZADOR CARDIO</div>
+      <div class="exercise-row">
+        <div class="er-num">D1</div>
+        <div><div class="er-name">High knees máximos<span>Correr en el lugar a máxima velocidad</span></div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent4)">30 seg</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent3)">20 seg</div></div>
+        <div class="er-cell"><div class="er-val">9–10</div></div>
+        <div class="er-cell"><div class="er-val" style="font-size:.72rem;color:var(--muted)">TODO al final</div></div>
+      </div>
+      <div class="rp-tip">PROGRESIÓN: Aumentar de 4 a 5 series por bloque · Luego reducir descanso a 15" · Luego agregar un quinto bloque de ejercicio elegido</div>
+    </div>
+  </div>
+
+  <!-- AVANZADO -->
+  <div class="routine-panel" id="tab-avanzado">
+    <div class="rp-header">
+      <div>
+        <div class="rp-title">HIIT AVANZADO — LITTLE-GIBALA + SPRINTS</div>
+        <div style="font-family:var(--mono);font-size:.65rem;color:var(--muted);margin-top:.3rem">Bicicleta / remo / sprints exteriores · Alta demanda sistémica</div>
+      </div>
+      <div class="rp-meta">
+        <div class="rp-stat"><div class="rp-stat-val">60"</div><div class="rp-stat-label">Trabajo</div></div>
+        <div class="rp-stat"><div class="rp-stat-val">75"</div><div class="rp-stat-label">Descanso</div></div>
+        <div class="rp-stat"><div class="rp-stat-val">10</div><div class="rp-stat-label">Intervalos</div></div>
+        <div class="rp-stat"><div class="rp-stat-val">~30'</div><div class="rp-stat-label">Total</div></div>
+      </div>
+    </div>
+    <div class="rp-body">
+      <div class="rp-warmup">
+        <div class="rp-warmup-title">⏱ CALENTAMIENTO — 10 minutos</div>
+        <p>5 min cardio suave (50–60% FCmáx) → 2 min aumento progresivo (60–70% FCmáx) → 3 min con 3–4 acelerones cortos (10" al 85%, 30" suave) para despertar el sistema cardiovascular</p>
+      </div>
+      <div class="rp-section-title">BLOQUE PRINCIPAL — Protocolo Little-Gibala · 10 intervalos</div>
+      <div class="exercise-row" style="background:var(--surface2)">
+        <div class="er-num">#</div>
+        <div><div class="er-name">Fase</div></div>
+        <div class="er-cell"><div class="er-val">Duración</div></div>
+        <div class="er-cell"><div class="er-val">Intensidad</div></div>
+        <div class="er-cell"><div class="er-val">FC objetivo</div></div>
+        <div class="er-cell"><div class="er-val">Sensación</div></div>
+      </div>
+      <div class="exercise-row">
+        <div class="er-num">×10</div>
+        <div><div class="er-name">Intervalo de trabajo<span>Sprint en bici / remo / carrera — máximo esfuerzo sostenible 60"</span></div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent4)">60 seg</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent4)">~90% VO₂max</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent4)">88–94% FCmáx</div></div>
+        <div class="er-cell"><div class="er-val" style="font-size:.72rem;color:var(--muted)">Muy difícil hablar</div></div>
+      </div>
+      <div class="exercise-row">
+        <div class="er-num">×10</div>
+        <div><div class="er-name">Recuperación activa<span>Pedaleo suave / trote muy lento / caminata activa</span></div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent3)">75 seg</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent3)">~40% VO₂max</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent3)">55–65% FCmáx</div></div>
+        <div class="er-cell"><div class="er-val" style="font-size:.72rem;color:var(--muted)">Recuperación real</div></div>
+      </div>
+      <div style="padding:.6rem 0;margin-bottom:1rem;font-family:var(--mono);font-size:.62rem;color:var(--accent4)">→ Tiempo total de trabajo: 10 min · Tiempo total recuperación: 12.5 min · Total bloque: 22.5 min</div>
+      <div class="rp-section-title">FINALIZADOR OPCIONAL — 3 × Sprints máximos (si quedan energías)</div>
+      <div class="exercise-row">
+        <div class="er-num">×3</div>
+        <div><div class="er-name">Sprint máximo<span>15–20 segundos al 100% — esfuerzo absoluto</span></div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent4)">15–20 seg</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent4)">100%</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent4)">Máximo</div></div>
+        <div class="er-cell"><div class="er-val" style="font-size:.72rem;color:var(--muted)">Solo si técnica OK</div></div>
+      </div>
+      <div class="exercise-row">
+        <div class="er-num">×3</div>
+        <div><div class="er-name">Recuperación pasiva<span>Parar completamente — restaurar el sistema</span></div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent3)">2 min</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent3)">Pasiva</div></div>
+        <div class="er-cell"><div class="er-val" style="color:var(--accent3)">Descenso libre</div></div>
+        <div class="er-cell"><div class="er-val" style="font-size:.72rem;color:var(--muted)">No reducir tiempo</div></div>
+      </div>
+      <div class="rp-warmup" style="margin-top:1.5rem;border-left-color:var(--accent3)">
+        <div class="rp-warmup-title">🏁 VUELTA A LA CALMA — 5–8 minutos</div>
+        <p>5 min cardio muy suave (45–50% FCmáx) para bajar gradualmente la FC → Estiramientos estáticos de cuádriceps, isquiotibiales, glúteos y cadera, 30–40 seg cada uno</p>
+      </div>
+      <div class="rp-tip">PROGRESIÓN: Semanas 1–2: 8 intervalos de 45"/75" · Semanas 3–4: 10 intervalos de 60"/75" · Semanas 5–6: 12 intervalos de 60"/60" · Semana 7+: 60"/45" (ratio 2:1) o agregar finalizador de sprints</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<hr class="div">
+<footer>
+  <p>Guía completa de <span>HIIT — HIGH INTENSITY INTERVAL TRAINING</span></p>
+  <p style="margin-top:.4rem">Información de carácter educativo. Consultá con un profesional de la salud antes de comenzar cualquier programa de alta intensidad.</p>
+</footer>
+
+<script>
+// Fade in
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.07});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+// Method toggle
+function toggleMethod(id){
+  const card=document.getElementById(id);
+  const isOpen=card.classList.contains('open');
+  document.querySelectorAll('.method-card.open').forEach(c=>{
+    c.classList.remove('open');
+    c.querySelector('.method-toggle').textContent='+ ver';
+  });
+  if(!isOpen){card.classList.add('open');card.querySelector('.method-toggle').textContent='− cerrar';}
+}
+
+// Exercise toggle
+function toggleEx(el){
+  const isOpen=el.classList.contains('open');
+  document.querySelectorAll('.ex-item.open').forEach(e=>{
+    e.classList.remove('open');
+    const t=e.querySelector('.ex-toggle');if(t)t.textContent='+ ver';
+  });
+  if(!isOpen){
+    el.classList.add('open');
+    const t=el.querySelector('.ex-toggle');if(t)t.textContent='− cerrar';
+  }
+}
+
+// Routine tabs
+function showTab(name,tabEl){
+  document.querySelectorAll('.routine-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.rtab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  tabEl.classList.add('active');
+}
+</script>
+</body>
+</html>

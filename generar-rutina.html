@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Armá tu rutina — Entrenamiento de fuerza minimalista</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --bg: #111112;
+    --panel: #19191b;
+    --panel-raised: #202023;
+    --line: #313134;
+    --line-soft: #262628;
+    --text: #f0eee6;
+    --text-dim: #8d8d92;
+    --accent: #e3b23c;
+    --accent-ink: #1a1408;
+    --vimeo: #3fc4f1;
+    --danger: #c4432b;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html, body{
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body{
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size: 28px 28px;
+    background-attachment: fixed;
+  }
+
+  .wrap{
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 40px 18px 80px;
+  }
+
+  header{
+    margin-bottom: 34px;
+  }
+
+  .eyebrow{
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    margin: 0 0 6px;
+  }
+
+  h1{
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    line-height: 0.95;
+    letter-spacing: 0.01em;
+    margin: 0 0 14px;
+    color: var(--text);
+  }
+
+  header p{
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--text-dim);
+    max-width: 46ch;
+    margin: 0;
+  }
+
+  .howto{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 20px 18px;
+    margin-bottom: 20px;
+  }
+
+  .howto-title{
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.02em;
+    margin: 0 0 10px;
+  }
+
+  .howto-intro{
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--text-dim);
+    margin: 0 0 14px;
+  }
+
+  .howto-list{
+    margin: 0 0 14px;
+    padding-left: 18px;
+  }
+
+  .howto-list li{
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .howto-list li:last-child{ margin-bottom: 0; }
+
+  .howto-list li::marker{
+    color: var(--accent);
+  }
+
+  .howto-note{
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--text-dim);
+    margin: 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .howto-note + .howto-note{
+    border-top: none;
+    padding-top: 0;
+    margin-top: -2px;
+  }
+
+  .block-heading{
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    margin: 24px 0 10px;
+  }
+
+  .block-heading:first-child{
+    margin-top: 0;
+  }
+
+  .pattern{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 20px 18px;
+    margin-bottom: 14px;
+    position: relative;
+    transition: border-color .15s ease;
+  }
+
+  .pattern.is-complete{
+    border-color: #3a3a2a;
+  }
+
+  .pattern-head{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .pattern-index{
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+  }
+
+  .pattern-name{
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 0.02em;
+    color: var(--text);
+  }
+
+  .combo-row{
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .combo{
+    position: relative;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .combo input{
+    width: 100%;
+    background: var(--panel-raised);
+    border: 1px solid var(--line);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    padding: 11px 12px;
+    border-radius: 2px;
+    outline: none;
+  }
+
+  .combo input::placeholder{
+    color: var(--text-dim);
+  }
+
+  .combo input:focus{
+    border-color: var(--accent);
+  }
+
+  .combo-list{
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel-raised);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 20;
+    display: none;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+  }
+
+  .combo-list.open{ display: block; }
+
+  .combo-option{
+    padding: 10px 12px;
+    font-size: 13.5px;
+    cursor: pointer;
+    color: var(--text);
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .combo-option:last-child{ border-bottom: none; }
+
+  .combo-option mark{
+    background: none;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .combo-option:hover,
+  .combo-option.active{
+    background: #26262a;
+  }
+
+  .combo-empty{
+    padding: 12px;
+    font-size: 12.5px;
+    color: var(--text-dim);
+  }
+
+  .video-link{
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    border: 1px solid var(--line);
+    background: var(--panel-raised);
+    color: var(--text-dim);
+    text-decoration: none;
+    pointer-events: none;
+    opacity: 0.45;
+    transition: all .15s ease;
+  }
+
+  .video-link.active{
+    pointer-events: auto;
+    opacity: 1;
+    border-color: var(--vimeo);
+    color: var(--vimeo);
+    cursor: pointer;
+  }
+
+  .video-link.active:hover{
+    background: rgba(63,196,241,0.1);
+  }
+
+  .video-link svg{ width: 18px; height: 18px; }
+
+  .controls{
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+
+  .control-group{
+    flex: 1;
+    min-width: 150px;
+  }
+
+  .control-label{
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .pill-row{
+    display: flex;
+    gap: 6px;
+  }
+
+  .pill{
+    flex: 1;
+    background: var(--panel-raised);
+    border: 1px solid var(--line);
+    color: var(--text-dim);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13.5px;
+    padding: 8px 0;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all .12s ease;
+  }
+
+  .pill:hover{ border-color: #4a4a4e; color: var(--text); }
+
+  .pill.selected{
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 600;
+  }
+
+  .summary{
+    margin-top: 30px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 20px 18px;
+  }
+
+  .summary-head{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .summary-title{
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.02em;
+  }
+
+  .summary-count{
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .summary-list{
+    list-style: none;
+    margin: 0 0 18px;
+    padding: 0;
+  }
+
+  .summary-list .summary-block-label{
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    padding: 14px 0 4px;
+    border-bottom: none;
+  }
+
+  .summary-list .summary-block-label:first-child{
+    padding-top: 0;
+  }
+
+  .summary-list li{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 13px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line-soft);
+    color: var(--text);
+  }
+
+  .summary-list li:last-child{ border-bottom: none; }
+
+  .summary-list .pending{
+    color: var(--text-dim);
+    font-style: normal;
+  }
+
+  .summary-list .load{
+    color: var(--accent);
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  .summary-empty{
+    font-size: 12.5px;
+    color: var(--text-dim);
+    padding: 6px 0 18px;
+  }
+
+  .actions{
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    padding: 11px 16px;
+    border-radius: 2px;
+    border: 1px solid var(--line);
+    background: var(--panel-raised);
+    color: var(--text);
+    cursor: pointer;
+    transition: all .12s ease;
+  }
+
+  .btn:hover{ border-color: #4a4a4e; }
+
+  .btn-primary{
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .btn-primary:hover{ filter: brightness(1.06); }
+
+  .btn-primary:disabled{
+    background: var(--panel-raised);
+    border-color: var(--line);
+    color: var(--text-dim);
+    cursor: not-allowed;
+    font-weight: 400;
+  }
+
+  .btn-primary.copied{
+    background: #3a5a3a;
+    border-color: #3a5a3a;
+    color: #eafbea;
+  }
+
+  .warmup{
+    margin-top: 14px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 20px 18px;
+  }
+
+  .warmup-title{
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.02em;
+    margin-bottom: 10px;
+  }
+
+  .warmup-intro{
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--text-dim);
+    margin: 0 0 16px;
+  }
+
+  .warmup-list{
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+  }
+
+  .warmup-list li{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .warmup-list li:last-child{ border-bottom: none; }
+
+  .warmup-num{
+    flex: 0 0 auto;
+    font-size: 12px;
+    color: var(--accent);
+    width: 16px;
+  }
+
+  .warmup-text{
+    flex: 1;
+    min-width: 0;
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .warmup-text .dose{
+    color: var(--text-dim);
+  }
+
+  .warmup-list .video-link{
+    width: 36px;
+    height: 36px;
+    pointer-events: auto;
+    opacity: 1;
+    border-color: var(--vimeo);
+    color: var(--vimeo);
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .warmup-list .video-link svg{ width: 16px; height: 16px; }
+
+  .warmup-note{
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--text-dim);
+    margin: 0;
+    padding-top: 4px;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  footer{
+    margin-top: 28px;
+    font-size: 11.5px;
+    color: var(--text-dim);
+    text-align: center;
+  }
+
+  @media (max-width: 420px){
+    h1{ font-size: 42px; }
+    .controls{ gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">@_najudemarco</p>
+    <h1>Armá tu rutina</h1>
+    <p>Elegí un ejercicio por cada patrón de movimiento, series y repeticiones estimadas para armar tu rutina de cuerpo completo.</p>
+  </header>
+
+  <main id="patterns"></main>
+
+  <section class="summary">
+    <div class="summary-head">
+      <span class="summary-title">Tu rutina</span>
+      <span class="summary-count" id="summary-count">0/4 completo</span>
+    </div>
+    <ul class="summary-list" id="summary-list"></ul>
+    <div class="actions">
+      <button class="btn-primary" id="copy-btn" disabled>Copiar rutina</button>
+      <button class="btn" id="reset-btn">Reiniciar</button>
+    </div>
+  </section>
+
+  <section class="warmup">
+    <p class="warmup-title">Entrada en calor</p>
+    <p class="warmup-intro">Antes de la sesión de fuerza podemos realizar 2 series de cada uno de estos ejercicios:</p>
+    <ul class="warmup-list" id="warmup-list"></ul>
+    <p class="warmup-note">También podés sumar al calentamiento 1 serie de las regresiones de los ejercicios que seleccionaste. Por ejemplo, si elegiste flexiones, primero hacé una serie de flexiones subiendo arrodillado; si elegiste sentadilla skater, primero hacé una serie de búlgaras a 8 reps.</p>
+  </section>
+
+  <section class="howto">
+    <p class="howto-title">Cómo armar tu entrenamiento</p>
+    <p class="howto-intro">Vamos a organizar estos ejercicios en una sesión de cuerpo completo divida en dos bloques: Bloque A (Empuje y Rodilla Dominante) y Bloque B (Tracción y Cadera Dominante). Cada bloque funciona como un circuito independiente donde alternás los ejercicios.</p>
+    <ol class="howto-list">
+      <li>Elegí un ejercicio de cada patrón de movimiento según tu nivel de fuerza. Cada ejercicio que elijas tiene que ser lo suficientemente desafiante como para que puedas hacer entre 4 y 8 repeticiones seguidas. Si podés hacer más de 8, cambiá el ejercicio: los vas a ver en el desplegable ordenados del más fácil al más difícil.</li>
+      <li>Probá los ejercicios siguiendo el orden de progresión en el que aparecen al abrir el desplegable.</li>
+      <li>Elegí la cantidad de series: empezá con 3 y subí el número sesión a sesión, siempre que sea viable. Cuantas más repeticiones totales sumes, mejor.</li>
+    </ol>
+    <p class="howto-note">Este abordaje minimalista, con ejercicios que activan grandes masas musculares y elementos caseros, resulta muy efectivo y eficiente en tiempo.</p>
+    <p class="howto-note">Podemos realizar esta rutina dos veces por semana.</p>
+  </section>
+
+  <footer>Entrenamiento de fuerza · Principiantes e intermedios</footer>
+</div>
+
+<script>
+const DATA = [
+  {
+    key: 'empuje',
+    name: 'Empuje',
+    block: 'A',
+    exercises: [
+      { name: 'Flexiones elevadas', url: 'https://vimeo.com/586837190/58c148ee5b' },
+      { name: 'Flexiones arrodillado', url: 'https://vimeo.com/747042072/a3d9dfbcdc' },
+      { name: 'Negativa flexión subida arrodillado', url: 'https://vimeo.com/747045240/2fde3c13c1' },
+      { name: 'Flexión de brazos', url: 'https://vimeo.com/586784249/2d5b470ff2' },
+      { name: 'Flexión Pseudo', url: 'https://vimeo.com/586785571/ca14210c51' },
+      { name: 'Flexión en Pico', url: 'https://vimeo.com/584914976/0c877be1a2?fl=pl&fe=sh' }
+    ]
+  },
+  {
+    key: 'sentadilla',
+    name: 'Rodilla dominante',
+    block: 'A',
+    exercises: [
+      { name: 'Sentadilla copa', url: 'https://vimeo.com/585741816/76ff05d25a' },
+      { name: 'Estocada normal', url: 'https://vimeo.com/581387204/5567f5ffc9' },
+      { name: 'Sentadilla búlgara', url: 'https://vimeo.com/584965245/5120123ba3' },
+      { name: 'Sentadilla Skater', url: 'https://vimeo.com/607713818/296c159b61' },
+      { name: 'Sentadilla a una pierna a cajón', url: 'https://vimeo.com/582964063/6588e21a89' },
+      { name: 'Pistol Squat', url: 'https://vimeo.com/596675672/4871c841a3?fl=pl&fe=sh' },
+    ]
+  },
+  {
+    key: 'traccion',
+    name: 'Tracción',
+    block: 'B',
+    exercises: [
+      { name: 'Remos', url: 'https://vimeo.com/607707154/ab9b5a9a1e' },
+      { name: 'Remos 1 brazo', url: 'https://vimeo.com/580849262' },
+      { name: 'Remo Bisagra de cadera', url: 'https://vimeo.com/611781856/5752601d76' },
+      { name: 'Dominada asistida', url: 'https://vimeo.com/579814884' },
+      { name: 'Dominada', url: 'https://vimeo.com/586783819/b45fcef8ed' },
+      { name: 'Dominada archer', url: 'https://vimeo.com/586783582/0c59fd73fc?fl=pl&fe=sh' },
+    ]
+  },
+  {
+    key: 'bisagra',
+    name: 'Cadera dominante',
+    block: 'B',
+    exercises: [
+      { name: 'Puente de glúteos pies elevados', url: 'https://vimeo.com/747236990/ce11f894f2' },
+      { name: 'Leg curl', url: 'https://vimeo.com/581389218' },
+      { name: 'Puente de glúteo unilateral elevado', url: 'https://vimeo.com/747236701/67a81494f6' },
+      { name: 'Leg curl Unilateral', url: 'https://vimeo.com/579816063/78c5cc82eb' },
+      { name: 'Curl nórdico', url: 'https://vimeo.com/607685917/3b2131c3ae' },
+      { name: 'Peso Muerto', url: 'https://vimeo.com/607697337/6d55276cf7' },
+    ]
+  }
+];
+
+const DIFFICULTY_EMOJI = ['🙂', '🥲', '😓', '😥', '😣', '🥵'];
+DATA.forEach(p => {
+  p.exercises.forEach((ex, i) => {
+    ex.name = `${DIFFICULTY_EMOJI[i]} ${ex.name}`;
+  });
+});
+
+const WARMUP = [
+  { name: 'Flexión-extensión en cuadrupedia', dose: '10 repeticiones', url: 'https://vimeo.com/607692060/c3bdfe1ca3' },
+  { name: 'Rotación torácica', dose: '10 repeticiones por lado', url: 'https://vimeo.com/593744000/cd8cb6add7' },
+  { name: 'Bird Dog', dose: '8 repeticiones por lado', url: 'https://vimeo.com/596674680/5c600d87c5' },
+  { name: 'Plancha', dose: '30 a 40 segundos', url: 'https://vimeo.com/581616591/f1de1398ba' },
+  { name: 'Rotación 90 90', dose: '8 repeticiones por lado', url: 'https://vimeo.com/747280367/933695604c?fl=pl&fe=sh' }
+];
+
+const SETS_OPTIONS = [3, 4, 5];
+const REPS_OPTIONS = [4, 5, 6, 7, 8];
+
+const state = {};
+DATA.forEach(p => { state[p.key] = { exercise: null, sets: null, reps: null }; });
+
+const patternsEl = document.getElementById('patterns');
+const summaryListEl = document.getElementById('summary-list');
+const summaryCountEl = document.getElementById('summary-count');
+const copyBtn = document.getElementById('copy-btn');
+const resetBtn = document.getElementById('reset-btn');
+
+const VIDEO_ICON = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="12" cy="12" r="9.25" stroke="currentColor" stroke-width="1.5"/>
+  <path d="M10 8.6L15.5 12L10 15.4V8.6Z" fill="currentColor"/>
+</svg>`;
+
+function escapeHtml(str){
+  return str.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function highlight(name, query){
+  if(!query) return escapeHtml(name);
+  const idx = name.toLowerCase().indexOf(query.toLowerCase());
+  if(idx === -1) return escapeHtml(name);
+  return escapeHtml(name.slice(0, idx)) + '<mark>' + escapeHtml(name.slice(idx, idx + query.length)) + '</mark>' + escapeHtml(name.slice(idx + query.length));
+}
+
+function buildPattern(pattern, index){
+  const section = document.createElement('div');
+  section.className = 'pattern';
+  section.id = 'pattern-' + pattern.key;
+
+  section.innerHTML = `
+    <div class="pattern-head">
+      <span class="pattern-name">${pattern.name}</span>
+      <span class="pattern-index">${index + 1} / 4</span>
+    </div>
+    <div class="combo-row">
+      <div class="combo">
+        <input type="text" placeholder="Buscar ejercicio…" autocomplete="off" data-key="${pattern.key}">
+        <div class="combo-list" data-list="${pattern.key}"></div>
+      </div>
+      <a class="video-link" data-link="${pattern.key}" target="_blank" rel="noopener" title="Ver video en Vimeo" aria-label="Ver video en Vimeo">
+        ${VIDEO_ICON}
+      </a>
+    </div>
+    <div class="controls">
+      <div class="control-group">
+        <span class="control-label">Series</span>
+        <div class="pill-row" data-sets="${pattern.key}">
+          ${SETS_OPTIONS.map(n => `<button type="button" class="pill" data-value="${n}">${n}</button>`).join('')}
+        </div>
+      </div>
+      <div class="control-group">
+        <span class="control-label">Repeticiones</span>
+        <div class="pill-row" data-reps="${pattern.key}">
+          ${REPS_OPTIONS.map(n => `<button type="button" class="pill" data-value="${n}">${n}</button>`).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+
+  patternsEl.appendChild(section);
+
+  const input = section.querySelector(`input[data-key="${pattern.key}"]`);
+  const list = section.querySelector(`[data-list="${pattern.key}"]`);
+  const link = section.querySelector(`[data-link="${pattern.key}"]`);
+  let activeIdx = -1;
+
+  function renderList(query){
+    const matches = pattern.exercises.filter(e => e.name.toLowerCase().includes(query.toLowerCase()));
+    if(matches.length === 0){
+      list.innerHTML = `<div class="combo-empty">Sin resultados</div>`;
+    } else {
+      list.innerHTML = matches.map((e, i) =>
+        `<div class="combo-option" data-idx="${i}" data-name="${escapeHtml(e.name)}">${highlight(e.name, query)}</div>`
+      ).join('');
+    }
+    activeIdx = -1;
+    return matches;
+  }
+
+  let currentMatches = pattern.exercises;
+
+  function openList(){
+    currentMatches = renderList(input.value);
+    list.classList.add('open');
+  }
+
+  function closeList(){
+    list.classList.remove('open');
+  }
+
+  function selectExercise(ex){
+    state[pattern.key].exercise = ex;
+    input.value = ex.name;
+    link.href = ex.url;
+    link.classList.add('active');
+    closeList();
+    updateSummary();
+    updatePatternState(pattern.key);
+  }
+
+  input.addEventListener('focus', () => {
+    input.select();
+    openList();
+  });
+
+  input.addEventListener('input', () => {
+    if(state[pattern.key].exercise && input.value !== state[pattern.key].exercise.name){
+      state[pattern.key].exercise = null;
+      link.href = '#';
+      link.classList.remove('active');
+      updateSummary();
+      updatePatternState(pattern.key);
+    }
+    openList();
+  });
+
+  input.addEventListener('keydown', (e) => {
+    if(!list.classList.contains('open')) return;
+    const options = list.querySelectorAll('.combo-option');
+    if(e.key === 'ArrowDown'){
+      e.preventDefault();
+      activeIdx = Math.min(activeIdx + 1, options.length - 1);
+      options.forEach((o, i) => o.classList.toggle('active', i === activeIdx));
+      if(options[activeIdx]) options[activeIdx].scrollIntoView({block: 'nearest'});
+    } else if(e.key === 'ArrowUp'){
+      e.preventDefault();
+      activeIdx = Math.max(activeIdx - 1, 0);
+      options.forEach((o, i) => o.classList.toggle('active', i === activeIdx));
+      if(options[activeIdx]) options[activeIdx].scrollIntoView({block: 'nearest'});
+    } else if(e.key === 'Enter'){
+      e.preventDefault();
+      if(activeIdx >= 0 && currentMatches[activeIdx]){
+        selectExercise(currentMatches[activeIdx]);
+      } else if(currentMatches.length === 1){
+        selectExercise(currentMatches[0]);
+      }
+    } else if(e.key === 'Escape'){
+      closeList();
+      input.blur();
+    }
+  });
+
+  list.addEventListener('mousedown', (e) => {
+    const opt = e.target.closest('.combo-option');
+    if(!opt) return;
+    const idx = parseInt(opt.dataset.idx, 10);
+    if(currentMatches[idx]) selectExercise(currentMatches[idx]);
+  });
+
+  document.addEventListener('click', (e) => {
+    if(!section.contains(e.target)) closeList();
+  });
+
+  section.querySelector(`[data-sets="${pattern.key}"]`).addEventListener('click', (e) => {
+    const btn = e.target.closest('.pill');
+    if(!btn) return;
+    state[pattern.key].sets = parseInt(btn.dataset.value, 10);
+    section.querySelectorAll('[data-sets] .pill').forEach(p => p.classList.toggle('selected', p === btn));
+    updateSummary();
+    updatePatternState(pattern.key);
+  });
+
+  section.querySelector(`[data-reps="${pattern.key}"]`).addEventListener('click', (e) => {
+    const btn = e.target.closest('.pill');
+    if(!btn) return;
+    state[pattern.key].reps = parseInt(btn.dataset.value, 10);
+    section.querySelectorAll('[data-reps] .pill').forEach(p => p.classList.toggle('selected', p === btn));
+    updateSummary();
+    updatePatternState(pattern.key);
+  });
+}
+
+function updatePatternState(key){
+  const s = state[key];
+  const el = document.getElementById('pattern-' + key);
+  el.classList.toggle('is-complete', !!(s.exercise && s.sets && s.reps));
+}
+
+function updateSummary(){
+  const items = DATA.map(p => ({ pattern: p, s: state[p.key] }));
+  const completed = items.filter(i => i.s.exercise && i.s.sets && i.s.reps);
+
+  summaryCountEl.textContent = `${completed.length}/4 completo`;
+
+  if(items.every(i => !i.s.exercise && !i.s.sets && !i.s.reps)){
+    summaryListEl.innerHTML = '';
+    summaryListEl.parentElement.querySelector('.summary-empty')?.remove();
+    const empty = document.createElement('p');
+    empty.className = 'summary-empty';
+    empty.textContent = 'Todavía no elegiste ningún ejercicio.';
+    summaryListEl.after(empty);
+  } else {
+    document.querySelector('.summary-empty')?.remove();
+    let lastBlock = null;
+    summaryListEl.innerHTML = items.map(i => {
+      const name = i.s.exercise ? i.s.exercise.name : `${i.pattern.name} — sin elegir`;
+      const load = (i.s.sets && i.s.reps) ? `${i.s.sets} x ${i.s.reps}` : '';
+      let blockLabel = '';
+      if(i.pattern.block !== lastBlock){
+        blockLabel = `<li class="summary-block-label">Bloque ${i.pattern.block}</li>`;
+        lastBlock = i.pattern.block;
+      }
+      return blockLabel + `<li><span class="${i.s.exercise ? '' : 'pending'}">${escapeHtml(name)}</span><span class="load">${load}</span></li>`;
+    }).join('');
+  }
+
+  copyBtn.disabled = completed.length !== 4;
+}
+
+function buildCopyText(){
+  const lines = ['Rutina de fuerza — @_najudemarco', ''];
+  let lastBlock = null;
+  DATA.forEach(p => {
+    const s = state[p.key];
+    if(s.exercise && s.sets && s.reps){
+      if(p.block !== lastBlock){
+        lines.push(`Bloque ${p.block}`);
+        lastBlock = p.block;
+      }
+      lines.push(`${p.name}: ${s.exercise.name} — ${s.sets}x${s.reps}`);
+      lines.push(s.exercise.url);
+      lines.push('');
+    }
+  });
+  return lines.join('\n').trim();
+}
+
+copyBtn.addEventListener('click', async () => {
+  if(copyBtn.disabled) return;
+  const text = buildCopyText();
+  try{
+    await navigator.clipboard.writeText(text);
+  } catch(err){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+  copyBtn.textContent = 'Copiado ✓';
+  copyBtn.classList.add('copied');
+  setTimeout(() => {
+    copyBtn.textContent = 'Copiar rutina';
+    copyBtn.classList.remove('copied');
+  }, 1800);
+});
+
+function renderPatterns(){
+  patternsEl.innerHTML = '';
+  let lastBlock = null;
+  DATA.forEach((p, i) => {
+    if(p.block !== lastBlock){
+      const heading = document.createElement('div');
+      heading.className = 'block-heading';
+      heading.textContent = `Bloque ${p.block}`;
+      patternsEl.appendChild(heading);
+      lastBlock = p.block;
+    }
+    buildPattern(p, i);
+  });
+}
+
+resetBtn.addEventListener('click', () => {
+  DATA.forEach(p => { state[p.key] = { exercise: null, sets: null, reps: null }; });
+  renderPatterns();
+  updateSummary();
+});
+
+function buildWarmup(){
+  const list = document.getElementById('warmup-list');
+  list.innerHTML = WARMUP.map((w, i) => `
+    <li>
+      <span class="warmup-num">${i + 1}</span>
+      <span class="warmup-text">${escapeHtml(w.name)} — <span class="dose">${escapeHtml(w.dose)}</span></span>
+      <a class="video-link" href="${w.url}" target="_blank" rel="noopener" title="Ver video en Vimeo" aria-label="Ver video en Vimeo">${VIDEO_ICON}</a>
+    </li>
+  `).join('');
+}
+
+renderPatterns();
+updateSummary();
+buildWarmup();
+</script>
+
+</body>
+</html>

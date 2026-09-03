@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Splits de Entrenamiento — Ranking Completo</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0a;--surface:#111;--surface2:#161616;--surface3:#1c1c1c;
+  --border:#242424;--border2:#2e2e2e;
+  --accent:#e8ff00;--accent2:#ff4d00;--accent3:#00c8ff;--accent4:#c084fc;
+  --text:#f0f0f0;--muted:#7a7a7a;--muted2:#444;
+  --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;--display:'Bebas Neue',sans-serif
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.65;overflow-x:hidden}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,10,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem}
+.nav-logo{font-family:var(--display);font-size:1.35rem;color:var(--accent4);letter-spacing:.06em}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.nav-links{display:flex}
+.nav-links a{font-family:var(--mono);font-size:.62rem;color:var(--muted);text-decoration:none;padding:.35rem .65rem;text-transform:uppercase;letter-spacing:.06em;transition:color .2s}
+.nav-links a:hover{color:var(--accent4)}
+.subnav{border-bottom:1px solid var(--border)}
+.subnav-links{max-width:1000px;margin:0 auto;padding:.9rem 2rem;justify-content:center;display:flex;flex-wrap:wrap}
+.subnav-links a{font-family:var(--mono);font-size:.62rem;color:var(--muted);text-decoration:none;padding:.35rem .65rem;text-transform:uppercase;letter-spacing:.06em;transition:color .2s}
+.subnav-links a:hover{color:var(--accent4)}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:8rem 3rem 4.5rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero-grid{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(192,132,252,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(192,132,252,.04) 1px,transparent 1px);
+  background-size:52px 52px;
+  mask-image:radial-gradient(ellipse 80% 65% at 50% 50%,black 30%,transparent 100%)}
+.hero-tag{font-family:var(--mono);font-size:.68rem;color:var(--accent4);letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:.8rem;margin-bottom:1.8rem}
+.hero-tag::before{content:'';width:2.2rem;height:1px;background:var(--accent4)}
+.hero h1{font-family:var(--display);font-size:clamp(4rem,13vw,11rem);line-height:.88;letter-spacing:.02em;margin-bottom:1.2rem}
+.hero h1 span{color:var(--accent4);display:block}
+.hero-desc{font-size:.95rem;color:var(--muted);max-width:560px;line-height:1.75;margin-bottom:3rem}
+.hero-stats{display:flex;flex-wrap:wrap;gap:2.8rem}
+.hs{display:flex;flex-direction:column;gap:.2rem}
+.hs-num{font-family:var(--display);font-size:2.5rem;color:var(--accent4);line-height:1}
+.hs-label{font-family:var(--mono);font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.09em}
+
+/* ── SECTIONS ── */
+.section{max-width:1100px;margin:0 auto;padding:5rem 2.5rem}
+.sec-header{display:flex;align-items:flex-start;gap:1.5rem;margin-bottom:2.8rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.sec-num{font-family:var(--mono);font-size:.65rem;color:var(--accent4);letter-spacing:.1em;margin-top:.5rem;min-width:2.2rem}
+.sec-header h2{font-family:var(--display);font-size:clamp(2rem,5vw,3.4rem);line-height:.95;letter-spacing:.03em}
+.sec-header h2 em{font-style:normal;color:var(--accent4)}
+.sec-intro{font-size:.88rem;color:var(--muted);line-height:1.8;max-width:720px;margin-bottom:2.5rem}
+hr.div{border:none;border-top:1px solid var(--border)}
+
+/* ── INFOBOX ── */
+.infobox{padding:1.6rem 2rem;border:1px solid var(--border2);margin-bottom:2rem}
+.infobox.purple{background:rgba(192,132,252,.04);border-color:rgba(192,132,252,.2)}
+.infobox.yellow{background:rgba(232,255,0,.04);border-color:rgba(232,255,0,.18)}
+.infobox.orange{background:rgba(255,77,0,.04);border-color:rgba(255,77,0,.18)}
+.infobox.blue{background:rgba(0,200,255,.04);border-color:rgba(0,200,255,.18)}
+.infobox-label{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
+.infobox.purple .infobox-label{color:var(--accent4)}
+.infobox.yellow .infobox-label{color:var(--accent)}
+.infobox.orange .infobox-label{color:var(--accent2)}
+.infobox.blue .infobox-label{color:var(--accent3)}
+.infobox p{font-size:.87rem;color:var(--muted);line-height:1.8}
+.infobox p strong{color:var(--text);font-weight:400}
+
+/* ── CONCEPT BLOCKS ── */
+.cb{background:var(--surface);border:1px solid var(--border);display:grid;grid-template-columns:72px 1fr;gap:2rem;padding:2rem 2.5rem;margin-bottom:1px;position:relative;overflow:hidden;transition:background .2s,border-color .2s}
+.cb::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--accent4);transition:height .3s}
+.cb:hover{background:var(--surface2)}
+.cb:hover::before{height:100%}
+.cb-n{font-family:var(--display);font-size:3.5rem;color:var(--border2);line-height:1;text-align:right;transition:color .2s}
+.cb:hover .cb-n{color:rgba(192,132,252,.15)}
+.cb-title{font-family:var(--display);font-size:1.6rem;letter-spacing:.04em;margin-bottom:.5rem}
+.cb-body{font-size:.86rem;color:var(--muted);line-height:1.8}
+.cb-body strong{color:var(--text);font-weight:400}
+.cb-form{margin-top:.9rem;padding:.7rem 1rem;background:var(--bg);border-left:2px solid var(--accent4);font-family:var(--mono);font-size:.76rem;color:var(--accent4);letter-spacing:.04em;line-height:1.6}
+
+/* ── CARDS ── */
+.cards{display:grid;gap:1px;background:var(--border)}
+.c2{grid-template-columns:1fr 1fr}
+.c3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--surface);padding:1.8rem 2rem;transition:background .2s;position:relative;overflow:hidden}
+.card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--accent4);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.card:hover{background:var(--surface2)}
+.card:hover::after{transform:scaleX(1)}
+.card.y::after{background:var(--accent)}
+.card.o::after{background:var(--accent2)}
+.card.b::after{background:var(--accent3)}
+.card-icon{font-size:1.3rem;margin-bottom:.9rem}
+.card h3{font-family:var(--display);font-size:1.3rem;letter-spacing:.04em;margin-bottom:.5rem}
+.card p{font-size:.83rem;color:var(--muted);line-height:1.75}
+.card p strong{color:var(--text);font-weight:400}
+.ctag{display:inline-block;margin-top:.9rem;font-family:var(--mono);font-size:.6rem;color:var(--accent4);letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(192,132,252,.25);padding:.15rem .45rem}
+.ctag.y{color:var(--accent);border-color:rgba(232,255,0,.25)}
+.ctag.o{color:var(--accent2);border-color:rgba(255,77,0,.25)}
+.ctag.b{color:var(--accent3);border-color:rgba(0,200,255,.25)}
+.ctag.g{color:#00c87a;border-color:rgba(0,200,122,.25)}
+.ctag.r{color:#ff3366;border-color:rgba(255,51,102,.25)}
+
+/* ── RANKING LIST ── */
+.rank-list{display:flex;flex-direction:column;gap:1px;background:var(--border)}
+
+.rank-item{background:var(--surface);position:relative;overflow:hidden;transition:background .2s}
+.rank-item:hover{background:var(--surface2)}
+.rank-header{display:grid;grid-template-columns:56px 1fr auto;align-items:center;gap:1.5rem;padding:1.6rem 2rem;cursor:pointer}
+.rank-pos{font-family:var(--display);font-size:3rem;line-height:1;color:var(--muted2);transition:color .2s;text-align:center}
+.rank-item:hover .rank-pos{color:var(--accent4)}
+
+.rank-info{}
+.rank-name{font-family:var(--display);font-size:1.8rem;letter-spacing:.04em;line-height:1;margin-bottom:.3rem}
+.rank-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.4rem}
+.rtag{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;padding:.12rem .4rem;border-radius:2px}
+.rt-freq{background:rgba(232,255,0,.1);color:var(--accent)}
+.rt-days{background:rgba(0,200,255,.1);color:var(--accent3)}
+.rt-rest{background:rgba(0,200,122,.1);color:#00c87a}
+.rt-vol{background:rgba(255,77,0,.1);color:var(--accent2)}
+.rt-level{background:rgba(192,132,252,.1);color:var(--accent4)}
+
+.rank-score-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:.3rem;min-width:120px}
+.score-num{font-family:var(--display);font-size:3.5rem;line-height:1}
+.score-bar-track{width:100%;height:4px;background:var(--border2);border-radius:2px;overflow:hidden}
+.score-bar-fill{height:100%;border-radius:2px;transition:width .5s}
+.score-label{font-family:var(--mono);font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+
+/* Score colors */
+.s-10 .score-num,.s-10 .score-bar-fill{color:#00ff88;background:#00ff88}
+.s-95 .score-num,.s-95 .score-bar-fill{color:var(--accent);background:var(--accent)}
+.s-9 .score-num,.s-9 .score-bar-fill{color:var(--accent);background:var(--accent)}
+.s-85 .score-num,.s-85 .score-bar-fill{color:#aaff00;background:#aaff00}
+.s-8 .score-num,.s-8 .score-bar-fill{color:#88ee00;background:#88ee00}
+.s-75 .score-num,.s-75 .score-bar-fill{color:#ddcc00;background:#ddcc00}
+.s-7 .score-num,.s-7 .score-bar-fill{color:#ddcc00;background:#ddcc00}
+.s-65 .score-num,.s-65 .score-bar-fill{color:var(--accent2);background:var(--accent2)}
+.s-6 .score-num,.s-6 .score-bar-fill{color:var(--accent2);background:var(--accent2)}
+.s-5 .score-num,.s-5 .score-bar-fill{color:#ff8800;background:#ff8800}
+.s-4 .score-num,.s-4 .score-bar-fill{color:#ff5500;background:#ff5500}
+.s-2 .score-num,.s-2 .score-bar-fill{color:#ff3344;background:#ff3344}
+
+/* Left accent bar per score */
+.rank-item.s-10::before,.rank-item.s-95::before,.rank-item.s-9::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+.rank-item.s-85::before,.rank-item.s-8::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#88ee00}
+.rank-item.s-75::before,.rank-item.s-7::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#ddcc00}
+.rank-item.s-65::before,.rank-item.s-6::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent2)}
+.rank-item.s-5::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#ff8800}
+.rank-item.s-4::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#ff5500}
+.rank-item.s-2::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#ff3344}
+
+.rank-toggle{font-family:var(--mono);font-size:.62rem;color:var(--accent4);white-space:nowrap;margin-left:1rem}
+
+/* Rank body */
+.rank-body{display:none;border-top:1px solid var(--border)}
+.rank-item.open .rank-body{display:block}
+.rank-body-inner{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;background:var(--border)}
+.rb-col{background:var(--surface2);padding:1.8rem 2rem}
+.rb-label{font-family:var(--mono);font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+.rb-col p,.rb-col li{font-size:.83rem;color:var(--muted);line-height:1.75}
+.rb-col ul{list-style:none}
+.rb-col li{padding-left:1.1rem;position:relative;margin-bottom:.35rem}
+.rb-col li::before{content:'→';position:absolute;left:0;color:var(--accent4);font-size:.7rem}
+.rb-col li strong{color:var(--text);font-weight:400}
+.rb-formula{margin-top:1rem;padding:.7rem 1rem;background:var(--bg);border-left:2px solid var(--accent4);font-family:var(--mono);font-size:.73rem;color:var(--accent4);line-height:1.6}
+.rb-week{display:flex;flex-direction:column;gap:2px;margin-top:.5rem}
+.rb-day{display:flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.7rem}
+.rb-day-name{color:var(--muted);min-width:2.2rem;text-transform:uppercase;font-size:.58rem;letter-spacing:.07em}
+.rb-day-type{padding:.15rem .5rem;font-size:.65rem;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em}
+.day-up{background:rgba(232,255,0,.1);color:var(--accent)}
+.day-lo{background:rgba(0,200,255,.1);color:var(--accent3)}
+.day-pu{background:rgba(255,77,0,.1);color:var(--accent2)}
+.day-pl{background:rgba(0,200,122,.1);color:#00c87a}
+.day-le{background:rgba(192,132,252,.1);color:var(--accent4)}
+.day-fb{background:rgba(255,200,0,.1);color:#ffcc00}
+.day-of{background:rgba(60,60,60,.3);color:var(--muted2)}
+.day-ch{background:rgba(255,77,0,.08);color:#ff9966}
+.day-ba{background:rgba(0,200,255,.08);color:#66ddff}
+.day-ar{background:rgba(192,132,252,.08);color:#d4aaff}
+
+/* ── EVIDENCE TABLE ── */
+.ev-wrap{overflow-x:auto;margin-bottom:2rem}
+table{width:100%;border-collapse:collapse;font-size:.83rem}
+thead tr{border-bottom:2px solid var(--accent4)}
+th{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.09em;color:var(--accent4);padding:.85rem 1.2rem;text-align:left}
+td{padding:.85rem 1.2rem;border-bottom:1px solid var(--border);color:var(--muted)}
+tr:hover td{background:var(--surface2);color:var(--text)}
+td:first-child{color:var(--text)}
+.badge{display:inline-block;padding:.1rem .4rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.04em;border-radius:2px}
+.bg-g{background:rgba(0,200,122,.1);color:#00c87a}
+.bg-y{background:rgba(232,255,0,.1);color:var(--accent)}
+.bg-o{background:rgba(255,77,0,.1);color:var(--accent2)}
+.bg-b{background:rgba(0,200,255,.1);color:var(--accent3)}
+.bg-p{background:rgba(192,132,252,.1);color:var(--accent4)}
+.bg-r{background:rgba(255,51,102,.1);color:#ff3366}
+
+/* ── HOW TO CHOOSE ── */
+.choose-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-bottom:2rem}
+.choose-card{background:var(--surface);padding:2rem}
+.cc-head{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem}
+.cc-icon{font-size:1.3rem}
+.cc-title{font-family:var(--display);font-size:1.4rem;letter-spacing:.04em}
+.cc-body{font-size:.83rem;color:var(--muted);line-height:1.75}
+.cc-body strong{color:var(--text);font-weight:400}
+.cc-list{list-style:none;margin-top:.8rem;display:flex;flex-direction:column;gap:.4rem}
+.cc-list li{padding-left:1.1rem;position:relative;font-size:.82rem;color:var(--muted);line-height:1.65}
+.cc-list li::before{content:'→';position:absolute;left:0;color:var(--accent4);font-size:.7rem}
+.cc-list li strong{color:var(--text);font-weight:400}
+
+/* ── FADE IN ── */
+.fade-in{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}
+.fade-in.visible{opacity:1;transform:none}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:3rem;text-align:center;font-family:var(--mono);font-size:.65rem;color:var(--muted2);letter-spacing:.09em;text-transform:uppercase}
+footer span{color:var(--accent4)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:800px){
+  .c2,.c3,.choose-grid{grid-template-columns:1fr}
+  .rank-body-inner{grid-template-columns:1fr}
+  .rank-header{grid-template-columns:40px 1fr auto}
+  .rank-score-wrap{min-width:80px}
+  .score-num{font-size:2.5rem}
+  .nav-links{display:none}
+  .hero{padding:7rem 1.5rem 3rem}
+  .section{padding:3rem 1.2rem}
+  .cb{grid-template-columns:1fr}
+  .cb-n{text-align:left;font-size:2.5rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">SPLITS</div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-tag">Fuerza e hipertrofia — Guía de organización del entrenamiento</div>
+  <h1>SPLITS<span>DE ENTRENAMIENTO</span></h1>
+  <p class="hero-desc">Ranking completo de los mejores sistemas de organización semanal del entrenamiento de fuerza, evaluados por frecuencia, volumen, descanso y transferencia real a ganancias de fuerza y masa muscular.</p>
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-num">10</div><div class="hs-label">Splits evaluados</div></div>
+    <div class="hs"><div class="hs-num">Frec.</div><div class="hs-label">Factor clave</div></div>
+    <div class="hs"><div class="hs-num">2×</div><div class="hs-label">Frecuencia óptima</div></div>
+    <div class="hs"><div class="hs-num">1–10</div><div class="hs-label">Escala de puntuación</div></div>
+  </div>
+</section>
+
+<div class="subnav">
+  <div class="subnav-links">
+    <a href="#que-es">Qué es un split</a>
+    <a href="#ranking">Ranking</a>
+    <a href="#evidencia">Evidencia</a>
+    <a href="#como-elegir">Cómo elegir</a>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ══════════════════════════════════
+     01 — QUÉ ES UN SPLIT
+══════════════════════════════════ -->
+<div id="que-es">
+<div class="section fade-in">
+  <div class="sec-header">
+    <span class="sec-num">01</span>
+    <h2>QUÉ ES UN<br><em>SPLIT DE ENTRENAMIENTO</em></h2>
+  </div>
+
+  <p class="sec-intro">Un split es la forma en que organizás el entrenamiento a lo largo de la semana: qué músculos o movimientos trabajás cada día, cuántos días entrenás, y cuánto descanso hay entre sesiones que trabajan el mismo grupo muscular.</p>
+
+  <div class="cb">
+    <div class="cb-n">Def</div>
+    <div>
+      <div class="cb-title">DEFINICIÓN</div>
+      <p class="cb-body">La palabra "split" viene del inglés y significa dividir o partir. En entrenamiento, hace referencia a cómo se <strong>divide el trabajo muscular semanal</strong>. Un split determina si entrenás todo el cuerpo cada sesión (full body), si dividís el cuerpo en mitades (tren superior/inferior), por patrones de movimiento (empuje/tirón/piernas) o músculo por músculo (pecho un día, espalda otro).<br><br>La elección del split afecta directamente tres variables fundamentales: la <strong>frecuencia de entrenamiento por músculo</strong> (cuántas veces por semana trabaja cada grupo muscular), el <strong>volumen por sesión</strong> (cuántas series se hacen en cada entrenamiento), y el <strong>tiempo de recuperación</strong> entre estímulos del mismo músculo.</p>
+      <div class="cb-form">Split = distribución del volumen semanal de entrenamiento en días específicos de la semana</div>
+    </div>
+  </div>
+
+  <div class="cards c3" style="margin-bottom:2rem">
+    <div class="card y">
+      <div class="card-icon">🔁</div>
+      <h3>FRECUENCIA</h3>
+      <p>Cuántas veces por semana trabaja cada músculo. La evidencia muestra que <strong>frecuencia 2 por músculo</strong> es superior a frecuencia 1 para hipertrofia. Para fuerza, frecuencia 2–3 optimiza la práctica del patrón motor. Es el factor más determinante en la calidad de un split.</p>
+      <span class="ctag y">Factor #1</span>
+    </div>
+    <div class="card b">
+      <div class="card-icon">📦</div>
+      <h3>VOLUMEN</h3>
+      <p>Cuántas series efectivas por músculo por semana. La zona productiva es <strong>10–20 series semanales</strong> por grupo muscular. Un buen split distribuye ese volumen en 2+ sesiones en vez de concentrarlo en una sesión larga que genera exceso de fatiga local.</p>
+      <span class="ctag b">Factor #2</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">💤</div>
+      <h3>RECUPERACIÓN</h3>
+      <p>El tiempo entre estímulos del mismo músculo. El músculo necesita <strong>48–72 horas</strong> para recuperarse de una sesión intensa. Un buen split respeta ese tiempo y no vuelve a estimular el músculo antes de que esté listo para otro esfuerzo de calidad.</p>
+      <span class="ctag">Factor #3</span>
+    </div>
+  </div>
+
+  <div class="infobox purple">
+    <div class="infobox-label">🎯 Criterios de puntuación en esta guía</div>
+    <p>Los splits se puntúan del 1 al 10 considerando: <strong>frecuencia por músculo</strong> (mayor peso en la puntuación), <strong>distribución del volumen</strong> (equilibrio entre sesiones), <strong>recuperación real</strong> (días entre estímulos del mismo músculo), <strong>flexibilidad para priorizar</strong> grupos musculares rezagados, <strong>cantidad de días de entrenamiento</strong> (más días no siempre es mejor) y <strong>sostenibilidad práctica</strong>. El objetivo explícito es maximizar <strong>fuerza e hipertrofia</strong>.</p>
+  </div>
+</div>
+</div>
+
+<hr class="div">
+
+<!-- ══════════════════════════════════
+     02 — RANKING
+══════════════════════════════════ -->
+<div id="ranking">
+<div class="section fade-in">
+  <div class="sec-header">
+    <span class="sec-num">02</span>
+    <h2>RANKING DE<br><em>SPLITS</em></h2>
+  </div>
+  <p class="sec-intro">De mejor a peor, según fuerza e hipertrofia. Hacé click en cada split para ver el desglose semanal, pros, contras y protocolo de implementación.</p>
+
+  <div class="rank-list">
+
+    <!-- ░░ #1 — UL + PPL ░░ -->
+    <div class="rank-item s-95" id="r1">
+      <div class="rank-header" onclick="toggleRank('r1')">
+        <div class="rank-pos">1</div>
+        <div class="rank-info">
+          <div class="rank-name">UPPER / LOWER + PUSH / PULL / LEGS</div>
+          <div class="rank-tags">
+            <span class="rtag rt-freq">Frecuencia 2</span>
+            <span class="rtag rt-days">5–6 días</span>
+            <span class="rtag rt-rest">Buen descanso</span>
+            <span class="rtag rt-vol">Volumen alto</span>
+            <span class="rtag rt-level">Intermedio–Avanzado</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div class="rank-score-wrap s-95">
+            <div class="score-label">Puntuación</div>
+            <div class="score-num">9.5</div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:95%"></div></div>
+          </div>
+          <div class="rank-toggle">+ ver</div>
+        </div>
+      </div>
+      <div class="rank-body">
+        <div class="rank-body-inner">
+          <div class="rb-col">
+            <div class="rb-label">¿Por qué es el mejor?</div>
+            <p>Combina las ventajas del Upper/Lower (frecuencia 2, separación tren superior/inferior) con la especificidad del PPL (distinción entre empuje y tirón). Permite <strong>priorizar grupos musculares específicos</strong> (asignándoles más días o más volumen), tiene buen descanso entre sesiones del mismo patrón muscular, y distribuye el volumen semanal de forma equilibrada. Supera al U/L×2 clásico porque diferencia el trabajo de empuje y tirón, reduciendo la fatiga acumulada en deltoides y manguito rotador.</p>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Distribución semanal</div>
+            <div class="rb-week">
+              <div class="rb-day"><span class="rb-day-name">LUN</span><span class="rb-day-type day-up">Upper — Empuje</span></div>
+              <div class="rb-day"><span class="rb-day-name">MAR</span><span class="rb-day-type day-lo">Lower — Cuádriceps</span></div>
+              <div class="rb-day"><span class="rb-day-name">MIÉ</span><span class="rb-day-type day-of">Descanso</span></div>
+              <div class="rb-day"><span class="rb-day-name">JUE</span><span class="rb-day-type day-pl">Upper — Tirón</span></div>
+              <div class="rb-day"><span class="rb-day-name">VIE</span><span class="rb-day-type day-lo">Lower — Isquios/Glúteos</span></div>
+              <div class="rb-day"><span class="rb-day-name">SÁB</span><span class="rb-day-type day-le">PPL — Legs / Full</span></div>
+              <div class="rb-day"><span class="rb-day-name">DOM</span><span class="rb-day-type day-of">Descanso</span></div>
+            </div>
+            <div class="rb-formula">Variante 5 días: U(emp) · L(cuad) · OFF · U(tir) · L(isoq) · OFF · OFF</div>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Pros y contras</div>
+            <ul>
+              <li><strong>Pro:</strong> máxima flexibilidad para priorizar músculos rezagados</li>
+              <li><strong>Pro:</strong> separación empuje/tirón reduce fatiga en hombros</li>
+              <li><strong>Pro:</strong> frecuencia 2 garantizada para todos los grupos</li>
+              <li><strong>Pro:</strong> ideal para intermedios-avanzados con experiencia en volumen</li>
+              <li><strong>Contra:</strong> requiere 5–6 días disponibles</li>
+              <li><strong>Contra:</strong> puede ser excesivo para quien recién empieza a manejar volumen alto</li>
+              <li><strong>Contra:</strong> necesita buena planificación para no acumular fatiga en hombros/tríceps entre días de empuje cercanos</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ░░ #2 — U/L × 2 ░░ -->
+    <div class="rank-item s-9" id="r2">
+      <div class="rank-header" onclick="toggleRank('r2')">
+        <div class="rank-pos">2</div>
+        <div class="rank-info">
+          <div class="rank-name">UPPER / LOWER × 2</div>
+          <div class="rank-tags">
+            <span class="rtag rt-freq">Frecuencia 2</span>
+            <span class="rtag rt-days">4 días</span>
+            <span class="rtag rt-rest">Excelente descanso</span>
+            <span class="rtag rt-vol">Volumen balanceado</span>
+            <span class="rtag rt-level">Principiante–Avanzado</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div class="rank-score-wrap s-9">
+            <div class="score-label">Puntuación</div>
+            <div class="score-num">9</div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:90%"></div></div>
+          </div>
+          <div class="rank-toggle">+ ver</div>
+        </div>
+      </div>
+      <div class="rank-body">
+        <div class="rank-body-inner">
+          <div class="rb-col">
+            <div class="rb-label">¿Por qué es tan bueno?</div>
+            <p>El split más recomendado por la literatura científica moderna. Solo 4 días de entrenamiento, 3 días de descanso, frecuencia 2 garantizada para todos los grupos musculares, y perfecta separación entre sesiones del mismo patrón. La variación entre el Upper A y Upper B (y Lower A y B) permite alternar prioridades: <strong>Upper A prioriza pecho</strong>, Upper B prioriza espalda. <strong>Lower A prioriza cuádriceps</strong>, Lower B prioriza isquiotibiales. Excelente para todos los niveles y altamente investigado.</p>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Distribución semanal</div>
+            <div class="rb-week">
+              <div class="rb-day"><span class="rb-day-name">LUN</span><span class="rb-day-type day-up">Upper A — Prioridad pecho</span></div>
+              <div class="rb-day"><span class="rb-day-name">MAR</span><span class="rb-day-type day-lo">Lower A — Prioridad cuád.</span></div>
+              <div class="rb-day"><span class="rb-day-name">MIÉ</span><span class="rb-day-type day-of">Descanso</span></div>
+              <div class="rb-day"><span class="rb-day-name">JUE</span><span class="rb-day-type day-up">Upper B — Prioridad espalda</span></div>
+              <div class="rb-day"><span class="rb-day-name">VIE</span><span class="rb-day-type day-lo">Lower B — Prioridad isoq.</span></div>
+              <div class="rb-day"><span class="rb-day-name">SÁB</span><span class="rb-day-type day-of">Descanso</span></div>
+              <div class="rb-day"><span class="rb-day-name">DOM</span><span class="rb-day-type day-of">Descanso</span></div>
+            </div>
+            <div class="rb-formula">Upper A: Banca / OHP / Remo / Jalón / Bíceps-Tríceps<br>Lower A: Sentadilla / Prensa / Extensión cuád / RDL accesorio</div>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Pros y contras</div>
+            <ul>
+              <li><strong>Pro:</strong> solo 4 días — muy sostenible a largo plazo</li>
+              <li><strong>Pro:</strong> 3 días de descanso permiten recuperación SNC completa</li>
+              <li><strong>Pro:</strong> la alternancia A/B permite priorizar grupos rezagados</li>
+              <li><strong>Pro:</strong> funciona para principiantes avanzados hasta avanzados</li>
+              <li><strong>Pro:</strong> alta transferencia a fuerza en básicos (banca, sentadilla, peso muerto)</li>
+              <li><strong>Contra:</strong> menos volumen total que el UL+PPL</li>
+              <li><strong>Contra:</strong> en la sesión Upper se acumula más fatiga que si se separa empuje/tirón</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ░░ #3 — U/L/FB ░░ -->
+    <div class="rank-item s-8" id="r3">
+      <div class="rank-header" onclick="toggleRank('r3')">
+        <div class="rank-pos">3</div>
+        <div class="rank-info">
+          <div class="rank-name">UPPER / LOWER / FULL BODY</div>
+          <div class="rank-tags">
+            <span class="rtag rt-freq">Frecuencia 2</span>
+            <span class="rtag rt-days">3 días</span>
+            <span class="rtag rt-rest">Excelente descanso</span>
+            <span class="rtag rt-vol">Volumen moderado</span>
+            <span class="rtag rt-level">Todos los niveles</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div class="rank-score-wrap s-8">
+            <div class="score-label">Puntuación</div>
+            <div class="score-num">8</div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:80%"></div></div>
+          </div>
+          <div class="rank-toggle">+ ver</div>
+        </div>
+      </div>
+      <div class="rank-body">
+        <div class="rank-body-inner">
+          <div class="rb-col">
+            <div class="rb-label">¿Por qué funciona bien?</div>
+            <p>Variante de 3 días que mantiene frecuencia 2 con excelente recuperación. La sesión Full Body actúa como tercer estímulo de baja intensidad o como sesión de énfasis especial. <strong>Pierde frente al U/L×2 en volumen total</strong> disponible: con solo 3 días, hay menos sesiones para acumular volumen efectivo. Ideal para personas con limitaciones de tiempo o que recién aumentan de 3 a más días, y también útil en periodos de deload o de mayor carga de vida.</p>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Distribución semanal</div>
+            <div class="rb-week">
+              <div class="rb-day"><span class="rb-day-name">LUN</span><span class="rb-day-type day-up">Upper</span></div>
+              <div class="rb-day"><span class="rb-day-name">MAR</span><span class="rb-day-type day-of">Descanso</span></div>
+              <div class="rb-day"><span class="rb-day-name">MIÉ</span><span class="rb-day-type day-lo">Lower</span></div>
+              <div class="rb-day"><span class="rb-day-name">JUE</span><span class="rb-day-type day-of">Descanso</span></div>
+              <div class="rb-day"><span class="rb-day-name">VIE</span><span class="rb-day-type day-fb">Full Body</span></div>
+              <div class="rb-day"><span class="rb-day-name">SÁB</span><span class="rb-day-type day-of">Descanso</span></div>
+              <div class="rb-day"><span class="rb-day-name">DOM</span><span class="rb-day-type day-of">Descanso</span></div>
+            </div>
+            <div class="rb-formula">Full Body del viernes: enfocado en los patrones más importantes de la semana (sentadilla / press / remo) con menor volumen</div>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Pros y contras</div>
+            <ul>
+              <li><strong>Pro:</strong> solo 3 días, muy accesible para vida ocupada</li>
+              <li><strong>Pro:</strong> 4 días de descanso, recuperación excelente</li>
+              <li><strong>Pro:</strong> mantiene frecuencia 2 para todos los grupos</li>
+              <li><strong>Pro:</strong> la sesión FB puede usarse para énfasis en debilidades</li>
+              <li><strong>Contra:</strong> menor volumen total que el U/L×2 con 4 días</li>
+              <li><strong>Contra:</strong> la sesión FB requiere selección cuidadosa para no superponer fatiga con las sesiones del lunes/miércoles</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ░░ #4 — FB × 3 ░░ -->
+    <div class="rank-item s-7" id="r4">
+      <div class="rank-header" onclick="toggleRank('r4')">
+        <div class="rank-pos">4</div>
+        <div class="rank-info">
+          <div class="rank-name">FULL BODY × 3</div>
+          <div class="rank-tags">
+            <span class="rtag rt-freq">Frecuencia 2–3</span>
+            <span class="rtag rt-days">3 días</span>
+            <span class="rtag rt-rest">Buen descanso</span>
+            <span class="rtag rt-vol">Volumen moderado</span>
+            <span class="rtag rt-level">Principiante–Intermedio</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div class="rank-score-wrap s-7">
+            <div class="score-label">Puntuación</div>
+            <div class="score-num">7</div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:70%"></div></div>
+          </div>
+          <div class="rank-toggle">+ ver</div>
+        </div>
+      </div>
+      <div class="rank-body">
+        <div class="rank-body-inner">
+          <div class="rb-col">
+            <div class="rb-label">¿Cómo funciona?</div>
+            <p>Tres sesiones semanales trabajando todo el cuerpo. Frecuencia alta (2–3×/semana por músculo), buen descanso entre sesiones (al menos 1 día). <strong>Excelente para principiantes</strong> porque permite practicar los patrones motores con alta frecuencia. Para intermedios funciona bien si se estructura con variación de énfasis (sesión A con foco en básicos de fuerza, sesión B con más accesorios). Pierde en el ranking por menor volumen total disponible por sesión sin generar fatiga excesiva, comparado con splits de 4–5 días.</p>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Distribución semanal</div>
+            <div class="rb-week">
+              <div class="rb-day"><span class="rb-day-name">LUN</span><span class="rb-day-type day-fb">Full Body A</span></div>
+              <div class="rb-day"><span class="rb-day-name">MAR</span><span class="rb-day-type day-of">Descanso</span></div>
+              <div class="rb-day"><span class="rb-day-name">MIÉ</span><span class="rb-day-type day-fb">Full Body B</span></div>
+              <div class="rb-day"><span class="rb-day-name">JUE</span><span class="rb-day-type day-of">Descanso</span></div>
+              <div class="rb-day"><span class="rb-day-name">VIE</span><span class="rb-day-type day-fb">Full Body C</span></div>
+              <div class="rb-day"><span class="rb-day-name">SÁB</span><span class="rb-day-type day-of">Descanso</span></div>
+              <div class="rb-day"><span class="rb-day-name">DOM</span><span class="rb-day-type day-of">Descanso</span></div>
+            </div>
+            <div class="rb-formula">A: Sentadilla / Banca / Remo · B: Peso muerto / OHP / Dominadas · C: Variaciones + accesorios</div>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Pros y contras</div>
+            <ul>
+              <li><strong>Pro:</strong> frecuencia 3 máxima para aprendizaje de patrones (ideal principiantes)</li>
+              <li><strong>Pro:</strong> sesiones más cortas y manejables</li>
+              <li><strong>Pro:</strong> fácil de organizar con días intercalados</li>
+              <li><strong>Pro:</strong> cada ejercicio básico se practica 3× por semana</li>
+              <li><strong>Contra:</strong> difícil acumular suficiente volumen por músculo por sesión</li>
+              <li><strong>Contra:</strong> puede volverse repetitivo si no se varía el énfasis entre sesiones A/B/C</li>
+              <li><strong>Contra:</strong> menos eficiente para intermedios-avanzados que quieren mayor volumen específico</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ░░ #5 — TORSO/PIERNA ░░ -->
+    <div class="rank-item s-75" id="r5">
+      <div class="rank-header" onclick="toggleRank('r5')">
+        <div class="rank-pos">5</div>
+        <div class="rank-info">
+          <div class="rank-name">TORSO / PIERNA × 2</div>
+          <div class="rank-tags">
+            <span class="rtag rt-freq">Frecuencia 2</span>
+            <span class="rtag rt-days">4 días</span>
+            <span class="rtag rt-rest">Buen descanso</span>
+            <span class="rtag rt-vol">Volumen alto</span>
+            <span class="rtag rt-level">Intermedio–Avanzado</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div class="rank-score-wrap s-75">
+            <div class="score-label">Puntuación</div>
+            <div class="score-num">7.5</div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:75%"></div></div>
+          </div>
+          <div class="rank-toggle">+ ver</div>
+        </div>
+      </div>
+      <div class="rank-body">
+        <div class="rank-body-inner">
+          <div class="rb-col">
+            <div class="rb-label">¿En qué se diferencia del U/L?</div>
+            <p>El split Torso/Pierna es esencialmente idéntico al Upper/Lower en estructura. La diferencia es más de nomenclatura que de lógica: "torso" engloba todo el tren superior (empuje + tirón en la misma sesión), igual que "upper". <strong>Recibe 7.5 en vez de 9 porque no tiene la distinción A/B</strong> que hace tan poderoso al U/L×2, y porque la sesión de torso suele ser más larga y fatigante al mezclar empuje y tirón sin separación. Con la variante A/B implementada, prácticamente empata con el U/L×2.</p>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Distribución semanal</div>
+            <div class="rb-week">
+              <div class="rb-day"><span class="rb-day-name">LUN</span><span class="rb-day-type day-up">Torso A</span></div>
+              <div class="rb-day"><span class="rb-day-name">MAR</span><span class="rb-day-type day-lo">Pierna A</span></div>
+              <div class="rb-day"><span class="rb-day-name">MIÉ</span><span class="rb-day-type day-of">Descanso</span></div>
+              <div class="rb-day"><span class="rb-day-name">JUE</span><span class="rb-day-type day-up">Torso B</span></div>
+              <div class="rb-day"><span class="rb-day-name">VIE</span><span class="rb-day-type day-lo">Pierna B</span></div>
+              <div class="rb-day"><span class="rb-day-name">SÁB</span><span class="rb-day-type day-of">Descanso</span></div>
+              <div class="rb-day"><span class="rb-day-name">DOM</span><span class="rb-day-type day-of">Descanso</span></div>
+            </div>
+            <div class="rb-formula">Torso A: Banca + Remo (énfasis pecho/espalda) · Torso B: OHP + Dominadas (énfasis hombros/dorsal)</div>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Pros y contras</div>
+            <ul>
+              <li><strong>Pro:</strong> estructura simple y clara de entender</li>
+              <li><strong>Pro:</strong> frecuencia 2 con 4 días y buen descanso</li>
+              <li><strong>Pro:</strong> muy popular y con mucho material de referencia</li>
+              <li><strong>Contra:</strong> la sesión de torso es más larga que si se separa empuje/tirón</li>
+              <li><strong>Contra:</strong> mayor acumulación de fatiga en hombros/brazos cuando se combinan press y remos en la misma sesión</li>
+              <li><strong>Contra:</strong> sin variante A/B, priorización es más difícil</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ░░ #6 — PPL × 2 ░░ -->
+    <div class="rank-item s-6" id="r6">
+      <div class="rank-header" onclick="toggleRank('r6')">
+        <div class="rank-pos">6</div>
+        <div class="rank-info">
+          <div class="rank-name">PUSH / PULL / LEGS × 2</div>
+          <div class="rank-tags">
+            <span class="rtag rt-freq">Frecuencia 2</span>
+            <span class="rtag rt-days">6 días</span>
+            <span class="rtag rt-rest">Poco descanso</span>
+            <span class="rtag rt-vol">Volumen muy alto</span>
+            <span class="rtag rt-level">Avanzado</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div class="rank-score-wrap s-6">
+            <div class="score-label">Puntuación</div>
+            <div class="score-num">6</div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:60%"></div></div>
+          </div>
+          <div class="rank-toggle">+ ver</div>
+        </div>
+      </div>
+      <div class="rank-body">
+        <div class="rank-body-inner">
+          <div class="rb-col">
+            <div class="rb-label">Por qué baja al puesto 6</div>
+            <p>El PPL×2 tiene frecuencia 2 y lógica de distribución correcta (separación push/pull/legs), pero <strong>requiere 6 días de entrenamiento</strong> con muy poco descanso entre sesiones de patrones relacionados. El Push del día 1 y el Pull del día 2 afectan a los mismos músculos del hombro. Tirón en día 2 y Piernas en día 3 genera acumulación de fatiga. El único día de descanso (generalmente domingo) es insuficiente para recuperar un ciclo de 6 días pesados. Exige una capacidad de recuperación muy alta y una nutrición muy bien ajustada para ser sostenible.</p>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Distribución semanal</div>
+            <div class="rb-week">
+              <div class="rb-day"><span class="rb-day-name">LUN</span><span class="rb-day-type day-pu">Push A</span></div>
+              <div class="rb-day"><span class="rb-day-name">MAR</span><span class="rb-day-type day-pl">Pull A</span></div>
+              <div class="rb-day"><span class="rb-day-name">MIÉ</span><span class="rb-day-type day-le">Legs A</span></div>
+              <div class="rb-day"><span class="rb-day-name">JUE</span><span class="rb-day-type day-pu">Push B</span></div>
+              <div class="rb-day"><span class="rb-day-name">VIE</span><span class="rb-day-type day-pl">Pull B</span></div>
+              <div class="rb-day"><span class="rb-day-name">SÁB</span><span class="rb-day-type day-le">Legs B</span></div>
+              <div class="rb-day"><span class="rb-day-name">DOM</span><span class="rb-day-type day-of">Descanso</span></div>
+            </div>
+            <div class="rb-formula">PPL×1 (3 días, frec. 1) → 5/10 · PPL×2 (6 días, frec. 2) → 6/10</div>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Pros y contras</div>
+            <ul>
+              <li><strong>Pro:</strong> separación lógica de patrones (empuje/tirón/piernas)</li>
+              <li><strong>Pro:</strong> frecuencia 2 con volumen alto por sesión</li>
+              <li><strong>Pro:</strong> popular en culturismo avanzado</li>
+              <li><strong>Contra:</strong> 6 días seguidos con 1 solo día de descanso</li>
+              <li><strong>Contra:</strong> fatiga acumulada entre días 4–5–6 suele bajar calidad</li>
+              <li><strong>Contra:</strong> no apto para quienes tienen vida ocupada fuera del gym</li>
+              <li><strong>Contra:</strong> mayor riesgo de sobreentrenamiento a largo plazo</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ░░ #7 — FB × 4 (nuevo) ░░ -->
+    <div class="rank-item s-65" id="r7">
+      <div class="rank-header" onclick="toggleRank('r7')">
+        <div class="rank-pos">7</div>
+        <div class="rank-info">
+          <div class="rank-name">FULL BODY × 4</div>
+          <div class="rank-tags">
+            <span class="rtag rt-freq">Frecuencia 4</span>
+            <span class="rtag rt-days">4 días</span>
+            <span class="rtag rt-rest">Recuperación ajustada</span>
+            <span class="rtag rt-vol">Volumen moderado</span>
+            <span class="rtag rt-level">Intermedio</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div class="rank-score-wrap s-65">
+            <div class="score-label">Puntuación</div>
+            <div class="score-num">6.5</div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:65%"></div></div>
+          </div>
+          <div class="rank-toggle">+ ver</div>
+        </div>
+      </div>
+      <div class="rank-body">
+        <div class="rank-body-inner">
+          <div class="rb-col">
+            <div class="rb-label">¿Cuándo tiene sentido?</div>
+            <p>Cuatro sesiones de cuerpo completo semanales. En teoría, la frecuencia 4 debería ser superior. En la práctica, <strong>el problema es la recuperación entre sesiones</strong>: con 4 días de entrenamiento full body, el volumen por sesión debe reducirse significativamente para no acumular fatiga excesiva. Con volumen bajo por sesión, el estímulo total puede ser menor al esperado. Funciona bien para intermedios que priorizan práctica técnica en básicos con frecuencia alta, pero es difícil de sostener con volumen suficiente sin generar fatiga acumulada.</p>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Distribución semanal</div>
+            <div class="rb-week">
+              <div class="rb-day"><span class="rb-day-name">LUN</span><span class="rb-day-type day-fb">Full Body A</span></div>
+              <div class="rb-day"><span class="rb-day-name">MAR</span><span class="rb-day-type day-fb">Full Body B</span></div>
+              <div class="rb-day"><span class="rb-day-name">MIÉ</span><span class="rb-day-type day-of">Descanso</span></div>
+              <div class="rb-day"><span class="rb-day-name">JUE</span><span class="rb-day-type day-fb">Full Body C</span></div>
+              <div class="rb-day"><span class="rb-day-name">VIE</span><span class="rb-day-type day-fb">Full Body D</span></div>
+              <div class="rb-day"><span class="rb-day-name">SÁB</span><span class="rb-day-type day-of">Descanso</span></div>
+              <div class="rb-day"><span class="rb-day-name">DOM</span><span class="rb-day-type day-of">Descanso</span></div>
+            </div>
+            <div class="rb-formula">Riesgo: días MAR–JUE tienen solo 1 día de descanso entre sesiones completas · Reducir volumen por sesión obligatoriamente</div>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Pros y contras</div>
+            <ul>
+              <li><strong>Pro:</strong> frecuencia muy alta para patrones básicos</li>
+              <li><strong>Pro:</strong> excelente para técnica en básicos</li>
+              <li><strong>Pro:</strong> sesiones más cortas e intensas</li>
+              <li><strong>Contra:</strong> recuperación comprometida entre días consecutivos</li>
+              <li><strong>Contra:</strong> volumen por sesión debe mantenerse bajo, limitando la hipertrofia</li>
+              <li><strong>Contra:</strong> difícil acumular suficiente volumen total por grupo muscular a la semana</li>
+              <li><strong>Contra:</strong> casi siempre inferior al U/L×2 en resultados prácticos de hipertrofia</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ░░ #8 — ARNOLD ░░ -->
+    <div class="rank-item s-4" id="r8">
+      <div class="rank-header" onclick="toggleRank('r8')">
+        <div class="rank-pos">8</div>
+        <div class="rank-info">
+          <div class="rank-name">ARNOLD SPLIT</div>
+          <div class="rank-tags">
+            <span class="rtag rt-freq">Frecuencia 2</span>
+            <span class="rtag rt-days">6 días</span>
+            <span class="rtag rt-rest">Poco descanso</span>
+            <span class="rtag rt-vol">Volumen muy alto</span>
+            <span class="rtag rt-level">Avanzado / culturismo</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div class="rank-score-wrap s-4">
+            <div class="score-label">Puntuación</div>
+            <div class="score-num">4</div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:40%"></div></div>
+          </div>
+          <div class="rank-toggle">+ ver</div>
+        </div>
+      </div>
+      <div class="rank-body">
+        <div class="rank-body-inner">
+          <div class="rb-col">
+            <div class="rb-label">Por qué baja tanto</div>
+            <p>A pesar de ser un split histórico y tener frecuencia 2, el Arnold Split sufre los mismos problemas que el PPL×2 y los amplifica: <strong>6 días de entrenamiento con un solo día de descanso</strong>, sesiones de pecho+espalda que son extremadamente largas y fatigantes, y solo dos días específicos de brazos por semana (los brazos ya trabajan en los días de pecho y espalda, pero ese énfasis directo solo aparece 2 veces). La demanda de recuperación es muy alta y el volumen por sesión es excesivo para la mayoría de personas naturales.</p>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Distribución semanal</div>
+            <div class="rb-week">
+              <div class="rb-day"><span class="rb-day-name">LUN</span><span class="rb-day-type day-ch">Pecho + Espalda</span></div>
+              <div class="rb-day"><span class="rb-day-name">MAR</span><span class="rb-day-type day-le">Hombros + Brazos</span></div>
+              <div class="rb-day"><span class="rb-day-name">MIÉ</span><span class="rb-day-type day-le">Piernas</span></div>
+              <div class="rb-day"><span class="rb-day-name">JUE</span><span class="rb-day-type day-ch">Pecho + Espalda</span></div>
+              <div class="rb-day"><span class="rb-day-name">VIE</span><span class="rb-day-type day-le">Hombros + Brazos</span></div>
+              <div class="rb-day"><span class="rb-day-name">SÁB</span><span class="rb-day-type day-le">Piernas</span></div>
+              <div class="rb-day"><span class="rb-day-name">DOM</span><span class="rb-day-type day-of">Descanso</span></div>
+            </div>
+            <div class="rb-formula">La sesión Pecho+Espalda puede durar 90–120 min si se hace correctamente · Muy demandante sistémicamente</div>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Pros y contras</div>
+            <ul>
+              <li><strong>Pro:</strong> frecuencia 2 para todos los grupos</li>
+              <li><strong>Pro:</strong> volumen muy alto disponible</li>
+              <li><strong>Pro:</strong> permite combinar antagonistas (pecho/espalda) en superset</li>
+              <li><strong>Contra:</strong> 6 días de entrenamiento, 1 solo descanso</li>
+              <li><strong>Contra:</strong> sesiones extremadamente largas (pecho + espalda)</li>
+              <li><strong>Contra:</strong> diseñado para usuarios con recuperación muy superior a la media (contexto farmacológico histórico)</li>
+              <li><strong>Contra:</strong> no recomendado para atletas naturales con vida normal fuera del gym</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ░░ #9 — SPECIALIZATION (nuevo) ░░ -->
+    <div class="rank-item s-5" id="r9">
+      <div class="rank-header" onclick="toggleRank('r9')">
+        <div class="rank-pos">9*</div>
+        <div class="rank-info">
+          <div class="rank-name">SPECIALIZATION SPLIT</div>
+          <div class="rank-tags">
+            <span class="rtag rt-freq">Frec. 3+ en músculo objetivo</span>
+            <span class="rtag rt-days">4–5 días</span>
+            <span class="rtag rt-rest">Variable</span>
+            <span class="rtag rt-vol">Concentrado en objetivo</span>
+            <span class="rtag rt-level">Intermedio–Avanzado</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div class="rank-score-wrap s-5">
+            <div class="score-label">Puntuación</div>
+            <div class="score-num">5</div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:50%"></div></div>
+          </div>
+          <div class="rank-toggle">+ ver</div>
+        </div>
+      </div>
+      <div class="rank-body">
+        <div class="rank-body-inner">
+          <div class="rb-col">
+            <div class="rb-label">¿Cuándo tiene sentido?</div>
+            <p>Un split de especialización sacrifica el desarrollo equilibrado para <strong>priorizar un músculo o patrón específico</strong> (ej: tres sesiones de press semanal para alguien con banca débil). La puntuación de 5 es contextual: para uso temporal (4–8 semanas) con un objetivo claro es una herramienta válida. Como split permanente, sacrifica demasiado el desarrollo del resto del cuerpo. Muy usado en powerlifting y en etapas de corrección de puntos débiles.</p>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Ejemplo — Especialización en banca</div>
+            <div class="rb-week">
+              <div class="rb-day"><span class="rb-day-name">LUN</span><span class="rb-day-type day-pu">Press banca heavy</span></div>
+              <div class="rb-day"><span class="rb-day-name">MAR</span><span class="rb-day-type day-lo">Lower</span></div>
+              <div class="rb-day"><span class="rb-day-name">MIÉ</span><span class="rb-day-type day-pu">Press banca técnico + Upper</span></div>
+              <div class="rb-day"><span class="rb-day-name">JUE</span><span class="rb-day-type day-of">Descanso</span></div>
+              <div class="rb-day"><span class="rb-day-name">VIE</span><span class="rb-day-type day-pu">Press banca moderado + accesorio</span></div>
+              <div class="rb-day"><span class="rb-day-name">SÁB</span><span class="rb-day-type day-lo">Lower</span></div>
+              <div class="rb-day"><span class="rb-day-name">DOM</span><span class="rb-day-type day-of">Descanso</span></div>
+            </div>
+            <div class="rb-formula">Uso recomendado: bloques de 4–8 semanas · No como split permanente · Reducir volumen del resto del cuerpo</div>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Pros y contras</div>
+            <ul>
+              <li><strong>Pro:</strong> muy efectivo para corregir un punto débil específico en poco tiempo</li>
+              <li><strong>Pro:</strong> permite frecuencia 3+ en el músculo/patrón objetivo</li>
+              <li><strong>Pro:</strong> herramienta estándar en powerlifting</li>
+              <li><strong>Contra:</strong> desarrollo desequilibrado del resto del cuerpo</li>
+              <li><strong>Contra:</strong> no sostenible como enfoque permanente</li>
+              <li><strong>Contra:</strong> puntuación baja en el contexto de split "general" para fuerza e hipertrofia equilibrada</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ░░ #10 — BRO SPLIT ░░ -->
+    <div class="rank-item s-2" id="r10">
+      <div class="rank-header" onclick="toggleRank('r10')">
+        <div class="rank-pos">10</div>
+        <div class="rank-info">
+          <div class="rank-name">BRO SPLIT (UN MÚSCULO POR DÍA)</div>
+          <div class="rank-tags">
+            <span class="rtag rt-freq">Frecuencia 1</span>
+            <span class="rtag rt-days">5–6 días</span>
+            <span class="rtag rt-rest">Mucho descanso por músculo</span>
+            <span class="rtag rt-vol">Volumen concentrado</span>
+            <span class="rtag rt-level">Todos los niveles (no recomendado)</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div class="rank-score-wrap s-2">
+            <div class="score-label">Puntuación</div>
+            <div class="score-num">2</div>
+            <div class="score-bar-track"><div class="score-bar-fill" style="width:20%"></div></div>
+          </div>
+          <div class="rank-toggle">+ ver</div>
+        </div>
+      </div>
+      <div class="rank-body">
+        <div class="rank-body-inner">
+          <div class="rb-col">
+            <div class="rb-label">Por qué es el peor del ranking</div>
+            <p>El Bro Split entrena cada grupo muscular <strong>una sola vez por semana</strong>. La síntesis proteica muscular elevada post-entrenamiento dura aproximadamente 48–72 horas. Con frecuencia 1, el músculo pasa 5–6 días sin estímulo después de ese ventana. Múltiples meta-análisis muestran que la frecuencia 2 supera a la frecuencia 1 para hipertrofia. La única ventaja real del Bro Split es el <strong>volumen alto concentrado por sesión</strong>, que puede ser útil en contextos muy específicos (usuarios avanzados, ciclos de especialización) pero no compensa la baja frecuencia.</p>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Distribución semanal clásica</div>
+            <div class="rb-week">
+              <div class="rb-day"><span class="rb-day-name">LUN</span><span class="rb-day-type day-ch">Pecho</span></div>
+              <div class="rb-day"><span class="rb-day-name">MAR</span><span class="rb-day-type day-ba">Espalda</span></div>
+              <div class="rb-day"><span class="rb-day-name">MIÉ</span><span class="rb-day-type day-le">Hombros</span></div>
+              <div class="rb-day"><span class="rb-day-name">JUE</span><span class="rb-day-type day-le">Piernas</span></div>
+              <div class="rb-day"><span class="rb-day-name">VIE</span><span class="rb-day-type day-ar">Brazos</span></div>
+              <div class="rb-day"><span class="rb-day-name">SÁB</span><span class="rb-day-type day-of">Descanso</span></div>
+              <div class="rb-day"><span class="rb-day-name">DOM</span><span class="rb-day-type day-of">Descanso</span></div>
+            </div>
+            <div class="rb-formula">Cada músculo principal: 1 vez por semana · Ventana de síntesis proteica elevada: ~48–72 h · Días sin estímulo: ~5–6</div>
+          </div>
+          <div class="rb-col">
+            <div class="rb-label">Pros y contras</div>
+            <ul>
+              <li><strong>Pro:</strong> sesiones dedicadas permiten volumen muy alto por músculo</li>
+              <li><strong>Pro:</strong> fácil de entender y organizar</li>
+              <li><strong>Pro:</strong> hay evidencia de que funciona en usuarios avanzados con farmacología</li>
+              <li><strong>Contra:</strong> frecuencia 1 es subóptima para hipertrofia según evidencia actual</li>
+              <li><strong>Contra:</strong> 5–6 días de entrenamiento para frecuencia 1 es muy ineficiente</li>
+              <li><strong>Contra:</strong> distribución del volumen muy pobre — todo o nada por músculo</li>
+              <li><strong>Contra:</strong> no apto para objetivos de fuerza en básicos (baja práctica de patrones)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /rank-list -->
+
+  <div class="infobox purple" style="margin-top:2rem">
+    <div class="infobox-label">* Nota sobre el Specialization Split</div>
+    <p>El split de especialización recibe una puntuación de 5 como split "general" para fuerza e hipertrofia equilibrada. Sin embargo, como <strong>herramienta temporal</strong> (4–8 semanas) para corregir un desequilibrio específico, puede ser la mejor opción disponible. Su puntuación refleja el uso permanente, no el uso estratégico. En ese contexto puntual, puede considerarse tan bueno como el U/L×2.</p>
+  </div>
+</div>
+</div>
+
+<hr class="div">
+
+<!-- ══════════════════════════════════
+     03 — EVIDENCIA
+══════════════════════════════════ -->
+<div id="evidencia">
+<div class="section fade-in">
+  <div class="sec-header">
+    <span class="sec-num">03</span>
+    <h2>QUÉ DICE LA<br><em>EVIDENCIA RECIENTE</em></h2>
+  </div>
+
+  <p class="sec-intro">La investigación sobre frecuencia de entrenamiento y distribución del volumen ha avanzado significativamente en los últimos 10 años. Estos son los hallazgos más relevantes para elegir un split.</p>
+
+  <div class="cb">
+    <div class="cb-n">01</div>
+    <div>
+      <div class="cb-title">FRECUENCIA 2 SUPERA A FRECUENCIA 1</div>
+      <p class="cb-body">El meta-análisis de Schoenfeld, Ogborn & Krieger (2016) en el <em>Journal of Strength and Conditioning Research</em> analizó 10 estudios y concluyó que entrenar cada músculo <strong>dos veces por semana produjo mayor hipertrofia que una vez</strong>, con un tamaño de efecto significativo. Los estudios que compararon frecuencia 2 vs. frecuencia 3 no encontraron diferencias consistentes, sugiriendo que 2 veces por semana es el punto de inflexión clave. Este hallazgo es uno de los más replicados en la literatura de entrenamiento.</p>
+      <div class="cb-form">Frecuencia 2 &gt; Frecuencia 1 para hipertrofia · Frecuencia 3 ≈ Frecuencia 2 con volumen equivalente</div>
+    </div>
+  </div>
+
+  <div class="cb">
+    <div class="cb-n">02</div>
+    <div>
+      <div class="cb-title">VOLUMEN EQUITATIVO: LO QUE IMPORTA</div>
+      <p class="cb-body">Cuando se controla el <strong>volumen total semanal</strong> (mismas series por músculo por semana), las diferencias entre frecuencia 2 y frecuencia 3 se reducen considerablemente. Lo que importa no es cuántas veces por semana en términos absolutos, sino <strong>si podés hacer esas series con calidad</strong>. 20 series de pecho repartidas en 2 días producen mejores resultados que 20 series en 1 día (donde la fatiga local hace que las últimas series sean de baja calidad), pero 20 series en 3 o 4 días puede no ser significativamente mejor que en 2 días bien ejecutados.</p>
+      <div class="cb-form">El volumen total semanal de calidad es más importante que la frecuencia aislada</div>
+    </div>
+  </div>
+
+  <div class="cb">
+    <div class="cb-n">03</div>
+    <div>
+      <div class="cb-title">SÍNTESIS PROTEICA Y VENTANA TEMPORAL</div>
+      <p class="cb-body">Estudios de biopsias musculares muestran que la síntesis proteica muscular (MPS) post-entrenamiento se eleva durante <strong>24–48 horas en principiantes</strong> y aproximadamente <strong>36–72 horas en personas entrenadas</strong>. Pasado ese tiempo, la MPS vuelve a niveles basales sin un nuevo estímulo. Esto explica por qué la frecuencia 1 es subóptima: hay 4–5 días de la semana donde el músculo no está en estado de crecimiento activo. Frecuencia 2 aproxima mejor la ventana de síntesis proteica al ciclo semanal.</p>
+      <div class="cb-form">MPS elevada: ~48–72h post-entrenamiento · Con frecuencia 1: 4–5 días sin estímulo anabólico activo</div>
+    </div>
+  </div>
+
+  <div class="ev-wrap">
+    <table>
+      <thead><tr><th>Split</th><th>Frecuencia/músculo</th><th>Días entrenamiento</th><th>Evidencia a favor</th><th>Limitación principal</th><th>Veredicto</th></tr></thead>
+      <tbody>
+        <tr><td>UL + PPL</td><td>2</td><td>5–6</td><td>Alta distribución, priorización</td><td>Requiere 5–6 días disponibles</td><td><span class="badge bg-g">Óptimo</span></td></tr>
+        <tr><td>Upper/Lower ×2</td><td>2</td><td>4</td><td>Más estudiado, 3 días descanso</td><td>Sesiones largas sin sep. push/pull</td><td><span class="badge bg-g">Óptimo</span></td></tr>
+        <tr><td>Upper/Lower/FB</td><td>2</td><td>3</td><td>Buen balance vida/entrenamiento</td><td>Menor volumen total</td><td><span class="badge bg-y">Muy bueno</span></td></tr>
+        <tr><td>Full Body ×3</td><td>3</td><td>3</td><td>Alta frecuencia técnica, simple</td><td>Volumen/sesión limitado</td><td><span class="badge bg-y">Muy bueno</span></td></tr>
+        <tr><td>Torso/Pierna ×2</td><td>2</td><td>4</td><td>Similar al U/L con variante A/B</td><td>Sin sep. empuje/tirón por defecto</td><td><span class="badge bg-y">Bueno</span></td></tr>
+        <tr><td>PPL ×2</td><td>2</td><td>6</td><td>Separación lógica de patrones</td><td>Recuperación insuficiente, 6 días</td><td><span class="badge bg-o">Aceptable</span></td></tr>
+        <tr><td>Full Body ×4</td><td>4</td><td>4</td><td>Alta frecuencia técnica</td><td>Recuperación comprometida</td><td><span class="badge bg-o">Aceptable</span></td></tr>
+        <tr><td>Arnold Split</td><td>2</td><td>6</td><td>Volumen clásico de culturismo</td><td>Excesivo para atletas naturales</td><td><span class="badge bg-r">Subóptimo</span></td></tr>
+        <tr><td>Specialization</td><td>3+ en objetivo</td><td>4–5</td><td>Muy efectivo a corto plazo</td><td>Desequilibrio si se mantiene</td><td><span class="badge bg-b">Contextual</span></td></tr>
+        <tr><td>Bro Split</td><td>1</td><td>5–6</td><td>Volumen alto por sesión</td><td>Frecuencia subóptima, ineficiente</td><td><span class="badge bg-r">Subóptimo</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="infobox yellow">
+    <div class="infobox-label">📚 Referencias clave</div>
+    <p>
+      <strong>Schoenfeld BJ, Ogborn D, Krieger JW (2016).</strong> Effects of Resistance Training Frequency on Measures of Muscle Hypertrophy: A Systematic Review and Meta-Analysis. Sports Medicine.<br><br>
+      <strong>Ralston GW et al. (2017).</strong> The Effect of Weekly Set Volume on Strength Gain: A Meta-Analysis. Sports Medicine.<br><br>
+      <strong>Colquhoun RJ et al. (2018).</strong> Training Volume, Not Frequency, Indicative of Maximal Strength Adaptations to Resistance Training. Journal of Strength and Conditioning Research.<br><br>
+      <strong>Nota:</strong> La mayoría de los estudios comparan protocolos con <em>volumen igualado</em>. En la práctica, los splits que permiten más calidad en el volumen total (frecuencia 2, recuperación suficiente) tienden a producir mejores resultados que los que concentran demasiado volumen en pocas sesiones o tienen recuperación insuficiente.
+    </p>
+  </div>
+</div>
+</div>
+
+<hr class="div">
+
+<!-- ══════════════════════════════════
+     04 — CÓMO ELEGIR
+══════════════════════════════════ -->
+<div id="como-elegir">
+<div class="section fade-in">
+  <div class="sec-header">
+    <span class="sec-num">04</span>
+    <h2>CÓMO ELEGIR<br><em>TU SPLIT</em></h2>
+  </div>
+
+  <p class="sec-intro">La mejor rutina es la que podés ejecutar de forma consistente con suficiente intensidad y recuperación. Estos son los factores prácticos que deben guiar tu decisión.</p>
+
+  <div class="choose-grid" style="margin-bottom:2rem">
+    <div class="choose-card">
+      <div class="cc-head"><div class="cc-icon">📅</div><div class="cc-title">SEGÚN DÍAS DISPONIBLES</div></div>
+      <ul class="cc-list">
+        <li><strong>3 días/semana:</strong> Full Body ×3 o Upper/Lower/Full Body. Son las mejores opciones con 3 días, ambas con frecuencia 2–3.</li>
+        <li><strong>4 días/semana:</strong> Upper/Lower ×2 es la opción casi perfecta. Torso/Pierna ×2 como alternativa equivalente.</li>
+        <li><strong>5 días/semana:</strong> UL+PPL en variante de 5 días. Excelente distribución con un día de descanso en el medio.</li>
+        <li><strong>6 días/semana:</strong> UL+PPL completo. Si tenés capacidad de recuperación alta. El PPL×2 también funciona pero con más riesgo de acumulación de fatiga.</li>
+      </ul>
+    </div>
+    <div class="choose-card">
+      <div class="cc-head"><div class="cc-icon">🎯</div><div class="cc-title">SEGÚN OBJETIVO PRINCIPAL</div></div>
+      <ul class="cc-list">
+        <li><strong>Fuerza máxima en básicos:</strong> cualquier split con frecuencia 2–3 en los patrones principales. Upper/Lower ×2 o Full Body ×3 permiten practicar sentadilla, banca y peso muerto 2–3 veces por semana.</li>
+        <li><strong>Hipertrofia equilibrada:</strong> Upper/Lower ×2 o UL+PPL. Mayor volumen total con buena distribución.</li>
+        <li><strong>Corregir un punto débil:</strong> Specialization Split por 4–8 semanas, luego volver al split base.</li>
+        <li><strong>Principiante:</strong> Full Body ×3 para los primeros 3–6 meses. Máxima práctica del patrón motor.</li>
+      </ul>
+    </div>
+    <div class="choose-card">
+      <div class="cc-head"><div class="cc-icon">⚡</div><div class="cc-title">SEGÚN NIVEL DE ENTRENAMIENTO</div></div>
+      <ul class="cc-list">
+        <li><strong>Principiante (0–1 año):</strong> Full Body ×3. La frecuencia alta acelera el aprendizaje técnico y las adaptaciones neurales.</li>
+        <li><strong>Intermedio (1–3 años):</strong> Upper/Lower ×2 o UL/FB. El volumen por sesión ya puede ser suficiente para generar estímulo con frecuencia 2.</li>
+        <li><strong>Avanzado (3+ años):</strong> UL+PPL o PPL×2. Necesitás más volumen total y mayor especificidad para seguir progresando.</li>
+        <li><strong>Sin importar el nivel:</strong> nunca Bro Split como opción principal. No lo justifica la evidencia.</li>
+      </ul>
+    </div>
+    <div class="choose-card">
+      <div class="cc-head"><div class="cc-icon">🔁</div><div class="cc-title">FACTORES A IGNORAR AL ELEGIR</div></div>
+      <ul class="cc-list">
+        <li><strong>Popularidad:</strong> el Bro Split fue el split más popular durante décadas. La popularidad no es correlato de efectividad.</li>
+        <li><strong>"Lo que hace el atleta que admiro":</strong> el contexto de recuperación de atletas de élite o con asistencia farmacológica es radicalmente diferente al de un atleta natural.</li>
+        <li><strong>La complejidad:</strong> un split más complicado no es mejor. El Upper/Lower ×2, siendo simple, supera a casi todos en resultados prácticos.</li>
+        <li><strong>La sensación de fatiga post-entrenamiento:</strong> terminar agotado no indica que el split sea bueno. Indica que hiciste demasiado o descansaste demasiado poco.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="infobox orange">
+    <div class="infobox-label">⚠️ La trampa del split perfecto</div>
+    <p>Ningún split produce resultados si no está acompañado de <strong>progresión de cargas</strong>, <strong>suficiente proteína</strong> y <strong>sueño de calidad</strong>. Un Upper/Lower ×2 ejecutado con progresión consistente durante 2 años siempre superará al split más sofisticado ejecutado de forma inconsistente. <strong>La adherencia y la consistencia son más importantes que el split elegido.</strong> El split "óptimo" que no podés sostener siempre pierde contra el split "bueno" que hacés todos los meses del año.</p>
+  </div>
+
+  <div class="cards c3">
+    <div class="card">
+      <div class="card-icon">🚀</div>
+      <h3>EMPEZÁS DESDE CERO</h3>
+      <p><strong>Full Body ×3</strong> durante los primeros 3–6 meses. Lun/Mié/Vie o similar. Enfocate en los 5 patrones básicos: sentadilla, empuje horizontal, tirón vertical, bisagra y press vertical. Cuando los patrones estén sólidos y el volumen empiece a ser insuficiente, pasá al Upper/Lower ×2.</p>
+      <span class="ctag g">Recomendado</span>
+    </div>
+    <div class="card y">
+      <div class="card-icon">📈</div>
+      <h3>YA TENÉS BASE</h3>
+      <p><strong>Upper/Lower ×2</strong> es el destino. Implementá la variante A/B para alternar prioridades. Usá los primeros 2–4 mesociclos para ajustar el volumen por sesión y la selección de ejercicios. Cuando el volumen del U/L ya no sea suficiente, considerá el UL+PPL.</p>
+      <span class="ctag y">Destino ideal</span>
+    </div>
+    <div class="card b">
+      <div class="card-icon">🏆</div>
+      <h3>NIVEL AVANZADO</h3>
+      <p><strong>UL+PPL</strong> o <strong>PPL×2</strong> con atención especial a la recuperación. A este nivel, la nutrición, el sueño y la gestión del estrés impactan más en los resultados que el split específico elegido. Considerá bloquear periodos de specialization para puntos débiles entre mesociclos regulares.</p>
+      <span class="ctag b">Avanzado</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<hr class="div">
+<footer>
+  <p>Ranking de <span>SPLITS DE ENTRENAMIENTO</span> — Fuerza e Hipertrofia</p>
+  <p style="margin-top:.4rem">Puntuaciones basadas en frecuencia, volumen, recuperación y evidencia científica actual. La adherencia siempre supera al split perfecto.</p>
+</footer>
+
+<script>
+// Fade in
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.07});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+// Toggle rank items
+function toggleRank(id){
+  const item=document.getElementById(id);
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.rank-item.open').forEach(i=>{
+    i.classList.remove('open');
+    i.querySelector('.rank-toggle').textContent='+ ver';
+  });
+  if(!isOpen){
+    item.classList.add('open');
+    item.querySelector('.rank-toggle').textContent='− cerrar';
+  }
+}
+</script>
+</body>
+</html>
