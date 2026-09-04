@@ -1,0 +1,1831 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrenamiento de Fuerza — Fundamentos y Principios</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: #2a2a2a;
+    --accent: #e8ff00;
+    --accent2: #ff4d00;
+    --text: #f0f0f0;
+    --muted: #888;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --display: 'Bebas Neue', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .nav-logo { font-family: var(--display); font-size: 1.4rem; letter-spacing: 0.05em; color: var(--accent); }
+  .nav-links { display: flex; gap: 0.2rem; }
+  .nav-links a {
+    font-family: var(--mono); font-size: 0.7rem; color: var(--muted);
+    text-decoration: none; padding: 0.4rem 0.7rem; border-radius: 4px;
+    transition: all 0.2s; letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .nav-links a:hover { color: var(--accent); background: rgba(232,255,0,0.06); }
+  .nav-links a.external:hover { color: var(--accent2); background: rgba(255,77,0,0.06); }
+  .nav-links a.external .ext-icon { font-size: 0.65em; margin-left: 0.15em; opacity: 0.7; }
+
+  /* NAV BURGER (mobile) */
+  .nav-burger {
+    display: none;
+    flex-direction: column; justify-content: center; gap: 5px;
+    width: 32px; height: 32px;
+    background: none; border: none; cursor: pointer; padding: 0;
+    z-index: 101;
+  }
+  .nav-burger span {
+    display: block; width: 100%; height: 2px;
+    background: var(--text);
+    transition: transform 0.25s ease, opacity 0.2s ease;
+  }
+  .nav-burger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-burger.active span:nth-child(2) { opacity: 0; }
+  .nav-burger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  @media (max-width: 700px) {
+    .nav-burger { display: flex; }
+    .nav-links {
+      display: none;
+      position: fixed; top: 56px; left: 0; right: 0;
+      flex-direction: column; gap: 0;
+      background: rgba(10,10,10,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.5rem 1.2rem 1rem;
+      max-height: calc(100vh - 56px);
+      overflow-y: auto;
+    }
+    .nav-links.mobile-open { display: flex; }
+    .nav-links a {
+      padding: 0.9rem 0.3rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.72rem;
+    }
+    .nav-links a:last-child { border-bottom: none; }
+  }
+
+  /* SUBNAV (secciones internas de esta guía) */
+  .subnav { border-bottom: 1px solid var(--border); }
+  .subnav-links {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; flex-wrap: wrap; gap: 0.2rem;
+    padding: 1rem 2rem; justify-content: center;
+  }
+  .subnav-links a {
+    font-family: var(--mono); font-size: 0.7rem; color: var(--muted);
+    text-decoration: none; padding: 0.4rem 0.8rem; border-radius: 4px;
+    transition: all 0.2s; letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .subnav-links a:hover { color: var(--accent); background: rgba(232,255,0,0.06); }
+  @media (max-width: 700px) {
+    .subnav-links { padding: 0.8rem 1.2rem; gap: 0.1rem; }
+    .subnav-links a { font-size: 0.62rem; padding: 0.35rem 0.5rem; }
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(232,255,0,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,255,0,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%);
+  }
+  .hero-tag {
+    font-family: var(--mono); font-size: 0.7rem; color: var(--accent);
+    letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.7rem;
+  }
+  .hero-tag::before { content: ''; display: block; width: 2rem; height: 1px; background: var(--accent); }
+  .hero h1 {
+    font-family: var(--display);
+    font-size: clamp(4rem, 12vw, 10rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+  .hero h1 span { color: var(--accent); display: block; }
+  .hero-sub {
+    font-size: 1rem; color: var(--muted); max-width: 520px;
+    font-weight: 300; margin-bottom: 2rem; line-height: 1.7;
+  }
+  .hero-objective-wrap {
+    display: flex; align-items: center; gap: 0.9rem;
+    margin-bottom: 2rem; flex-wrap: wrap;
+  }
+  .hero-objective-label {
+    font-family: var(--mono); font-size: 0.65rem; color: var(--muted);
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .hero-objective-select {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); font-family: var(--mono); font-size: 0.78rem;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 0.55rem 2.2rem 0.55rem 1rem;
+    outline: none; cursor: pointer; appearance: none; -webkit-appearance: none;
+    border-radius: 2px; transition: border-color 0.2s;
+    background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+    background-position: calc(100% - 16px) calc(50% - 2px), calc(100% - 11px) calc(50% - 2px);
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+  }
+  .hero-objective-select:focus,
+  .hero-objective-select:hover { border-color: var(--accent); }
+  .hero-stats {
+    display: flex; gap: 3rem; flex-wrap: wrap;
+  }
+  .stat { display: flex; flex-direction: column; gap: 0.2rem; }
+  .stat-num { font-family: var(--display); font-size: 2.2rem; color: var(--accent2); line-height: 1; }
+  .stat-label { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* SECTION WRAPPER */
+  .section {
+    max-width: 1100px; margin: 0 auto; padding: 5rem 2rem;
+  }
+  .section-header {
+    display: flex; align-items: flex-start; gap: 1.5rem;
+    margin-bottom: 3rem; padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    font-family: var(--mono); font-size: 0.7rem; color: var(--accent);
+    letter-spacing: 0.1em; margin-top: 0.5rem; min-width: 2.5rem;
+  }
+  .section h2 {
+    font-family: var(--display); font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1; letter-spacing: 0.03em;
+  }
+  .section h2 em { font-style: normal; color: var(--accent); }
+
+  /* CARDS GRID */
+  .cards { display: grid; gap: 1px; background: var(--border); }
+  .cards-2 { grid-template-columns: 1fr 1fr; }
+  .cards-3 { grid-template-columns: repeat(3, 1fr); }
+  .card {
+    background: var(--surface);
+    padding: 2rem;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 3px; height: 0;
+    background: var(--accent);
+    transition: height 0.3s ease;
+  }
+  .card:hover { background: var(--surface2); }
+  .card:hover::before { height: 100%; }
+  .card-icon { font-size: 1.5rem; margin-bottom: 1rem; }
+  .card h3 { font-family: var(--display); font-size: 1.4rem; letter-spacing: 0.04em; margin-bottom: 0.7rem; }
+  .card p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+  .card-tag {
+    display: inline-block; margin-top: 1rem;
+    font-family: var(--mono); font-size: 0.65rem;
+    color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase;
+    border: 1px solid rgba(232,255,0,0.3); padding: 0.2rem 0.5rem; border-radius: 2px;
+  }
+  .card-tag.orange { color: var(--accent2); border-color: rgba(255,77,0,0.3); }
+
+  /* PRINCIPLE BLOCK */
+  .principle-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    margin-bottom: 1px;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 2rem;
+    align-items: start;
+    transition: border-color 0.2s;
+  }
+  .principle-block:hover { border-color: rgba(232,255,0,0.3); }
+  .principle-num {
+    font-family: var(--display); font-size: 4rem; color: var(--border);
+    line-height: 1; text-align: right;
+    transition: color 0.2s;
+  }
+  .principle-block:hover .principle-num { color: rgba(232,255,0,0.2); }
+  .principle-title { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.04em; margin-bottom: 0.6rem; }
+  .principle-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.8; }
+  .principle-formula {
+    margin-top: 1rem; padding: 0.8rem 1rem;
+    background: var(--bg); border-left: 2px solid var(--accent);
+    font-family: var(--mono); font-size: 0.8rem; color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+  .principle-block.expandable { cursor: pointer; }
+  .principle-toggle-label {
+    display: inline-block; margin-top: 1rem;
+    font-family: var(--mono); font-size: 0.68rem; color: var(--accent);
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .principle-extra { display: none; }
+  .principle-block.expandable.open .principle-extra {
+    display: block; margin-top: 1.8rem; padding-top: 1.8rem;
+    border-top: 1px solid var(--border);
+  }
+  .principle-extra .principle-block {
+    border: none; padding: 1.5rem 0; margin-bottom: 0;
+  }
+  .principle-extra .principle-block:hover { border-color: transparent; }
+  .principle-extra .principle-block:hover .principle-num { color: var(--border); }
+
+  /* PROGRESSION TABLE */
+  .prog-table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  thead tr { border-bottom: 2px solid var(--accent); }
+  th {
+    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent); padding: 1rem 1.2rem; text-align: left;
+  }
+  td { padding: 1rem 1.2rem; border-bottom: 1px solid var(--border); color: var(--muted); }
+  tr:hover td { background: var(--surface2); color: var(--text); }
+  td:first-child { color: var(--text); font-weight: 600; }
+  .badge {
+    display: inline-block; padding: 0.15rem 0.5rem; border-radius: 2px;
+    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.05em;
+  }
+  .badge-green { background: rgba(0,255,100,0.1); color: #00ff64; }
+  .badge-yellow { background: rgba(232,255,0,0.1); color: var(--accent); }
+  .badge-orange { background: rgba(255,77,0,0.1); color: var(--accent2); }
+  .badge-red { background: rgba(255,50,50,0.1); color: #ff5050; }
+
+  /* SCHEME CARDS */
+  .scheme-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1px; background: var(--border); }
+  .scheme-card {
+    background: var(--surface); padding: 2rem;
+    border-top: 3px solid transparent;
+    transition: all 0.25s;
+  }
+  .scheme-card.primary { border-top-color: var(--accent); }
+  .scheme-card.secondary { border-top-color: var(--accent2); }
+  .scheme-card.tertiary { border-top-color: #888; }
+  .scheme-card:hover { background: var(--surface2); }
+  .scheme-name { font-family: var(--display); font-size: 1.8rem; letter-spacing: 0.04em; margin-bottom: 0.3rem; }
+  .scheme-sub { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; margin-bottom: 1.5rem; }
+  .scheme-sets {
+    display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.5rem;
+  }
+  .set-pill {
+    padding: 0.3rem 0.7rem; background: var(--bg);
+    border: 1px solid var(--border);
+    font-family: var(--mono); font-size: 0.75rem; color: var(--text);
+    border-radius: 2px;
+  }
+  .scheme-pros { font-size: 0.83rem; color: var(--muted); line-height: 1.7; }
+  .scheme-pros li { list-style: none; padding-left: 1rem; position: relative; margin-bottom: 0.3rem; }
+  .scheme-pros li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 0.75rem; }
+
+  /* PERIODIZACIÓN */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--border); }
+  .timeline-item { position: relative; margin-bottom: 2.5rem; }
+  .timeline-dot {
+    position: absolute; left: -2.4rem; top: 0.3rem;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px rgba(232,255,0,0.15);
+  }
+  .timeline-week { font-family: var(--mono); font-size: 0.65rem; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+  .timeline-title { font-family: var(--display); font-size: 1.3rem; letter-spacing: 0.04em; margin-bottom: 0.4rem; }
+  .timeline-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+  .timeline-intensity {
+    display: flex; gap: 3px; margin-top: 0.7rem;
+  }
+  .int-bar {
+    height: 4px; border-radius: 2px;
+    background: var(--border);
+    flex: 1;
+  }
+  .int-bar.filled { background: var(--accent); }
+  .int-bar.filled.orange { background: var(--accent2); }
+
+  /* RPE */
+  .rpe-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; background: var(--border); }
+  .rpe-card {
+    background: var(--surface); padding: 1.5rem;
+    display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .rpe-val { font-family: var(--display); font-size: 2.5rem; line-height: 1; }
+  .rpe-label { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .rpe-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+  .rpe-card[data-level="low"] .rpe-val { color: #00cc52; }
+  .rpe-card[data-level="med"] .rpe-val { color: var(--accent); }
+  .rpe-card[data-level="high"] .rpe-val { color: var(--accent2); }
+  .rpe-card[data-level="max"] .rpe-val { color: #ff3333; }
+
+  /* EJERCICIOS */
+  .exercise-list { display: grid; gap: 1px; background: var(--border); }
+  .exercise-item {
+    background: var(--surface); padding: 1.8rem 2rem;
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: center; gap: 2rem;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .exercise-item:hover { background: var(--surface2); }
+  .exercise-name { font-family: var(--display); font-size: 1.5rem; letter-spacing: 0.04em; margin-bottom: 0.3rem; }
+  .exercise-meta { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.06em; }
+  .exercise-detail { display: none; }
+  .exercise-item.open .exercise-detail {
+    display: block; margin-top: 1.2rem; padding-top: 1.2rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.85rem; color: var(--muted); line-height: 1.8;
+    grid-column: 1 / -1;
+  }
+  .exercise-toggle { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); white-space: nowrap; }
+  .progress-protocol { margin-top: 1rem; }
+  .progress-protocol h4 { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+  .protocol-steps { display: flex; flex-direction: column; gap: 0.3rem; }
+  .protocol-step {
+    display: flex; gap: 1rem; font-size: 0.8rem;
+    padding: 0.5rem 0.8rem; background: var(--bg);
+    border-left: 2px solid var(--border);
+  }
+  .protocol-step .step-n { font-family: var(--mono); color: var(--accent); min-width: 1.5rem; }
+
+  /* DELOAD */
+  .info-box {
+    background: rgba(232,255,0,0.04);
+    border: 1px solid rgba(232,255,0,0.15);
+    padding: 2rem; border-radius: 4px;
+    margin-bottom: 2rem;
+  }
+  .info-box.orange {
+    background: rgba(255,77,0,0.04);
+    border-color: rgba(255,77,0,0.15);
+  }
+  .info-box-title { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.7rem; }
+  .info-box.orange .info-box-title { color: var(--accent2); }
+  .info-box p { font-size: 0.88rem; color: var(--muted); line-height: 1.8; }
+
+  /* SUBSECTIONS (dentro de una sección numerada) */
+  .subsection-title { font-family: var(--display); font-size: 1.8rem; letter-spacing: 0.03em; color: var(--text); margin: 0 0 1rem; }
+  .lead-text { font-size: 0.9rem; color: var(--muted); max-width: 750px; line-height: 1.8; margin-bottom: 1.5rem; }
+  .source-tag { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); margin-top: 0.8rem; }
+
+  /* CALCULATOR */
+  .calc-container {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 2.5rem;
+  }
+  .calc-title { font-family: var(--display); font-size: 2rem; letter-spacing: 0.04em; margin-bottom: 1.5rem; }
+  .calc-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+  .calc-field label {
+    display: block; font-family: var(--mono); font-size: 0.65rem;
+    color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;
+  }
+  .calc-field input, .calc-field select {
+    width: 100%; background: var(--bg); border: 1px solid var(--border);
+    color: var(--text); font-family: var(--mono); font-size: 0.9rem;
+    padding: 0.7rem 1rem; outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+  .calc-field input:focus, .calc-field select:focus { border-color: var(--accent); }
+  .calc-btn {
+    background: var(--accent); color: #000; border: none;
+    font-family: var(--display); font-size: 1.2rem; letter-spacing: 0.08em;
+    padding: 0.9rem 2.5rem; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .calc-btn:hover { background: #fff; transform: translateY(-1px); }
+  .calc-results { margin-top: 2rem; display: none; }
+  .calc-results.visible { display: block; }
+  .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px; background: var(--border); }
+  #result-grid { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 700px) {
+    #result-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .result-card { background: var(--bg); padding: 1.2rem; display: flex; flex-direction: column; }
+  .result-pct { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); margin-bottom: 0.3rem; min-height: 2.6em; }
+  .result-value { margin-top: auto; padding-top: 0.6rem; }
+  .result-weight { font-family: var(--display); font-size: 1.8rem; color: var(--accent); }
+  .result-reps { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); margin-top: 0.2rem; }
+
+  /* PIRÁMIDE */
+  .pyramid-outer { display: flex; justify-content: center; padding: 1rem 0 2rem; }
+  .pyramid-container { width: 100%; max-width: 620px; }
+  .pyramid-periodizacion-group { position: relative; }
+  .pyramid-apex {
+    height: 40px; margin: 0 auto 2px;
+    background: var(--accent);
+    clip-path: polygon(50% 0%, 64% 100%, 36% 100%);
+  }
+  .pyramid-level {
+    height: 62px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; margin: 0 auto 2px; padding: 0 1.2rem;
+    color: #0a0a0a; overflow: hidden;
+  }
+  .pyramid-num {
+    font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em;
+    opacity: 0.75; margin-bottom: 0.15rem;
+  }
+  .pyramid-title {
+    font-family: var(--display); font-size: 1.05rem; letter-spacing: 0.03em;
+    line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  .pyramid-l1 { clip-path: polygon(6% 0%, 94% 0%, 100% 100%, 0% 100%); background: #ff4d00; }
+  .pyramid-l2 { clip-path: polygon(12% 0%, 88% 0%, 94% 100%, 6% 100%); background: #fa7100; }
+  .pyramid-l3 { clip-path: polygon(18% 0%, 82% 0%, 88% 100%, 12% 100%); background: #f69400; }
+  .pyramid-l4 { clip-path: polygon(24% 0%, 76% 0%, 82% 100%, 18% 100%); background: #f1b800; }
+  .pyramid-l4 .pyramid-title { font-size: 0.82rem; }
+  .pyramid-l5 { clip-path: polygon(30% 0%, 70% 0%, 76% 100%, 24% 100%); background: #eddb00; }
+  .pyramid-l5 .pyramid-title { font-size: 0.72rem; letter-spacing: 0.01em; }
+  .pyramid-l6 { clip-path: polygon(36% 0%, 64% 0%, 70% 100%, 30% 100%); background: var(--accent); }
+  .pyramid-l6 .pyramid-title { font-size: 0.95rem; }
+  .pyramid-bracket {
+    position: absolute; top: 0; bottom: 0; right: -28px; width: 16px;
+    border-top: 1px dashed var(--muted);
+    border-right: 1px dashed var(--muted);
+    border-bottom: 1px dashed var(--muted);
+  }
+  .pyramid-bracket-label {
+    position: absolute; top: 50%; right: -70px;
+    transform: translateY(-50%);
+    writing-mode: vertical-rl;
+    font-family: var(--mono); font-size: 0.7rem; color: var(--muted);
+    letter-spacing: 0.18em; text-transform: uppercase; white-space: nowrap;
+  }
+  @media (max-width: 700px) {
+    .pyramid-bracket { right: -18px; width: 10px; }
+    .pyramid-bracket-label { right: -42px; font-size: 0.6rem; }
+    .pyramid-title { font-size: 0.85rem; }
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 2rem;
+    text-align: center;
+    font-family: var(--mono); font-size: 0.7rem; color: var(--border);
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  footer span { color: var(--accent); }
+
+  /* DIVIDER */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    .cards-2, .cards-3 { grid-template-columns: 1fr; }
+    .calc-inputs { grid-template-columns: 1fr; }
+    .principle-block { grid-template-columns: 1fr; }
+    .principle-num { text-align: left; font-size: 2.5rem; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+    .section { padding: 3rem 1.2rem; }
+    .exercise-item { grid-template-columns: 1fr; }
+  }
+
+  /* SCROLL ANIMATIONS */
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#inicio" class="nav-logo" style="text-decoration:none;">FUERZA & FORMA</a>
+  <div class="nav-links" id="nav-links">
+    <a class="external" href="guia-principiantes.html" target="_blank" rel="noopener">Guía para principiantes <span class="ext-icon">↗</span></a>
+    <a class="external" href="hiit-guia-completa.html" target="_blank" rel="noopener">Guía para HIIT <span class="ext-icon">↗</span></a>
+    <a class="external" href="generar-rutina.html" target="_blank" rel="noopener">Generar rutina <span class="ext-icon">↗</span></a>
+    <a class="external" href="splits-ranking-completo.html" target="_blank" rel="noopener">Splits de entrenamiento <span class="ext-icon">↗</span></a>
+    <a class="external" href="anatomia_muscular_v7.html" target="_blank" rel="noopener">Anatomía <span class="ext-icon">↗</span></a>
+  </div>
+  <button class="nav-burger" id="nav-burger" aria-label="Abrir menú" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-grid"></div>
+  <div class="hero-tag">Guía completa de entrenamiento</div>
+  <h1>FUERZA<span>FUNDAMENTOS<br>Y PRINCIPIOS</span></h1>
+  <p class="hero-sub">Un sistema ordenado para entrenar fuerza: cómo programar series, repeticiones e intensidad según tu objetivo — fuerza máxima, hipertrofia o resistencia — en los básicos: press banca, sentadilla, dominadas lastradas, press militar y más.</p>
+
+  <div class="hero-objective-wrap">
+    <label for="hero-objective-select" class="hero-objective-label">Elegí tu objetivo:</label>
+    <select id="hero-objective-select" class="hero-objective-select">
+      <option value="fuerza">Fuerza</option>
+      <option value="hipertrofia">Hipertrofia</option>
+      <option value="resistencia">Resistencia</option>
+      <option value="potencia">Potencia</option>
+    </select>
+  </div>
+
+  <div class="hero-stats" id="hero-stats">
+    <div class="stat"><div class="stat-num" id="stat-num-1">1–5</div><div class="stat-label" id="stat-label-1">Reps de fuerza</div></div>
+    <div class="stat"><div class="stat-num" id="stat-num-2">85–100%</div><div class="stat-label" id="stat-label-2">Intensidad 1RM</div></div>
+    <div class="stat"><div class="stat-num" id="stat-num-3">4–6</div><div class="stat-label" id="stat-label-3">Semanas por bloque</div></div>
+    <div class="stat"><div class="stat-num" id="stat-num-4">RPE</div><div class="stat-label" id="stat-label-4">Autorregulación</div></div>
+  </div>
+</section>
+
+<!-- SUBNAV: secciones internas de esta guía -->
+<div class="subnav">
+  <div class="subnav-links">
+    <a href="#fundamentos">Fundamentos</a>
+    <a href="#beneficios">Beneficios</a>
+    <a href="#principios">Principios</a>
+    <a href="#piramide">Pirámide</a>
+    <a href="#hipertrofia">Hipertrofia</a>
+    <a href="#esquemas">Esquemas</a>
+    <a href="#entrada-calor">Entrada en calor</a>
+    <a href="#ejercicios">Ejercicios</a>
+    <a href="#calculadora">Calculadora</a>
+  </div>
+</div>
+
+<!-- 1. FUNDAMENTOS -->
+<div id="fundamentos" style="border-bottom:1px solid var(--border)">
+<div class="section fade-in">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2>FUNDAMENTOS DEL<br><em>ENTRENAMIENTO DE FUERZA</em></h2>
+  </div>
+
+  <div class="info-box" style="margin-bottom:2rem">
+    <div class="info-box-title">⚡ Antes de empezar — entiende esto</div>
+    <p>El entrenamiento de fuerza con objetivo de <strong style="color:var(--text)">fuerza máxima</strong> es diferente al entrenamiento de hipertrofia. El foco no es el volumen ni el pump: es <strong style="color:var(--text)">mover cargas altas con técnica sólida y adaptación neuromuscular</strong>. Las rep ranges son bajas (1–5), las intensidades son altas (80–95%+ del 1RM), y la progresión es el corazón del sistema.</p>
+  </div>
+
+  <div class="cards cards-3">
+    <div class="card">
+      <div class="card-icon">🧠</div>
+      <h3>ADAPTACIÓN NEURAL</h3>
+      <p>En las primeras semanas y en pesos altos, la mayor ganancia de fuerza viene de mejorar la coordinación intramuscular, la sincronización de unidades motoras y la reducción de inhibición neural. No es solo músculo más grande.</p>
+      <span class="card-tag">Neurológico</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎯</div>
+      <h3>¿QUÉ ES EL 1RM?</h3>
+      <p>El <strong style="color:var(--text)">1 Rep Max (1RM)</strong> es el máximo peso que puedes mover en una sola repetición con técnica correcta. Es la referencia universal del entrenamiento de fuerza. Todas las intensidades de entrenamiento se calculan como porcentaje de este valor.</p>
+      <span class="card-tag">Referencia base</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">💡</div>
+      <h3>INTENSIDAD vs VOLUMEN</h3>
+      <p>Para fuerza máxima, el parámetro principal es la <strong style="color:var(--text)">intensidad</strong> (% del 1RM). El volumen (series × reps) es secundario pero necesario para acumular adaptaciones. La gran diferencia con hipertrofia: en fuerza, el volumen TOTAL es menor, pero la carga por serie es MUY superior.</p>
+      <span class="card-tag orange">Clave de fuerza</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 2. BENEFICIOS -->
+<div id="beneficios" style="border-bottom:1px solid var(--border)">
+<div class="section fade-in">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2>BENEFICIOS DEL<br><em>ENTRENAMIENTO DE FUERZA</em></h2>
+  </div>
+
+  <div class="cards cards-3">
+    <div class="card">
+      <div class="card-icon">💪</div>
+      <h3>AUMENTO DE LA FUERZA MUSCULAR</h3>
+      <p>Permite levantar pesos más pesados y realizar actividades cotidianas con mayor facilidad.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📏</div>
+      <h3>MEJORA DE LA MASA MUSCULAR</h3>
+      <p>Contribuye al aumento del tamaño muscular, lo que puede ser beneficioso para la estética y el metabolismo.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🦴</div>
+      <h3>FORTALECIMIENTO DE HUESOS Y ARTICULACIONES</h3>
+      <p>Reduce el riesgo de lesiones y mejora la salud ósea.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚖️</div>
+      <h3>MEJORA DE LA COMPOSICIÓN CORPORAL</h3>
+      <p>Ayuda a quemar grasa y a aumentar la masa muscular, lo que puede llevar a una composición corporal más saludable.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🧘</div>
+      <h3>BENEFICIOS PSICOLÓGICOS</h3>
+      <p>Aumenta la confianza, la autoestima y puede ayudar a reducir el estrés y la ansiedad.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏆</div>
+      <h3>MEJORA DEL RENDIMIENTO DEPORTIVO</h3>
+      <p>En deportes que requieren fuerza, potencia o resistencia, el entrenamiento de fuerza puede mejorar significativamente el rendimiento.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 3. PRINCIPIOS -->
+<div id="principios" style="border-bottom:1px solid var(--border)">
+<div class="section fade-in">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2>PRINCIPIOS DEL<br><em>ENTRENAMIENTO DE FUERZA</em></h2>
+  </div>
+
+  <p style="color:var(--muted); font-size:0.9rem; margin-bottom:2.5rem; max-width:700px;">Son la base para cualquier tipo de entrenamiento de fuerza, sea orientado a masa muscular o rendimiento.</p>
+
+  <div class="principle-block expandable" onclick="togglePrincipio(this)">
+    <div class="principle-num">01</div>
+    <div>
+      <div class="principle-title">SOBRECARGA PROGRESIVA</div>
+      <p class="principle-desc">El músculo necesita estímulos cada vez más demandantes para seguir adaptándose. Puede ser más peso, más repeticiones, más series, menos descanso, mayor rango de movimiento o mayor control técnico.</p>
+      <span class="principle-toggle-label" data-closed="+ VER MODELOS DE PROGRESIÓN" data-open="− CERRAR">+ VER MODELOS DE PROGRESIÓN</span>
+
+      <div class="principle-extra">
+        <div class="principle-block">
+          <div class="principle-num">01</div>
+          <div>
+            <div class="principle-title">PROGRESIÓN LINEAL</div>
+            <p class="principle-desc">El modelo más simple y efectivo para principiantes e intermedios: <strong style="color:var(--text)">añadir peso cada sesión</strong>. Funciona porque el sistema nervioso de un principiante se adapta muy rápido. Cuando deja de funcionar sesión a sesión, se pasa a progresión semanal.</p>
+            <div class="principle-formula">Sesión 1: 80kg × 5 → Sesión 2: 82.5kg × 5 → Sesión 3: 85kg × 5</div>
+          </div>
+        </div>
+
+        <div class="principle-block">
+          <div class="principle-num">02</div>
+          <div>
+            <div class="principle-title">PROGRESIÓN DOBLE (REP + PESO)</div>
+            <p class="principle-desc">Cuando la progresión lineal se agota, usás un rango de repeticiones. <strong style="color:var(--text)">Primero llegás al límite superior del rango, luego subís el peso y volvés al límite inferior</strong>. Muy usado en el entrenamiento de fuerza 3–5 o 4–6 repeticiones.</p>
+            <div class="principle-formula">3×3 @ 100kg → 3×4 @ 100kg → 3×5 @ 100kg → 3×3 @ 105kg</div>
+          </div>
+        </div>
+
+        <div class="principle-block">
+          <div class="principle-num">03</div>
+          <div>
+            <div class="principle-title">PROGRESIÓN POR SERIES (VOLUMEN)</div>
+            <p class="principle-desc">Incrementás el número de series manteniendo el peso estable. Útil cuando la técnica no está lista para más carga, o como herramienta de acumulación de volumen antes de un bloque intensivo.</p>
+            <div class="principle-formula">2×5 @ 90kg → 3×5 @ 90kg → 4×5 @ 90kg → 3×5 @ 95kg</div>
+          </div>
+        </div>
+
+        <div class="principle-block">
+          <div class="principle-num">04</div>
+          <div>
+            <div class="principle-title">AUTORREGULACIÓN / RPE</div>
+            <p class="principle-desc">El <strong style="color:var(--text)">RPE (Rate of Perceived Exertion)</strong> es una escala del 1 al 10 que indica el esfuerzo percibido. Un RPE 8 significa que podrías hacer 2 reps más. Este sistema permite ajustar la carga según tu estado real del día (sueño, estrés, fatiga acumulada), siendo más inteligente que porcentajes fijos siempre.</p>
+            <div class="principle-formula">Objetivo: 4×3 @ RPE 8 → Hoy tenés sueño → Bajás 5kg → igual cumplís el objetivo real</div>
+          </div>
+        </div>
+
+        <div class="principle-block">
+          <div class="principle-num">05</div>
+          <div>
+            <div class="principle-title">PRINCIPIO DE DELOAD</div>
+            <p class="principle-desc">Cada 4–6 semanas de acumulación de carga, es necesario una <strong style="color:var(--text)">semana de descarga</strong>: reducís volumen e intensidad un 40–60%. Esto no es descanso pasivo: el deload activo permite que el sistema nervioso y los tejidos se recuperen completamente, resultando en un rendimiento superior en el siguiente bloque.</p>
+            <div class="principle-formula">Semanas 1–5: carga progresiva → Semana 6: deload (60% del volumen, -10% intensidad)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="principle-block">
+    <div class="principle-num">02</div>
+    <div>
+      <div class="principle-title">ESPECIFICIDAD</div>
+      <p class="principle-desc">El cuerpo se adapta a lo que le pedís. Si entrenás pesado y pocas repeticiones, vas a ganar más fuerza máxima; si entrenás con más volumen y repeticiones moderadas, vas a favorecer la hipertrofia.</p>
+    </div>
+  </div>
+
+  <div class="principle-block">
+    <div class="principle-num">03</div>
+    <div>
+      <div class="principle-title">INDIVIDUALIDAD</div>
+      <p class="principle-desc">La respuesta al entrenamiento varía según genética, experiencia, edad, recuperación, alimentación y estilo de vida.</p>
+    </div>
+  </div>
+
+  <div class="principle-block expandable" onclick="togglePrincipio(this)">
+    <div class="principle-num">04</div>
+    <div>
+      <div class="principle-title">PERIODIZACIÓN (O VARIEDAD)</div>
+      <p class="principle-desc">El estímulo debe cambiar a lo largo del tiempo para evitar estancamientos: ajustar ejercicios, rangos de repeticiones, velocidad, descansos, etc.</p>
+      <span class="principle-toggle-label" data-closed="+ VER ORGANIZACIÓN DEL ENTRENAMIENTO" data-open="− CERRAR">+ VER ORGANIZACIÓN DEL ENTRENAMIENTO</span>
+
+      <div class="principle-extra">
+        <div class="cards cards-2" style="margin-bottom:3rem">
+          <div class="card">
+            <h3>PERIODIZACIÓN LINEAL</h3>
+            <p>Aumentás peso semana a semana de forma constante. Simple y efectiva para principiantes e intermedios. Cuando se acaban los incrementos, se pasa a periodización ondulante o por bloques.</p>
+            <span class="card-tag">Principiantes / Intermedios</span>
+          </div>
+          <div class="card">
+            <h3>PERIODIZACIÓN ONDULANTE (DUP)</h3>
+            <p>Variás volumen e intensidad dentro de la misma semana. Ej: Lunes fuerza (3×3), Miércoles hipertrofia (4×8), Viernes potencia (5×2). Mayor variabilidad de estímulo, ideal para intermedios avanzados.</p>
+            <span class="card-tag orange">Intermedios / Avanzados</span>
+          </div>
+        </div>
+
+        <h3 style="font-family:var(--display); font-size:1.5rem; letter-spacing:0.04em; margin-bottom:1.5rem;">EJEMPLO DE MESOCICLO — 6 SEMANAS</h3>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-week">SEMANAS 1–2</div>
+            <div class="timeline-title">ACUMULACIÓN BASE</div>
+            <div class="timeline-desc">Volumen moderado-alto, intensidad moderada. 4×5 @ 75–80% 1RM. Objetivo: acumular trabajo, reforzar técnica, generar base de adaptación.</div>
+            <div class="timeline-intensity">
+              <div class="int-bar filled"></div><div class="int-bar filled"></div><div class="int-bar filled"></div><div class="int-bar"></div><div class="int-bar"></div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-week">SEMANAS 3–4</div>
+            <div class="timeline-title">INTENSIFICACIÓN</div>
+            <div class="timeline-desc">Volumen disminuye, intensidad sube. 4×3 @ 85–88% 1RM. El cuerpo ya está adaptado, ahora se forza la adaptación neurológica a cargas más altas.</div>
+            <div class="timeline-intensity">
+              <div class="int-bar filled"></div><div class="int-bar filled"></div><div class="int-bar filled"></div><div class="int-bar filled"></div><div class="int-bar"></div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot" style="background:var(--accent2)"></div>
+            <div class="timeline-week">SEMANA 5</div>
+            <div class="timeline-title">PEAK / REALIZACIÓN</div>
+            <div class="timeline-desc">Volumen bajo, intensidad máxima. 3×2 @ 90–93% 1RM. Se busca expresar la fuerza acumulada. Test de 1RM estimado o real al final de la semana.</div>
+            <div class="timeline-intensity">
+              <div class="int-bar filled orange"></div><div class="int-bar filled orange"></div><div class="int-bar filled orange"></div><div class="int-bar filled orange"></div><div class="int-bar filled orange"></div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot" style="background:var(--muted)"></div>
+            <div class="timeline-week">SEMANA 6</div>
+            <div class="timeline-title">DELOAD</div>
+            <div class="timeline-desc">40–60% del volumen habitual, 60–70% 1RM. Recuperación activa del SNC y tejidos. Sin esta semana, la fatiga acumulada impide el progreso en el siguiente ciclo.</div>
+            <div class="timeline-intensity">
+              <div class="int-bar filled"></div><div class="int-bar"></div><div class="int-bar"></div><div class="int-bar"></div><div class="int-bar"></div>
+            </div>
+          </div>
+        </div>
+
+        <br>
+        <h3 style="font-family:var(--display); font-size:1.5rem; letter-spacing:0.04em; margin-bottom:1.5rem;">ESCALA RPE — AUTORREGULACIÓN</h3>
+        <div class="rpe-grid">
+          <div class="rpe-card" data-level="low"><div class="rpe-val">6</div><div class="rpe-label">Muy fácil</div><div class="rpe-desc">Podrías hacer 4+ reps más. Calentamiento, técnica, deload.</div></div>
+          <div class="rpe-card" data-level="low"><div class="rpe-val">7</div><div class="rpe-label">Fácil</div><div class="rpe-desc">3 reps en reserva. Trabajo de acumulación, primeras series.</div></div>
+          <div class="rpe-card" data-level="med"><div class="rpe-val">8</div><div class="rpe-label">Moderado</div><div class="rpe-desc">2 reps en reserva. Zona ideal para trabajo de fuerza en bloques base.</div></div>
+          <div class="rpe-card" data-level="med"><div class="rpe-val">9</div><div class="rpe-label">Duro</div><div class="rpe-desc">1 rep en reserva. Intensificación, últimas series del día.</div></div>
+          <div class="rpe-card" data-level="high"><div class="rpe-val">9.5</div><div class="rpe-label">Muy duro</div><div class="rpe-desc">Quizás 1 rep más. Zona peak, preparación a 1RM.</div></div>
+          <div class="rpe-card" data-level="max"><div class="rpe-val">10</div><div class="rpe-label">Máximo</div><div class="rpe-desc">Sin reps en reserva. Test de 1RM. No frecuente en entrenamiento regular.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="principle-block">
+    <div class="principle-num">05</div>
+    <div>
+      <div class="principle-title">RECUPERACIÓN</div>
+      <p class="principle-desc">El músculo crece y mejora fuera del gimnasio. Dormir bien, alimentarse adecuadamente y dar suficiente tiempo entre sesiones de un mismo grupo muscular son esenciales. La fuerza se gana en el descanso, no en el entrenamiento: estímulo → fatiga → recuperación → supercompensación. Si no descansás adecuadamente, el ciclo no se completa y la progresión se estanca.</p>
+    </div>
+  </div>
+
+  <div class="principle-block">
+    <div class="principle-num">06</div>
+    <div>
+      <div class="principle-title">ADHERENCIA</div>
+      <p class="principle-desc">La mejor rutina es la que podés mantener durante meses o años. Un plan perfecto en papel no sirve si no lo podés cumplir.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 4. PIRÁMIDE -->
+<div id="piramide" style="border-bottom:1px solid var(--border)">
+<div class="section fade-in">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2>PIRÁMIDE DEL<br><em>ENTRENAMIENTO</em></h2>
+  </div>
+
+  <p style="color:var(--muted); font-size:0.9rem; margin-bottom:2.5rem; max-width:700px;">De la base a la punta, el orden de prioridades para progresar: primero lo que más impacto tiene, después los ajustes finos. Los últimos cuatro niveles forman parte de la periodización.</p>
+
+  <div class="pyramid-outer">
+    <div class="pyramid-container">
+
+      <div class="pyramid-periodizacion-group">
+        <div class="pyramid-apex"></div>
+        <div class="pyramid-level pyramid-l6">
+          <div class="pyramid-num">06</div>
+          <div class="pyramid-title">TEMPO</div>
+        </div>
+        <div class="pyramid-level pyramid-l5">
+          <div class="pyramid-num">05</div>
+          <div class="pyramid-title">TIEMPOS DE DESCANSO</div>
+        </div>
+        <div class="pyramid-level pyramid-l4">
+          <div class="pyramid-num">04</div>
+          <div class="pyramid-title">SELECCIÓN DE EJERCICIOS</div>
+        </div>
+        <div class="pyramid-level pyramid-l3">
+          <div class="pyramid-num">03</div>
+          <div class="pyramid-title">PROGRESIÓN</div>
+        </div>
+        <div class="pyramid-level pyramid-l2">
+          <div class="pyramid-num">02</div>
+          <div class="pyramid-title">VOLUMEN, INTENSIDAD Y FRECUENCIA</div>
+        </div>
+        <div class="pyramid-bracket"></div>
+        <div class="pyramid-bracket-label">Periodización</div>
+      </div>
+
+      <div class="pyramid-level pyramid-l1">
+        <div class="pyramid-num">01</div>
+        <div class="pyramid-title">ADHERENCIA</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="info-box">
+    <div class="info-box-title">📐 Cómo leerla</div>
+    <p>La base es lo que más determina el resultado a largo plazo: si no sostenés el entrenamiento en el tiempo (adherencia), nada de lo de arriba importa. Volumen, intensidad y frecuencia definen el estímulo; la progresión asegura que ese estímulo siga siendo suficiente; la selección de ejercicios, los tiempos de descanso y el tempo son ajustes de mayor detalle que optimizan, pero no reemplazan, a los niveles inferiores.</p>
+  </div>
+</div>
+</div>
+
+<!-- 5. HIPERTROFIA -->
+<div id="hipertrofia" style="border-bottom:1px solid var(--border)">
+<div class="section fade-in">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2>TRES PILARES PARA<br><em>EL CRECIMIENTO MUSCULAR</em></h2>
+  </div>
+
+  <p class="lead-text">Tensión mecánica, daño muscular y estrés metabólico. Tres preguntas resumen buena parte de lo que hay que saber sobre cómo estimular la hipertrofia: ¿qué es la tensión mecánica en el entrenamiento?, ¿cuánto debo levantar para ganar masa muscular?, ¿cuántas repeticiones debo hacer?</p>
+
+  <div class="cards cards-3">
+    <div class="card">
+      <div class="card-icon">⚙️</div>
+      <h3>TENSIÓN MECÁNICA</h3>
+      <p>Es la fuerza que se aplica al músculo durante la contracción, y se relaciona con la intensidad del ejercicio (peso levantado) y el tiempo bajo tensión. Para optimizarla, se puede variar la intensidad y la duración del ejercicio. Se cree que es un factor clave para desencadenar las respuestas moleculares y celulares que conducen al crecimiento muscular.</p>
+      <span class="card-tag">Peso + tiempo bajo tensión</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔥</div>
+      <h3>ESTRÉS METABÓLICO</h3>
+      <p>Se genera por la acumulación de metabolitos como el lactato y el hidrógeno durante el ejercicio, especialmente con altas repeticiones y descansos cortos. Este estrés puede inducir la liberación de hormonas anabólicas y favorecer el entorno anabólico en el músculo. Se promueve con entrenamientos de altas repeticiones, series extendidas y descansos reducidos.</p>
+      <span class="card-tag orange">Altas reps + descansos cortos</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">💥</div>
+      <h3>DAÑO MUSCULAR</h3>
+      <p>Es el resultado de microdesgarros en las fibras musculares causados por el ejercicio intenso. Desencadena una respuesta inflamatoria y la liberación de factores de crecimiento que promueven la reparación y el crecimiento muscular. Se puede inducir variando los ejercicios, usando negativos lentos y aumentando el rango de movimiento.</p>
+      <span class="card-tag">Negativos lentos + ROM completo</span>
+    </div>
+  </div>
+
+  <div class="info-box" style="margin-top:2rem;">
+    <div class="info-box-title">🔗 Relación entre los tres factores</div>
+    <p>La tensión mecánica, el estrés metabólico y el daño muscular interactúan entre sí para estimular la hipertrofia. No existe un consenso sobre cuál de estos factores es el más importante, pero todos son considerados estímulos efectivos para el crecimiento muscular. Es recomendable combinar diferentes tipos de entrenamiento que involucren estos tres factores para obtener mejores resultados.</p>
+  </div>
+
+  <div style="margin-top:3.5rem;">
+    <h3 class="subsection-title">DESCANSO IDEAL EN HIPERTROFIA</h3>
+    <p class="lead-text">Para descansar de manera correcta entrenando fuerza orientada a ganar masa muscular, en general conviene plantear descansos subjetivos. Se dividen en descansos <strong style="color:var(--text)">completos</strong> y descansos <strong style="color:var(--text)">parciales</strong>. No tienen un tiempo establecido: funcionan por la percepción de fatiga propia de cada persona.</p>
+
+    <div class="info-box orange">
+      <div class="info-box-title">⏱ Descanso recomendado entre series</div>
+      <p>120 segundos de descanso entre series para hipertrofia, según un meta-análisis de 2024. Un estudio de 2016 sugiere que 3 minutos puede ser lo óptimo.</p>
+      <p style="margin-top:0.8rem;">El meta-análisis de 2024 estima que 120s puede ser ideal para ganar masa muscular al comparar distintos tiempos de descanso. En 2016, al comparar un grupo con 1 minuto de descanso contra un grupo con 3 minutos de descanso, el grupo que más descansaba obtuvo mayores resultados en hipertrofia.</p>
+    </div>
+
+    <div class="cards cards-2" style="margin-top:1px;">
+      <div class="card">
+        <div class="card-icon">1️⃣</div>
+        <h3>DESCANSOS AUTO-REGULADOS</h3>
+        <p>Son subjetivos y dependen de cómo te encuentres en ese momento para encarar la siguiente serie. <strong style="color:var(--text)">Completos</strong> = 100% recuperado (+3 minutos aprox). <strong style="color:var(--text)">Parciales</strong> = recuperado, pero no al 100% (–3 minutos aprox).</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">2️⃣</div>
+        <h3>SEGÚN TIPO DE EJERCICIO</h3>
+        <p>Tendé a hacer descansos completos en ejercicios multiarticulares (sentadilla, peso muerto, press) y descansos parciales en ejercicios de "aislamiento" (curl de bíceps, extensión de cuádriceps).</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 6. ESQUEMAS -->
+<div id="esquemas" style="border-bottom:1px solid var(--border)">
+<div class="section fade-in">
+  <div class="section-header">
+    <span class="section-num">06</span>
+    <h2>ESQUEMAS DE<br><em>SERIES Y REPETICIONES</em></h2>
+  </div>
+
+  <p style="color:var(--muted); font-size:0.9rem; margin-bottom:2rem; max-width:700px;">Para fuerza máxima, el rango de repeticiones va de 1 a 5. Cada esquema tiene un propósito diferente dentro del mesociclo. No existe uno universalmente superior: todos se usan en distintas fases.</p>
+
+  <div class="scheme-grid">
+    <div class="scheme-card primary">
+      <div class="scheme-name">5×5</div>
+      <div class="scheme-sub">El clásico de fuerza — Base de acumulación</div>
+      <div class="scheme-sets">
+        <span class="set-pill">5 series</span>
+        <span class="set-pill">5 reps</span>
+        <span class="set-pill">75–82% 1RM</span>
+        <span class="set-pill">3–4 min descanso</span>
+      </div>
+      <ul class="scheme-pros">
+        <li>Excelente balance volumen/intensidad</li>
+        <li>Ideal para intermedios</li>
+        <li>Base de programas como StrongLifts, GZCLP</li>
+        <li>Permite acumular volumen de calidad</li>
+      </ul>
+    </div>
+
+    <div class="scheme-card primary">
+      <div class="scheme-name">3×3</div>
+      <div class="scheme-sub">Alta intensidad — Fase de intensificación</div>
+      <div class="scheme-sets">
+        <span class="set-pill">3 series</span>
+        <span class="set-pill">3 reps</span>
+        <span class="set-pill">85–90% 1RM</span>
+        <span class="set-pill">4–5 min descanso</span>
+      </div>
+      <ul class="scheme-pros">
+        <li>Máximo estímulo neurológico</li>
+        <li>Menor fatiga acumulada</li>
+        <li>Perfecto antes de semana de peak o test</li>
+        <li>Alta transferencia a 1RM</li>
+      </ul>
+    </div>
+
+    <div class="scheme-card secondary">
+      <div class="scheme-name">5/3/1</div>
+      <div class="scheme-sub">Wendler — Progresión ondulante mensual</div>
+      <div class="scheme-sets">
+        <span class="set-pill">Semana 1: 3×5</span>
+        <span class="set-pill">Semana 2: 3×3</span>
+        <span class="set-pill">Semana 3: 5/3/1</span>
+        <span class="set-pill">Semana 4: deload</span>
+      </div>
+      <ul class="scheme-pros">
+        <li>Ondulación de intensidad integrada</li>
+        <li>Probado en miles de atletas</li>
+        <li>Set AMRAP como indicador de progreso</li>
+        <li>Muy sostenible a largo plazo</li>
+      </ul>
+    </div>
+
+    <div class="scheme-card secondary">
+      <div class="scheme-name">RAMPA</div>
+      <div class="scheme-sub">Series ascendentes al top set</div>
+      <div class="scheme-sets">
+        <span class="set-pill">60%×5</span>
+        <span class="set-pill">70%×3</span>
+        <span class="set-pill">80%×2</span>
+        <span class="set-pill">90%×1–3</span>
+      </div>
+      <ul class="scheme-pros">
+        <li>Calentamiento específico integrado</li>
+        <li>Pico de activación antes del top set</li>
+        <li>Usado en powerlifting competitivo</li>
+        <li>Ideal para días de max strength</li>
+      </ul>
+    </div>
+
+    <div class="scheme-card tertiary">
+      <div class="scheme-name">CLUSTERS</div>
+      <div class="scheme-sub">Mini-pausa intra-serie para más calidad</div>
+      <div class="scheme-sets">
+        <span class="set-pill">3+2+2</span>
+        <span class="set-pill">10–15s pausa intra</span>
+        <span class="set-pill">90%+ 1RM</span>
+        <span class="set-pill">Avanzado</span>
+      </div>
+      <ul class="scheme-pros">
+        <li>Permite trabajar a intensidades muy altas</li>
+        <li>Menor fatiga metabólica intra-serie</li>
+        <li>Más reps de calidad con máxima carga</li>
+        <li>Requiere experiencia técnica sólida</li>
+      </ul>
+    </div>
+
+    <div class="scheme-card tertiary">
+      <div class="scheme-name">EMOM</div>
+      <div class="scheme-sub">Every Minute On the Minute</div>
+      <div class="scheme-sets">
+        <span class="set-pill">1–3 reps / minuto</span>
+        <span class="set-pill">80–87% 1RM</span>
+        <span class="set-pill">10–20 min</span>
+        <span class="set-pill">Acumulación técnica</span>
+      </div>
+      <ul class="scheme-pros">
+        <li>Muchas repeticiones de alta calidad</li>
+        <li>Mejora patrón motor a cargas altas</li>
+        <li>Control de fatiga integrado</li>
+        <li>Popular en halterofilia / weightlifting</li>
+      </ul>
+    </div>
+  </div>
+
+  <br>
+  <div class="info-box">
+    <div class="info-box-title">📊 Referencia de intensidades</div>
+    <p>1–3 reps → 90–100% 1RM &nbsp;|&nbsp; 4–5 reps → 82–88% 1RM &nbsp;|&nbsp; 6–8 reps → 75–82% 1RM &nbsp;|&nbsp; 8+ reps → menor de 75%.<br>Para fuerza máxima, la mayor parte del trabajo se hace entre el 75–95% del 1RM.</p>
+  </div>
+
+  <div style="margin-top:4rem;">
+    <h3 class="subsection-title">SERIES POR SESIÓN Y POR SEMANA</h3>
+    <p class="lead-text">La evidencia más reciente sugiere que la cantidad óptima de series por sesión y por semana para ganar fuerza y masa muscular depende del objetivo específico, el nivel de entrenamiento y el grupo muscular involucrado. Un resumen basado en estudios actuales:</p>
+
+    <div class="info-box orange">
+      <div class="info-box-title">📌 Para ganar fuerza (sentadilla, banca, peso muerto, dominadas)</div>
+      <p><strong style="color:var(--text)">Por semana:</strong> 8–15 series semanales enfocadas en fuerza (series de 3–6 repeticiones con ≥80% 1RM). En ejercicios básicos, una frecuencia de 2 a 3 veces por semana mejora la progresión en fuerza.</p>
+      <p style="margin-top:0.8rem;"><strong style="color:var(--text)">Por sesión:</strong> 3–6 series por ejercicio base (por ejemplo, 5×5 o 4×4). Ideal para trabajos pesados y con buena recuperación entre series.</p>
+      <p class="source-tag">📚 Fuente: Grgic et al., 2018; Ralston et al., 2017; Hackett et al., 2023.</p>
+    </div>
+
+    <div class="info-box">
+      <div class="info-box-title">📌 Para ganar masa muscular (hipertrofia)</div>
+      <p><strong style="color:var(--text)">Por semana:</strong> mínimo efectivo, 10 series por grupo muscular / semana. Óptimo para la mayoría, 10–20 series por grupo muscular / semana. Más de 20 series por semana puede ser beneficioso para avanzados si se distribuye bien en varias sesiones y se controla el volumen total.</p>
+      <p style="margin-top:0.8rem;"><strong style="color:var(--text)">Por sesión:</strong> idealmente no más de 6–10 series por grupo muscular en una sola sesión, para evitar fatiga acumulada que reduzca la calidad del estímulo. Dividir el volumen en 2–3 sesiones semanales (frecuencia ≥2) mejora los resultados.</p>
+      <p class="source-tag">📚 Fuente: Schoenfeld et al., 2017; Baz-Valle et al., 2022.</p>
+    </div>
+
+    <div class="info-box">
+      <div class="info-box-title">🎯 ¿Ganar músculo o ganar el máximo músculo posible?</div>
+      <p>Podés conseguir ganancias con tan solo 4 series efectivas por semana para ese músculo. Pero si buscás máximas ganancias, la respuesta es: hacé todas las series que puedas. Las investigaciones no encuentran un "techo" para la cantidad de series semanales — cada serie añade al estímulo total, pero cada una aporta un poco menos que la anterior.</p>
+      <p style="margin-top:0.8rem;"><strong style="color:var(--text)">Recomendación general:</strong> 4–6 series para músculos poco prioritarios, 8–12 series para la mayoría de los músculos y 15–20 series para uno o dos músculos prioritarios. Hay matices: no es lo mismo para alguien que recién empieza que para un culturista experimentado.</p>
+    </div>
+
+    <p class="lead-text" style="margin-top:2.5rem;">Resumen práctico para programación (por grupo muscular o patrón de movimiento):</p>
+
+    <div class="prog-table-wrap">
+      <table>
+        <thead>
+          <tr><th>Nivel</th><th>Series / semana</th><th>Frecuencia</th><th>Series / sesión</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Principiante</td><td>6–10</td><td>2</td><td>3–5</td></tr>
+          <tr><td>Intermedio</td><td>10–15</td><td>2–3</td><td>4–8</td></tr>
+          <tr><td>Avanzado</td><td>15–20+</td><td>3+</td><td>4–10</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.82rem; color:var(--muted); margin-top:1rem;">La clave está en la recuperación: más volumen requiere más distribución. La calidad de cada serie (cercanía al fallo, técnica, descanso) también influye mucho.</p>
+  </div>
+
+  <div style="margin-top:4rem;">
+    <h3 class="subsection-title">REPETICIONES: FUERZA E HIPERTROFIA</h3>
+
+    <div class="info-box orange">
+      <div class="info-box-title">📌 Repeticiones para ganar fuerza</div>
+      <p>El rango más efectivo para desarrollar fuerza máxima es de 1 a 5 repeticiones, con cargas del 85–100% del 1RM (ver la referencia de intensidades más arriba). A esa intensidad no hace falta llegar al fallo muscular: el objetivo es mover cargas cercanas al máximo con buena técnica, priorizando la calidad de cada repetición y la adaptación neuromuscular.</p>
+    </div>
+
+    <p class="lead-text" style="margin-top:2rem;">Para hipertrofia el panorama es más amplio, y conviene entender primero qué es lo que realmente estimula el crecimiento muscular. Es un error pensar que la tensión mecánica es directamente proporcional a la carga externa levantada. No al menos forzosamente.</p>
+    <p style="font-size:0.88rem; color:var(--muted); line-height:1.8; margin-bottom:1.5rem; max-width:750px;">Es decir, que aunque sí es cierto que más carga puede suponer más tensión mecánica, no siempre tiene por qué ser así. Y es que nuestro tejido muscular no entiende de kilos levantados: entiende de estímulos y tensión aplicada sobre la propia fibra muscular. No solo importa la carga que levantes per se, sino el estímulo de tensión que va a recibir la célula muscular específicamente. Por tanto, podés mover mucha carga externa en ejercicios poco específicos, lo que lleva a que la tensión mecánica que recibe la célula del grupo muscular trabajado no sea tan alta como la que podría recibir a través de un ejercicio más específico. Incluso la técnica de ejecución ante una misma carga externa hace que haya más o menos tensión mecánica muscular — por tanto, los estímulos serán diferentes.</p>
+
+
+    <div class="info-box">
+      <div class="info-box-title">¿Debo levantar siempre mucho peso?</div>
+      <p>Como la célula no entiende de kilos levantados sino de tensión mecánica —la cual lleva al proceso de síntesis proteica mediante mecanotraducción— hay varias formas de conseguirlo. La tensión mecánica recibida por una célula muscular puede ser semejante levantando cargas moderadas cerca del fallo que levantando cargas altas. Es por ello que podemos conseguir una hipertrofia similar levantando cargas altas (por encima del 70% del RM) que levantando cargas bajas (no menos del 30% del RM).</p>
+      <p style="margin-top:0.8rem;">Aunque se puede conseguir aumento de masa muscular incluso con cargas bajas (30% RM), en ese caso será necesario llegar al fallo muscular en las series — cosa que no es necesaria si trabajamos con cargas por encima del 70% RM.</p>
+    </div>
+
+    <p style="font-size:0.88rem; color:var(--muted); line-height:1.8; margin:1.5rem 0; max-width:750px;">Cuando trabajamos a altas repeticiones, el agotamiento de las fibras va en aumento conforme avanza la serie, lo cual obliga al músculo a reclutar cada vez más fibras de alto umbral, induciendo tensión mecánica sobre un amplio espectro miofibrilar. A la inversa, cuando trabajamos con altas cargas, aunque no sea necesario llegar al fallo muscular para reclutar fibras de alto umbral (sí acercarse a él), hay que asegurar un mínimo de tiempo en el que las fibras estén sometidas a tensión mecánica. Es por ello que series con grandes cargas (por debajo de 5 repeticiones) no son las más efectivas para ganar masa muscular, aunque también lo consiguen en menor medida.</p>
+
+    <div class="info-box orange">
+      <div class="info-box-title">¿Cuántas repeticiones debo hacer?</div>
+      <p>El espectro de cargas con el cual podemos hipertrofiar nuestro tejido muscular va mucho más allá del clásico rango de 6–12 repeticiones, aunque es cierto que ese intervalo reúne los requisitos antes mencionados, siendo por tanto adecuado trabajar en él para ganar masa muscular. Sin embargo, trabajar en otros rangos no solo puede ser igual de óptimo, sino que además asegura trabajar un amplio espectro de fibras, modular la fatiga central, y gestionar mejor la tensión sometida a las articulaciones.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 7. ENTRADA EN CALOR -->
+<div id="entrada-calor" style="border-bottom:1px solid var(--border)">
+<div class="section fade-in">
+  <div class="section-header">
+    <span class="section-num">07</span>
+    <h2>ENTRADA EN<br><em>CALOR DE MOVILIDAD</em></h2>
+  </div>
+
+  <p class="lead-text">Es una serie de movimientos de baja intensidad y carga externa nula (o mínima) que preparan articulaciones, tejido y sistema nervioso para el patrón de movimiento específico que vas a cargar después. No es "estiramiento" clásico ni trabajo de fuerza — es preparación.</p>
+
+  <div style="margin-top:2.5rem;">
+    <h3 class="subsection-title">QUÉ PASA ESPECÍFICAMENTE EN EL CUERPO</h3>
+    <div class="cards cards-3">
+      <div class="card">
+        <div class="card-icon">🌡️</div>
+        <h3>TEMPERATURA Y TEJIDO</h3>
+        <p>El movimiento activo aumenta la temperatura del músculo y el tendón, reduciendo su viscosidad interna. Un tejido más caliente se desliza con menos fricción entre fibras y responde más rápido a la activación nerviosa.</p>
+        <span class="card-tag">Menor viscosidad muscular</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">💧</div>
+        <h3>LÍQUIDO SINOVIAL Y RANGO</h3>
+        <p>El movimiento articular estimula la producción y distribución de líquido sinovial, mejorando la lubricación. El rango activo aumenta transitoriamente por menor inhibición refleja, no por elongación permanente del músculo.</p>
+        <span class="card-tag orange">Mejor lubricación articular</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>SISTEMA NERVIOSO Y FLUJO</h3>
+        <p>Mover una articulación en el patrón específico despierta las vías nerviosas necesarias, mejorando reclutamiento y coordinación. También aumenta el aporte de sangre y oxígeno a los tejidos que vas a usar.</p>
+        <span class="card-tag">Mejor reclutamiento</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:3.5rem;">
+    <h3 class="subsection-title">ENTRADA EN CALOR VS. SERIES DE APROXIMACIÓN</h3>
+    <p class="lead-text">Son dos capas de preparación distintas y complementarias, no una alternativa a la otra.</p>
+    <div class="cards cards-2">
+      <div class="card">
+        <div class="card-icon">🧘</div>
+        <h3>ENTRADA EN CALOR</h3>
+        <p>General y sin carga externa relevante. Trabaja la articulación y el tejido en sí mismos: rango, temperatura, lubricación y activación neuromuscular del patrón que vas a usar.</p>
+        <span class="card-tag">General, sin carga</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">📈</div>
+        <h3>SERIES DE APROXIMACIÓN</h3>
+        <p>El mismo ejercicio que vas a entrenar, con carga creciente hasta el peso de trabajo. Graba el patrón motor exacto, activa el SNC (potenciación post-activación) y te permite autorregular según cómo estés ese día.</p>
+        <span class="card-tag orange">Específica, con carga</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box orange" style="margin-top:2rem;">
+    <div class="info-box-title">⚠️ Por qué no debería faltar ninguna de las dos</div>
+    <p>Si saltás la movilidad y vas directo a las series de aproximación, cargás una articulación que todavía no tiene el rango ni la lubricación disponible — el cuerpo compensa con otro segmento (ej. redondear la espalda baja porque el tobillo no tiene dorsiflexión) y ahí aparece el riesgo.</p>
+    <p style="margin-top:0.8rem;">Si saltás las series de aproximación y vas directo al peso de trabajo después de la movilidad, el sistema nervioso no está calibrado para esa carga específica ni tenés información de cómo estás rindiendo ese día — el resultado típico es una técnica que se rompe en el peso "de siempre" porque el cuerpo no llegó preparado a ese nivel de tensión.</p>
+  </div>
+
+  <div style="margin-top:3.5rem;">
+    <h3 class="subsection-title">CÓMO ARMAR TU ENTRADA EN CALOR</h3>
+    <div class="progress-protocol">
+      <div class="protocol-steps">
+        <div class="protocol-step"><span class="step-n">1</span><span>Identificá los patrones que vas a entrenar ese día (sentadilla, empuje horizontal/vertical, bisagra de cadera, tracción vertical).</span></div>
+        <div class="protocol-step"><span class="step-n">2</span><span>Mirá qué necesita cada patrón en la tabla de abajo.</span></div>
+        <div class="protocol-step"><span class="step-n">3</span><span>Elegí un ejercicio por categoría relevante de la librería, sin repetir el mismo plano/patrón dos veces.</span></div>
+        <div class="protocol-step"><span class="step-n">4</span><span>Armá la secuencia con las reglas de dosificación: 1 serie por ejercicio, 5–8 reps o 20–40s, entre 3 y 6 minutos totales.</span></div>
+      </div>
+    </div>
+    <p style="font-size:0.82rem; color:var(--muted); margin-top:1rem;">Regla de oro: una entrada en calor no debería fatigar. Si un ejercicio te deja con sensación de "serie de trabajo", sobra ahí.</p>
+  </div>
+
+  <div style="margin-top:3.5rem;">
+    <h3 class="subsection-title">QUÉ NECESITA CADA PATRÓN</h3>
+    <div class="prog-table-wrap">
+      <table>
+        <thead><tr><th>Patrón</th><th>Necesita</th></tr></thead>
+        <tbody>
+          <tr><td>Sentadilla con barra</td><td>Dorsiflexión de tobillo, flexión de cadera profunda, extensión torácica, estabilidad de core anti-flexión</td></tr>
+          <tr><td>Press banca / Flexiones</td><td>Protracción-retracción escapular, extensión torácica, rotación externa de hombro, core anti-extensión</td></tr>
+          <tr><td>Peso muerto</td><td>Bisagra de cadera, extensión de cadera, cadena posterior, columna neutra bajo carga</td></tr>
+          <tr><td>Dominadas / asistidas</td><td>Retracción-depresión escapular, extensión torácica, rotación externa de hombro, activación de dorsal</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div style="margin-top:3.5rem;">
+    <h3 class="subsection-title">PLANOS DE MOVIMIENTO A CUBRIR</h3>
+    <div class="cards cards-3">
+      <div class="card"><div class="card-icon">↕️</div><h3>SAGITAL</h3><p>Flexo-extensión: cuadrupedia, sentadilla, peso muerto, press.</p></div>
+      <div class="card"><div class="card-icon">↔️</div><h3>FRONTAL</h3><p>Abducción/aducción de cadera: levantamiento lateral de cadera.</p></div>
+      <div class="card"><div class="card-icon">🔄</div><h3>TRANSVERSAL</h3><p>Rotación: rotación torácica, 90/90, spiderman lunge + rotación.</p></div>
+    </div>
+    <p style="font-size:0.82rem; color:var(--muted); margin-top:1rem;">Una entrada en calor completa toca al menos dos planos distintos, no solo el sagital (que es al que todos tendemos por default).</p>
+  </div>
+
+  <div style="margin-top:3.5rem;">
+    <h3 class="subsection-title">LIBRERÍA DE EJERCICIOS POR CATEGORÍA</h3>
+    <div class="scheme-grid">
+      <div class="scheme-card primary">
+        <div class="scheme-name">A</div>
+        <div class="scheme-sub">Movilidad de columna — sagital</div>
+        <ul class="scheme-pros">
+          <li><a href="https://vimeo.com/607692060/c3bdfe1ca3" target="_blank" style="color:var(--accent); text-decoration:none;">Gato contento/enojado</a></li>
+          <li><a href="https://www.youtube.com/watch?v=nsREuRpSpAk" target="_blank" style="color:var(--accent); text-decoration:none;">Cobra a perro</a></li>
+          <li><a href="https://www.youtube.com/shorts/mTgj2sKfHRo" target="_blank" style="color:var(--accent); text-decoration:none;">Extensión torácica en pared</a></li>
+        </ul>
+      </div>
+      <div class="scheme-card secondary">
+        <div class="scheme-name">B</div>
+        <div class="scheme-sub">Movilidad de columna — rotación</div>
+        <ul class="scheme-pros">
+          <li><a href="https://youtu.be/iWxGRsCGURM" target="_blank" style="color:var(--accent); text-decoration:none;">Rotación torácica en cuadrupedia</a></li>
+          <li><a href="https://www.youtube.com/shorts/YHOJEL12J7g" target="_blank" style="color:var(--accent); text-decoration:none;">Rotación torácica en cuclillas</a></li>
+          <li><a href="https://vimeo.com/607682967/ca8267cbd3" target="_blank" style="color:var(--accent); text-decoration:none;">Baby diagonal</a></li>
+        </ul>
+      </div>
+      <div class="scheme-card primary">
+        <div class="scheme-name">C</div>
+        <div class="scheme-sub">Cadera — sagital (flexión-extensión)</div>
+        <ul class="scheme-pros">
+          <li><a href="https://vimeo.com/747280603/f928491b15" target="_blank" style="color:var(--accent); text-decoration:none;">90/90 + lift (extensión de cadera)</a></li>
+          <li><a href="https://vimeo.com/581386841/e2c7e50f47" target="_blank" style="color:var(--accent); text-decoration:none;">Buenos días</a></li>
+          <li><a href="https://vimeo.com/581616014/17ff1dba8d" target="_blank" style="color:var(--accent); text-decoration:none;">Estocada corta</a></li>
+          <li><a href="https://www.youtube.com/watch?v=D-IYqUE92PI" target="_blank" style="color:var(--accent); text-decoration:none;">Estiramiento dinámico en estocada</a></li>
+        </ul>
+      </div>
+      <div class="scheme-card secondary">
+        <div class="scheme-name">D</div>
+        <div class="scheme-sub">Cadera — rotación (transversal)</div>
+        <ul class="scheme-pros">
+          <li><a href="https://youtu.be/F1XdXdCjERk" target="_blank" style="color:var(--accent); text-decoration:none;">90/90</a></li>
+          <li><a href="https://www.youtube.com/watch?v=CF1xbGEn3KM" target="_blank" style="color:var(--accent); text-decoration:none;">Spiderman lunge + rotación</a></li>
+          <li><a href="https://www.youtube.com/watch?v=-CiWQ2IvY34" target="_blank" style="color:var(--accent); text-decoration:none;">World's greatest stretch</a></li>
+        </ul>
+      </div>
+      <div class="scheme-card tertiary">
+        <div class="scheme-name">E</div>
+        <div class="scheme-sub">Movilidad de tobillo</div>
+        <ul class="scheme-pros">
+          <li><a href="https://www.youtube.com/shorts/r9Cj3D8hWmM" target="_blank" style="color:var(--accent); text-decoration:none;">Movilidad de tobillo (dorsiflexión)</a></li>
+          <li><a href="https://www.youtube.com/watch?v=SyMoiFBPiGY" target="_blank" style="color:var(--accent); text-decoration:none;">Deep squat ankle rock</a></li>
+        </ul>
+      </div>
+      <div class="scheme-card primary">
+        <div class="scheme-name">F</div>
+        <div class="scheme-sub">Cadena posterior / glúteos</div>
+        <ul class="scheme-pros">
+          <li><a href="https://www.youtube.com/watch?v=mUEViZ1R7l4" target="_blank" style="color:var(--accent); text-decoration:none;">Puente de glúteo unilateral</a> — 30s</li>
+          <li><a href="https://vimeo.com/403739754/98f09d428d" target="_blank" style="color:var(--accent); text-decoration:none;">Levantamiento de cadera lateral</a> — 30s</li>
+          <li>Buenos días (ver categoría C)</li>
+          <li><a href="https://www.youtube.com/watch?v=nsTNJWlm-CA" target="_blank" style="color:var(--accent); text-decoration:none;">Inchworm</a></li>
+        </ul>
+      </div>
+      <div class="scheme-card secondary">
+        <div class="scheme-name">G</div>
+        <div class="scheme-sub">Activación de core</div>
+        <ul class="scheme-pros">
+          <li><a href="https://vimeo.com/405621026/02b2c291ea" target="_blank" style="color:var(--accent); text-decoration:none;">Plancha activada</a> — 30s</li>
+          <li><a href="https://vimeo.com/586036314/1bd0d0a339" target="_blank" style="color:var(--accent); text-decoration:none;">Plancha supina</a> — 30s</li>
+          <li><a href="https://vimeo.com/581615613/fc9c9e4bb7" target="_blank" style="color:var(--accent); text-decoration:none;">Bird dog</a></li>
+          <li><a href="https://vimeo.com/581615613/fc9c9e4bb7" target="_blank" style="color:var(--accent); text-decoration:none;">Bird dog avanzado (pies levantados)</a></li>
+        </ul>
+      </div>
+      <div class="scheme-card tertiary">
+        <div class="scheme-name">H</div>
+        <div class="scheme-sub">Activación escapular / hombro</div>
+        <ul class="scheme-pros">
+          <li><a href="https://vimeo.com/478212852" target="_blank" style="color:var(--accent); text-decoration:none;">Protracción escapular en cuadrupedia</a></li>
+          <li><a href="https://www.youtube.com/watch?v=69sfvYgWK2Y" target="_blank" style="color:var(--accent); text-decoration:none;">YTWs con banda</a></li>
+          <li><a href="https://www.youtube.com/shorts/nCqYQy-H12c" target="_blank" style="color:var(--accent); text-decoration:none;">Face Pull</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:3.5rem;">
+    <h3 class="subsection-title">PLANTILLAS POR TIPO DE DÍA</h3>
+    <div class="prog-table-wrap">
+      <table>
+        <thead><tr><th>Día</th><th>Categorías a cubrir</th></tr></thead>
+        <tbody>
+          <tr><td>Sentadilla / tren inferior dominante</td><td>Tobillo (E) + cadera sagital (C) + cadera rotación (D) + activación glútea (F)</td></tr>
+          <tr><td>Press / empuje</td><td>Escapular (H) + torácica extensión (A) + core anti-extensión (G)</td></tr>
+          <tr><td>Peso muerto / bisagra</td><td>Cadera sagital-bisagra (C) + cadena posterior (F) + columna neutra vía bird dog (G) + tobillo liviano (E)</td></tr>
+          <tr><td>Dominadas / tracción</td><td>Escapular (H) + torácica (A) + activación dorsal (vía cobra a perro, A)</td></tr>
+          <tr><td>Full body (todos los patrones)</td><td>Un ítem de A o B (columna), uno de E (tobillo), uno de C o D (cadera), uno dinámico de cierre (D) — máx. 5 ejercicios, 1 serie c/u</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div style="margin-top:3.5rem;">
+    <h3 class="subsection-title">EJEMPLO ARMADO — DÍA FULL BODY</h3>
+    <div class="prog-table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Ejercicio</th><th>Volumen</th><th>Tiempo aprox.</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Gato contento/enojado</td><td>1 x 8–10 reps</td><td>~30"</td></tr>
+          <tr><td>2</td><td>Cobra a perro</td><td>1 x 6 transiciones</td><td>~35"</td></tr>
+          <tr><td>3</td><td>Movilidad de tobillo</td><td>1 x 8 reps/lado</td><td>~40"</td></tr>
+          <tr><td>4</td><td>90/90</td><td>1 x 5 transiciones/lado</td><td>~50"</td></tr>
+          <tr><td>5</td><td>Spiderman lunge + rotación</td><td>1 x 5 reps/lado</td><td>~50"</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.82rem; color:var(--muted); margin-top:1rem;"><strong style="color:var(--text)">Total:</strong> ~5–6 min con transiciones.</p>
+  </div>
+
+  <div class="calc-container" style="margin-top:3.5rem;">
+    <div class="calc-title">SERIES DE APROXIMACIÓN</div>
+    <p style="color:var(--muted); font-size:0.85rem; margin-bottom:2rem;">Antes de la serie de trabajo, subí la carga de forma progresiva. Ingresá el peso y las reps de tu serie de trabajo para ver la escalera de aproximación.</p>
+    <div class="calc-inputs">
+      <div class="calc-field">
+        <label>Peso de tu serie de trabajo (kg)</label>
+        <input type="number" id="calc-work-weight" placeholder="Ej: 100" min="1" max="500">
+      </div>
+      <div class="calc-field">
+        <label>Reps de tu serie de trabajo</label>
+        <input type="number" id="calc-work-reps" placeholder="Ej: 5" min="1" max="30">
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcularAproximaciones()">CALCULAR APROXIMACIONES</button>
+
+    <div class="calc-results" id="approx-results">
+      <p style="font-family:var(--mono); font-size:0.7rem; color:var(--muted); margin-bottom:1rem; text-transform:uppercase; letter-spacing:0.1em;">Escalera de aproximación sugerida</p>
+      <div class="result-grid" id="approx-grid"></div>
+      <div style="margin-top:1.5rem; padding:1rem 1.2rem; background:rgba(232,255,0,0.05); border:1px solid rgba(232,255,0,0.15)">
+        <p style="font-family:var(--mono); font-size:0.72rem; color:var(--muted); margin-bottom:0.7rem;">Más allá del ejercicio (barra, mancuernas o peso corporal), mínimamente deberías realizar 2 o 3 series más livianas antes de las series de trabajo.</p>
+        <p style="font-family:var(--mono); font-size:0.72rem; color:var(--muted);">Los ejercicios dentro de la misma sesión, cuyos movimientos o músculos ya trabajaron previamente, sólo van a necesitar una serie de aproximación.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- 8. EJERCICIOS -->
+<div id="ejercicios" style="border-bottom:1px solid var(--border)">
+<div class="section fade-in">
+  <div class="section-header">
+    <span class="section-num">08</span>
+    <h2>EJERCICIOS BÁSICOS Y<br><em>PROTOCOLOS DE PROGRESIÓN</em></h2>
+  </div>
+
+  <p style="color:var(--muted); font-size:0.88rem; margin-bottom:2rem;">Hacé click en cada ejercicio para ver el protocolo de progresión específico.</p>
+
+  <div class="exercise-list">
+
+    <div class="exercise-item" onclick="toggle(this)">
+      <div>
+        <div class="exercise-name">SENTADILLA CON BARRA TRASERA</div>
+        <div class="exercise-meta">SQUAT · PATRÓN DOMINANTE DE RODILLA · MOTOR PRINCIPAL</div>
+      </div>
+      <div class="exercise-toggle">+ VER PROTOCOLO</div>
+      <div class="exercise-detail">
+        <p>El ejercicio rey del tren inferior. Requiere movilidad de tobillo y cadera, fuerza de core y técnica sólida. Para fuerza máxima, la barra baja (low bar) tiene mayor eficiencia mecánica.</p>
+        <div class="progress-protocol">
+          <h4>Protocolo de progresión recomendado</h4>
+          <div class="protocol-steps">
+            <div class="protocol-step"><span class="step-n">1</span><span>Empezá con progresión lineal: añadí 2.5–5kg por sesión mientras sea posible (novatos pueden durar 3–6 meses).</span></div>
+            <div class="protocol-step"><span class="step-n">2</span><span>Cuando la lineal falle, pasá a progresión semanal: añadí 2.5kg por semana en el top set.</span></div>
+            <div class="protocol-step"><span class="step-n">3</span><span>Usá esquema 5×5 como base, con rampa de calentamiento: 40%×5, 60%×3, 75%×2, luego 5×5 @ 80%.</span></div>
+            <div class="protocol-step"><span class="step-n">4</span><span>Incorporá variante pausa (pausa 2s en el fondo) para mejorar control y fuerza en el punto muerto.</span></div>
+            <div class="protocol-step"><span class="step-n">5</span><span>Testeo de 1RM estimado cada 6–8 semanas. Ajustá porcentajes del próximo ciclo en base a ese test.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-item" onclick="toggle(this)">
+      <div>
+        <div class="exercise-name">PRESS DE BANCA</div>
+        <div class="exercise-meta">BENCH PRESS · PATRÓN DE EMPUJE HORIZONTAL · PECHO / TRÍCEPS / DELTOIDES</div>
+      </div>
+      <div class="exercise-toggle">+ VER PROTOCOLO</div>
+      <div class="exercise-detail">
+        <p>El básico de empuje horizontal por excelencia. En powerlifting, la técnica con arco, retracción escapular y pies firmes en el suelo es fundamental para maximizar carga y seguridad.</p>
+        <div class="progress-protocol">
+          <h4>Protocolo de progresión recomendado</h4>
+          <div class="protocol-steps">
+            <div class="protocol-step"><span class="step-n">1</span><span>Progresión lineal añadiendo 1.25–2.5kg por sesión. El banca progresa más lento que sentadilla por naturaleza.</span></div>
+            <div class="protocol-step"><span class="step-n">2</span><span>Trabajá con top set + back off sets: 1 serie pesada al RPE 8–9, luego 3 series al 90% de ese peso × reps más.</span></div>
+            <div class="protocol-step"><span class="step-n">3</span><span>Incluí pausa en el pecho (1–2s) para eliminar el rebote y construir fuerza real desde el punto muerto inferior.</span></div>
+            <div class="protocol-step"><span class="step-n">4</span><span>Accessorio clave: press con agarre cerrado (close grip) para fortalecer tríceps, que suele ser el músculo limitante en cargas altas.</span></div>
+            <div class="protocol-step"><span class="step-n">5</span><span>Frecuencia: el banca puede entrenarse 3 veces por semana con intensidades variadas (fuerza, técnica/volumen, pausa).</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-item" onclick="toggle(this)">
+      <div>
+        <div class="exercise-name">PRESS MILITAR</div>
+        <div class="exercise-meta">OVERHEAD PRESS · EMPUJE VERTICAL · HOMBROS / TRÍCEPS / CORE</div>
+      </div>
+      <div class="exercise-toggle">+ VER PROTOCOLO</div>
+      <div class="exercise-detail">
+        <p>El press de pie requiere estabilidad de core y movilidad de hombro. Es el básico de empuje vertical y tiene alta transferencia a rendimiento atlético general.</p>
+        <div class="progress-protocol">
+          <h4>Protocolo de progresión recomendado</h4>
+          <div class="protocol-steps">
+            <div class="protocol-step"><span class="step-n">1</span><span>Progresión lineal de 1–2.5kg por sesión. El OHP es el movimiento que más lento progresa en peso absoluto.</span></div>
+            <div class="protocol-step"><span class="step-n">2</span><span>Cuando la lineal se agote, usá progresión doble: 3×5 → 3×6 → 3×7 → 3×8, luego subí el peso y volvé a 3×5.</span></div>
+            <div class="protocol-step"><span class="step-n">3</span><span>Trabajá el press por encima de la cabeza en bloque conjunto con el press banca: se complementan sin competir por recuperación.</span></div>
+            <div class="protocol-step"><span class="step-n">4</span><span>Incluí press sentado (seated) y push press (con impulso de piernas) como variantes para distintas fases del ciclo.</span></div>
+            <div class="protocol-step"><span class="step-n">5</span><span>Accessorios: remo al mentón, elevaciones laterales, tríceps en polea. El hombro necesita trabajo de rotadores.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-item" onclick="toggle(this)">
+      <div>
+        <div class="exercise-name">DOMINADAS LASTRADAS</div>
+        <div class="exercise-meta">WEIGHTED PULL-UPS · TRACCIÓN VERTICAL · DORSAL / BÍCEPS / CORE</div>
+      </div>
+      <div class="exercise-toggle">+ VER PROTOCOLO</div>
+      <div class="exercise-detail">
+        <p>Las dominadas con lastre son uno de los mejores ejercicios de tracción vertical para fuerza relativa. La progresión parte desde dominadas sin peso hasta añadir placas o chaleco lastrado.</p>
+        <div class="progress-protocol">
+          <h4>Protocolo de progresión recomendado</h4>
+          <div class="protocol-steps">
+            <div class="protocol-step"><span class="step-n">1</span><span>Prerequisito: dominarse con propio peso en sets de 8–10 reps limpias. Si no llegás, trabajá con banda elástica o dominadas asistidas.</span></div>
+            <div class="protocol-step"><span class="step-n">2</span><span>Empezá añadiendo 2.5–5kg de lastre y trabajando 5×3–5. Progresión lineal de 2.5kg por semana.</span></div>
+            <div class="protocol-step"><span class="step-n">3</span><span>Cuando el lastre supere tu peso corporal (objetivo ambicioso), el nivel de fuerza relativa es excepcional.</span></div>
+            <div class="protocol-step"><span class="step-n">4</span><span>Variantes para distintas fases: agarre cerrado (más bíceps), agarre amplio (más dorsal), supino vs pronado.</span></div>
+            <div class="protocol-step"><span class="step-n">5</span><span>Frecuencia: 2–3 veces por semana. Alternará entre días de fuerza (lastre, pocas reps) y días de volumen (menos peso, más reps).</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise-item" onclick="toggle(this)">
+      <div>
+        <div class="exercise-name">PESO MUERTO</div>
+        <div class="exercise-meta">DEADLIFT · PATRÓN DE BISAGRA · CADENA POSTERIOR COMPLETA</div>
+      </div>
+      <div class="exercise-toggle">+ VER PROTOCOLO</div>
+      <div class="exercise-detail">
+        <p>El movimiento que más peso permite mover. Trabaja la cadena posterior completa (isquios, glúteos, erectores, trapecio). Requiere comprensión de la posición de columna y bisagra de cadera.</p>
+        <div class="progress-protocol">
+          <h4>Protocolo de progresión recomendado</h4>
+          <div class="protocol-steps">
+            <div class="protocol-step"><span class="step-n">1</span><span>Progresión lineal agresiva: 5–10kg por sesión en novatos (es el ejercicio con más margen de progresión inicial).</span></div>
+            <div class="protocol-step"><span class="step-n">2</span><span>Para fuerza máxima, entrenalo 1–2 veces por semana: alta frecuencia aumenta riesgo de lesión en la zona lumbar.</span></div>
+            <div class="protocol-step"><span class="step-n">3</span><span>Usá el esquema 1×5+ (StrongLifts style) o rampa de calentamiento + top set: construye confianza neural en el movimiento.</span></div>
+            <div class="protocol-step"><span class="step-n">4</span><span>Variante Romanian Deadlift (RDL) como accesorio: foco en isquios, menos carga en lumbar, excelente complemento.</span></div>
+            <div class="protocol-step"><span class="step-n">5</span><span>Técnica priority: NUNCA sacrifiques posición de espalda por más peso. La barra siempre pegada a las piernas, caderas y hombros suben a la vez.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- 9. CALCULADORA -->
+<div id="calculadora" style="border-bottom:1px solid var(--border)">
+<div class="section fade-in">
+  <div class="section-header">
+    <span class="section-num">09</span>
+    <h2>CALCULADORA DE<br><em>CARGAS DE ENTRENAMIENTO</em></h2>
+  </div>
+
+  <div class="calc-container">
+    <div class="calc-title">CALCULÁ TUS ZONAS DE TRABAJO</div>
+    <p style="color:var(--muted); font-size:0.85rem; margin-bottom:2rem;">Ingresá tu 1RM conocido o estimado y el ejercicio para ver las cargas recomendadas por fase.</p>
+    <div class="calc-inputs">
+      <div class="calc-field">
+        <label>Ejercicio</label>
+        <select id="calc-exercise">
+          <option>Sentadilla con barra</option>
+          <option>Press de banca</option>
+          <option>Peso muerto</option>
+          <option>Press militar</option>
+          <option>Dominadas lastradas</option>
+        </select>
+      </div>
+      <div class="calc-field">
+        <label>Tu 1RM (kg)</label>
+        <input type="number" id="calc-1rm" placeholder="Ej: 100" min="1" max="500">
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcular()">CALCULAR CARGAS</button>
+
+    <div class="calc-results" id="calc-results">
+      <p style="font-family:var(--mono); font-size:0.7rem; color:var(--muted); margin-bottom:1rem; text-transform:uppercase; letter-spacing:0.1em;">Cargas recomendadas por zona</p>
+      <div class="result-grid" id="result-grid"></div>
+      <div style="margin-top:1.5rem; padding:1rem 1.2rem; background:rgba(232,255,0,0.05); border:1px solid rgba(232,255,0,0.15)">
+        <p style="font-family:var(--mono); font-size:0.72rem; color:var(--muted);">
+          <span style="color:var(--accent)">NOTA:</span> Estos son valores de referencia. Usá RPE para ajustar el peso real del día. Si el peso se siente más pesado de lo normal, bajá 2–5% sin dudar.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 10. ERRORES COMUNES -->
+<div style="border-bottom:1px solid var(--border)">
+<div class="section fade-in">
+  <div class="section-header">
+    <span class="section-num">10</span>
+    <h2>ERRORES COMUNES Y<br><em>CÓMO EVITARLOS</em></h2>
+  </div>
+
+  <div class="cards cards-2">
+    <div class="card" style="border-top:2px solid #ff5050">
+      <div class="card-icon">❌</div>
+      <h3>PROGRESAR SIN REGISTRO</h3>
+      <p>Sin llevar un diario de entrenamiento, no podés saber si estás progresando realmente. Anotá siempre el peso, series, reps y RPE percibido de cada sesión. Lo que no se mide, no se mejora.</p>
+    </div>
+    <div class="card" style="border-top:2px solid #ff5050">
+      <div class="card-icon">❌</div>
+      <h3>IGNORAR EL DELOAD</h3>
+      <p>Saltear la semana de descarga es el error más común. La fatiga acumulada enmascara la fuerza real. Después de un deload bien hecho, los lifters suelen mover más peso del que creían capaces.</p>
+    </div>
+    <div class="card" style="border-top:2px solid #ff5050">
+      <div class="card-icon">❌</div>
+      <h3>ESCALAR DEMASIADO RÁPIDO</h3>
+      <p>Agregar demasiado peso demasiado rápido lleva al fracaso técnico y al sobreentrenamiento. La sobrecarga progresiva debe ser <em>progresiva</em>: pequeños incrementos sostenidos siempre ganan a saltos grandes y erráticos.</p>
+    </div>
+    <div class="card" style="border-top:2px solid #ff5050">
+      <div class="card-icon">❌</div>
+      <h3>DESCUIDAR ACCESORIOS</h3>
+      <p>Los ejercicios básicos son el núcleo, pero los accesorios (hip thrust, remo, press cerrado, hip hinge) corrigen desequilibrios musculares que frenan el progreso en los básicos. No son opcionales.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<footer>
+  <p>Guía de <span>FUERZA & SOBRECARGA PROGRESIVA</span> · Basada en evidencia y práctica comprobada</p>
+  <p style="margin-top:0.5rem">Consultá siempre con un profesional antes de iniciar un programa de entrenamiento</p>
+</footer>
+
+<script>
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Toggle principios expandibles
+  function togglePrincipio(el) {
+    const isOpen = el.classList.contains('open');
+    document.querySelectorAll('.principle-block.expandable.open').forEach(e => {
+      e.classList.remove('open');
+      const lbl = e.querySelector('.principle-toggle-label');
+      if (lbl) lbl.textContent = lbl.dataset.closed;
+    });
+    if (!isOpen) {
+      el.classList.add('open');
+      const lbl = el.querySelector('.principle-toggle-label');
+      if (lbl) lbl.textContent = lbl.dataset.open;
+    }
+  }
+
+  // Toggle ejercicios
+  function toggle(el) {
+    const isOpen = el.classList.contains('open');
+    document.querySelectorAll('.exercise-item.open').forEach(e => {
+      e.classList.remove('open');
+      e.querySelector('.exercise-toggle').textContent = '+ VER PROTOCOLO';
+    });
+    if (!isOpen) {
+      el.classList.add('open');
+      el.querySelector('.exercise-toggle').textContent = '− CERRAR';
+    }
+  }
+
+  // Calculadora
+  function calcular() {
+    const orm = parseFloat(document.getElementById('calc-1rm').value);
+    if (!orm || orm <= 0) { alert('Ingresá un 1RM válido'); return; }
+
+    const zones = [
+      { pct: 60, label: '60%', desc: 'Calentamiento / Técnica', reps: '5–8' },
+      { pct: 70, label: '70%', desc: 'Volumen base', reps: '4–6' },
+      { pct: 75, label: '75%', desc: 'Acumulación 5×5', reps: '5' },
+      { pct: 80, label: '80%', desc: 'Fuerza base', reps: '3–5' },
+      { pct: 85, label: '85%', desc: 'Intensificación', reps: '2–4' },
+      { pct: 88, label: '88%', desc: 'Alta intensidad', reps: '2–3' },
+      { pct: 90, label: '90%', desc: 'Peak — Fuerza máx', reps: '1–2' },
+      { pct: 95, label: '95%', desc: 'Test / Competición', reps: '1' },
+    ];
+
+    const grid = document.getElementById('result-grid');
+    grid.innerHTML = zones.map(z => `
+      <div class="result-card">
+        <div class="result-pct">${z.label} — ${z.desc}</div>
+        <div class="result-value">
+          <div class="result-weight">${Math.round(orm * z.pct / 100 * 2) / 2} kg</div>
+          <div class="result-reps">${z.reps} reps recomendadas</div>
+        </div>
+      </div>
+    `).join('');
+
+    document.getElementById('calc-results').classList.add('visible');
+  }
+
+  // Calculadora de series de aproximación
+  function calcularAproximaciones() {
+    const peso = parseFloat(document.getElementById('calc-work-weight').value);
+    const reps = parseInt(document.getElementById('calc-work-reps').value);
+    if (!peso || peso <= 0) { alert('Ingresá un peso de trabajo válido'); return; }
+    if (!reps || reps <= 0) { alert('Ingresá las reps de tu serie de trabajo'); return; }
+
+    // Menos de 6 reps → escalera de 5 series. 6 reps o más → escalera de 4 series.
+    const bajasReps = reps < 6;
+    const escalones = bajasReps
+      ? [
+          { serie: 1, pct: null, reps: '8 a 12' },
+          { serie: 2, pct: 50, reps: '10' },
+          { serie: 3, pct: 70, reps: '6' },
+          { serie: 4, pct: 80, reps: '3 o 4' },
+          { serie: 5, pct: 90, reps: '2 o 3' },
+        ]
+      : [
+          { serie: 1, pct: null, reps: '8 a 12' },
+          { serie: 2, pct: 50, reps: '10' },
+          { serie: 3, pct: 70, reps: '6' },
+          { serie: 4, pct: 90, reps: '6' },
+        ];
+
+    const grid = document.getElementById('approx-grid');
+    grid.innerHTML = escalones.map(e => `
+      <div class="result-card">
+        <div class="result-pct">SERIE ${e.serie}${e.pct ? ' — ' + e.pct + '% del peso de trabajo' : ' — SIN CARGA ADICIONAL'}</div>
+        <div class="result-value">
+          <div class="result-weight">${e.pct ? (Math.round(peso * e.pct / 100 * 2) / 2) + ' kg' : 'Barra vacía'}</div>
+          <div class="result-reps">${e.reps} reps</div>
+        </div>
+      </div>
+    `).join('') + `
+      <div class="result-card" style="border-left:2px solid var(--accent2)">
+        <div class="result-pct">SERIE DE TRABAJO</div>
+        <div class="result-value">
+          <div class="result-weight" style="color:var(--accent2)">${peso} kg</div>
+          <div class="result-reps">${reps} reps</div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('approx-results').classList.add('visible');
+  }
+
+  const HERO_OBJECTIVES = {
+    fuerza: [
+      { num: '1–5', label: 'Reps de fuerza' },
+      { num: '85–100%', label: 'Intensidad 1RM' },
+      { num: '4–6', label: 'Semanas por bloque' },
+      { num: 'RPE', label: 'Autorregulación' }
+    ],
+    hipertrofia: [
+      { num: '6–12', label: 'Reps de hipertrofia' },
+      { num: '65–85%', label: 'Intensidad 1RM' },
+      { num: '4–8', label: 'Semanas por bloque' },
+      { num: 'RPE / RIR', label: 'Autorregulación' }
+    ],
+    resistencia: [
+      { num: '15–20+', label: 'Reps de resistencia' },
+      { num: '30–65%', label: 'Intensidad 1RM' },
+      { num: '3–4', label: 'Semanas por bloque' },
+      { num: 'RPE', label: 'Autorregulación' }
+    ],
+    potencia: [
+      { num: '1–5', label: 'Reps explosivas' },
+      { num: '30–60%', label: 'Intensidad 1RM' },
+      { num: '3–4', label: 'Semanas por bloque' },
+      { num: 'Velocidad', label: 'Autorregulación' }
+    ]
+  };
+
+  function updateHeroStats(objective) {
+    const data = HERO_OBJECTIVES[objective] || HERO_OBJECTIVES.fuerza;
+    data.forEach((stat, i) => {
+      const numEl = document.getElementById('stat-num-' + (i + 1));
+      const labelEl = document.getElementById('stat-label-' + (i + 1));
+      if (numEl) numEl.textContent = stat.num;
+      if (labelEl) labelEl.textContent = stat.label;
+    });
+  }
+
+  document.getElementById('hero-objective-select').addEventListener('change', (e) => {
+    updateHeroStats(e.target.value);
+  });
+
+  // Menú mobile (hamburguesa)
+  const navBurger = document.getElementById('nav-burger');
+  const navLinksEl = document.getElementById('nav-links');
+  navBurger.addEventListener('click', () => {
+    const isOpen = navLinksEl.classList.toggle('mobile-open');
+    navBurger.classList.toggle('active', isOpen);
+    navBurger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  navLinksEl.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navLinksEl.classList.remove('mobile-open');
+      navBurger.classList.remove('active');
+      navBurger.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
+
+<!-- PROTECCIÓN CON CONTRASEÑA -->
+<div id="password-gate">
+  <div class="gate-box">
+    <div class="gate-logo">FUERZA MÁXIMA</div>
+    <p class="gate-label">Acceso privado</p>
+    <input type="password" id="gate-input" class="gate-input" placeholder="Contraseña" autocomplete="off">
+    <button class="gate-btn" id="gate-btn">ENTRAR</button>
+    <p class="gate-error" id="gate-error">Contraseña incorrecta</p>
+  </div>
+</div>
+<style>
+  #password-gate {
+    position: fixed; inset: 0; z-index: 9999;
+    background: #0a0a0a;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.5rem;
+  }
+  #password-gate.hidden { display: none; }
+  .gate-box {
+    width: 100%; max-width: 340px;
+    text-align: center;
+  }
+  .gate-logo {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
+    letter-spacing: 0.05em; color: #e8ff00; margin-bottom: 0.5rem;
+  }
+  .gate-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+    color: #888; text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+  }
+  .gate-input {
+    width: 100%; background: #111111; border: 1px solid #2a2a2a;
+    color: #f0f0f0; font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem;
+    padding: 0.9rem 1rem; outline: none; margin-bottom: 1rem;
+    transition: border-color 0.2s;
+  }
+  .gate-input:focus { border-color: #e8ff00; }
+  .gate-btn {
+    width: 100%; background: #e8ff00; color: #000; border: none;
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.08em;
+    padding: 0.8rem; cursor: pointer; transition: all 0.2s;
+  }
+  .gate-btn:hover { background: #fff; }
+  .gate-error {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+    color: #ff5050; margin-top: 1rem; display: none;
+  }
+  .gate-error.visible { display: block; }
+</style>
+<script>
+  (function() {
+    const SITE_PASSWORD = 'najuweb123';
+    const gate = document.getElementById('password-gate');
+    const input = document.getElementById('gate-input');
+    const btn = document.getElementById('gate-btn');
+    const error = document.getElementById('gate-error');
+
+    if (sessionStorage.getItem('fm_auth') === 'true') {
+      gate.classList.add('hidden');
+    }
+
+    function tryUnlock() {
+      if (input.value === SITE_PASSWORD) {
+        sessionStorage.setItem('fm_auth', 'true');
+        gate.classList.add('hidden');
+        error.classList.remove('visible');
+      } else {
+        error.classList.add('visible');
+        input.value = '';
+        input.focus();
+      }
+    }
+
+    btn.addEventListener('click', tryUnlock);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') tryUnlock();
+    });
+  })();
+</script>
+</body>
+</html>
