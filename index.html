@@ -53,7 +53,7 @@
     display: flex; align-items: center; justify-content: space-between;
     height: 56px;
   }
-  .nav-logo { font-family: var(--display); font-weight: 800; font-size: 1.4rem; letter-spacing: 0.05em; color: var(--accent); }
+  .nav-logo { font-family: var(--display); font-weight: 600; font-size: 1.4rem; letter-spacing: 0.05em; color: var(--accent); }
   .nav-links { display: flex; gap: 0.2rem; }
   .nav-links a {
     font-family: var(--mono); font-size: 0.7rem; color: var(--muted);
@@ -126,15 +126,6 @@
     overflow: hidden;
     border-bottom: 1px solid var(--border);
   }
-  .hero-grid {
-    position: absolute; inset: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%);
-  }
   .hero-tag {
     font-family: var(--mono); font-size: 0.7rem; color: var(--accent);
     letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.5rem;
@@ -142,7 +133,7 @@
   }
   .hero-tag::before { content: ''; display: block; width: 2rem; height: 1px; background: var(--accent); }
   .hero h1 {
-    font-family: var(--display); font-weight: 800;
+    font-family: var(--display); font-weight: 600;
     font-size: clamp(4rem, 12vw, 10rem);
     line-height: 0.9;
     letter-spacing: 0.02em;
@@ -180,7 +171,7 @@
     display: flex; gap: 3rem; flex-wrap: wrap;
   }
   .stat { display: flex; flex-direction: column; gap: 0.2rem; }
-  .stat-num { font-family: var(--display); font-weight: 800; font-size: 2.2rem; color: var(--accent2); line-height: 1; }
+  .stat-num { font-family: var(--display); font-weight: 600; font-size: 2.2rem; color: var(--accent2); line-height: 1; }
   .stat-label { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
   /* SECTION WRAPPER */
   .section {
@@ -196,7 +187,7 @@
     letter-spacing: 0.1em; margin-top: 0.5rem; min-width: 2.5rem;
   }
   .section h2 {
-    font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 5vw, 3.5rem);
+    font-family: var(--display); font-weight: 600; font-size: clamp(2rem, 5vw, 3.5rem);
     line-height: 1; letter-spacing: 0.03em;
   }
   .section h2 em { font-style: normal; color: var(--accent); }
@@ -220,7 +211,7 @@
   .card:hover { background: var(--surface2); }
   .card:hover::before { height: 100%; }
   .card-icon { font-size: 1.5rem; margin-bottom: 1rem; }
-  .card h3 { font-family: var(--display); font-weight: 800; font-size: 1.4rem; letter-spacing: 0.04em; margin-bottom: 0.7rem; }
+  .card h3 { font-family: var(--display); font-weight: 600; font-size: 1.4rem; letter-spacing: 0.04em; margin-bottom: 0.7rem; }
   .card p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
   .card-tag {
     display: inline-block; margin-top: 1rem;
@@ -243,12 +234,12 @@
   }
   .principle-block:hover { border-color: var(--text); }
   .principle-num {
-    font-family: var(--display); font-weight: 800; font-size: 4rem; color: var(--border);
+    font-family: var(--display); font-weight: 600; font-size: 4rem; color: var(--border);
     line-height: 1; text-align: right;
     transition: color 0.2s;
   }
   .principle-block:hover .principle-num { color: var(--border); }
-  .principle-title { font-family: var(--display); font-weight: 800; font-size: 1.6rem; letter-spacing: 0.04em; margin-bottom: 0.6rem; }
+  .principle-title { font-family: var(--display); font-weight: 600; font-size: 1.6rem; letter-spacing: 0.04em; margin-bottom: 0.6rem; }
   .principle-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.8; }
   .principle-formula {
     margin-top: 1rem; padding: 0.8rem 1rem;
@@ -285,7 +276,7 @@
     display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
   }
   .accordion-item-title {
-    font-family: var(--display); font-weight: 800; font-size: 1.15rem; letter-spacing: 0.03em;
+    font-family: var(--display); font-weight: 600; font-size: 1.15rem; letter-spacing: 0.03em;
   }
   .accordion-item-icon {
     font-family: var(--mono); font-size: 1rem; color: var(--accent);
@@ -307,7 +298,7 @@
     letter-spacing: 0.03em;
   }
   .subsection-title {
-    font-family: var(--display); font-weight: 800; font-size: 1.3rem; letter-spacing: 0.03em;
+    font-family: var(--display); font-weight: 600; font-size: 1.3rem; letter-spacing: 0.03em;
     margin: 0 0 0.8rem;
   }
   .subsection-title.big { font-size: 1.6rem; margin-bottom: 1.2rem; }
@@ -341,7 +332,7 @@
   .scheme-card.secondary { border-top-color: var(--accent2); }
   .scheme-card.tertiary { border-top-color: #888; }
   .scheme-card:hover { background: var(--surface2); }
-  .scheme-name { font-family: var(--display); font-weight: 800; font-size: 1.8rem; letter-spacing: 0.04em; margin-bottom: 0.3rem; }
+  .scheme-name { font-family: var(--display); font-weight: 600; font-size: 1.8rem; letter-spacing: 0.04em; margin-bottom: 0.3rem; }
   .scheme-sub { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; margin-bottom: 1.5rem; }
   .scheme-sets {
     display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.5rem;
@@ -366,7 +357,7 @@
     box-shadow: 0 0 0 3px var(--border);
   }
   .timeline-week { font-family: var(--mono); font-size: 0.65rem; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.4rem; }
-  .timeline-title { font-family: var(--display); font-weight: 800; font-size: 1.3rem; letter-spacing: 0.04em; margin-bottom: 0.4rem; }
+  .timeline-title { font-family: var(--display); font-weight: 600; font-size: 1.3rem; letter-spacing: 0.04em; margin-bottom: 0.4rem; }
   .timeline-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
   .timeline-intensity {
     display: flex; gap: 3px; margin-top: 0.7rem;
@@ -384,13 +375,13 @@
     background: var(--surface); padding: 1.5rem;
     display: flex; flex-direction: column; gap: 0.5rem;
   }
-  .rpe-val { font-family: var(--display); font-weight: 800; font-size: 2.5rem; line-height: 1; }
+  .rpe-val { font-family: var(--display); font-weight: 600; font-size: 2.5rem; line-height: 1; }
   .rpe-label { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
   .rpe-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
   .rpe-card[data-level="low"] .rpe-val { color: var(--muted); }
   .rpe-card[data-level="med"] .rpe-val { color: var(--accent); }
   .rpe-card[data-level="high"] .rpe-val { color: var(--accent2); }
-  .rpe-card[data-level="max"] .rpe-val { color: var(--text); font-weight: 700; }
+  .rpe-card[data-level="max"] .rpe-val { color: var(--text); font-weight: 600; }
   /* EJERCICIOS */
   .exercise-list { display: grid; gap: 1px; background: var(--border); }
   .exercise-item {
@@ -400,7 +391,7 @@
     cursor: pointer; transition: background 0.2s;
   }
   .exercise-item:hover { background: var(--surface2); }
-  .exercise-name { font-family: var(--display); font-weight: 800; font-size: 1.5rem; letter-spacing: 0.04em; margin-bottom: 0.3rem; }
+  .exercise-name { font-family: var(--display); font-weight: 600; font-size: 1.5rem; letter-spacing: 0.04em; margin-bottom: 0.3rem; }
   .exercise-meta { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.06em; }
   .exercise-detail { display: none; }
   .exercise-item.open .exercise-detail {
@@ -434,7 +425,7 @@
   .info-box.orange .info-box-title { color: var(--accent2); }
   .info-box p { font-size: 0.88rem; color: var(--muted); line-height: 1.8; }
   /* SUBSECTIONS (dentro de una sección numerada) */
-  .subsection-title { font-family: var(--display); font-weight: 800; font-size: 1.8rem; letter-spacing: 0.03em; color: var(--text); margin: 0 0 1rem; }
+  .subsection-title { font-family: var(--display); font-weight: 600; font-size: 1.8rem; letter-spacing: 0.03em; color: var(--text); margin: 0 0 1rem; }
   .lead-text { font-size: 0.9rem; color: var(--muted); max-width: 750px; line-height: 1.8; margin-bottom: 1.5rem; }
   .source-tag { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); margin-top: 0.8rem; }
   /* CALCULATOR */
@@ -442,7 +433,7 @@
     background: var(--surface); border: 1px solid var(--border);
     padding: 2.5rem;
   }
-  .calc-title { font-family: var(--display); font-weight: 800; font-size: 2rem; letter-spacing: 0.04em; margin-bottom: 1.5rem; }
+  .calc-title { font-family: var(--display); font-weight: 600; font-size: 2rem; letter-spacing: 0.04em; margin-bottom: 1.5rem; }
   .calc-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
   .calc-field label {
     display: block; font-family: var(--mono); font-size: 0.65rem;
@@ -458,7 +449,7 @@
   .calc-field input:focus, .calc-field select:focus { border-color: var(--accent); }
   .calc-btn {
     background: var(--accent); color: var(--bg); border: none;
-    font-family: var(--display); font-weight: 800; font-size: 1.2rem; letter-spacing: 0.08em;
+    font-family: var(--display); font-weight: 600; font-size: 1.2rem; letter-spacing: 0.08em;
     padding: 0.9rem 2.5rem; cursor: pointer;
     transition: all 0.2s;
   }
@@ -473,7 +464,7 @@
   .result-card { background: var(--bg); padding: 1.2rem; display: flex; flex-direction: column; }
   .result-pct { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); margin-bottom: 0.3rem; min-height: 2.6em; }
   .result-value { margin-top: auto; padding-top: 0.6rem; }
-  .result-weight { font-family: var(--display); font-weight: 800; font-size: 1.8rem; color: var(--accent); }
+  .result-weight { font-family: var(--display); font-weight: 600; font-size: 1.8rem; color: var(--accent); }
   .result-reps { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); margin-top: 0.2rem; }
   /* PIRÁMIDE */
   .pyramid-outer { display: flex; justify-content: center; padding: 1rem 0 2rem; }
@@ -495,7 +486,7 @@
     opacity: 0.75; margin-bottom: 0.15rem;
   }
   .pyramid-title {
-    font-family: var(--display); font-weight: 800; font-size: 0.95rem; letter-spacing: 0.03em;
+    font-family: var(--display); font-weight: 600; font-size: 0.95rem; letter-spacing: 0.03em;
     line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     max-width: 100%;
   }
@@ -565,9 +556,8 @@
 </nav>
 <!-- HERO -->
 <section class="hero" id="inicio">
-  <div class="hero-grid"></div>
   <div class="hero-tag">Guía completa de entrenamiento</div>
-  <h1>FUERZA<span>FUNDAMENTOS<br>Y PRINCIPIOS</span></h1>
+  <h1>Fuerza<span>Fundamentos<br>y principios</span></h1>
   <p class="hero-sub">Un sistema ordenado para entrenar fuerza: cómo programar series, repeticiones e intensidad según tu objetivo — fuerza máxima, hipertrofia o resistencia — en los básicos: press banca, sentadilla, dominadas lastradas, press militar y más.</p>
   <div class="hero-objective-wrap">
     <label for="hero-objective-select" class="hero-objective-label">Elegí tu objetivo:</label>
@@ -607,36 +597,36 @@
     <h2>Fundamentos del<br><em>entrenamiento de fuerza</em></h2>
   </div>
   <p class="lead-text">Antes de meternos en principios, hipertrofia o esquemas, esto es la base: qué es el entrenamiento de fuerza, cómo se clasifica, qué pasa dentro del cuerpo cuando lo entrenás y el vocabulario que vas a encontrar en el resto de la guía.</p>
-  <h3 class="subsection-title big">¿QUÉ ES EL ENTRENAMIENTO DE FUERZA?</h3>
+  <h3 class="subsection-title big">¿Qué es el entrenamiento de fuerza?</h3>
   <div class="cards cards-2" style="margin-bottom:3rem">
     <div class="card">
-      <h3>DEFINICIÓN</h3>
+      <h3>Definición</h3>
       <p>Es el entrenamiento que usa una resistencia externa —pesas, bandas, el propio peso corporal— para generar tensión muscular y provocar adaptaciones. El foco no está en el movimiento en sí, sino en el estímulo que ese movimiento genera en el músculo, el tejido conectivo y el sistema nervioso.</p>
     </div>
     <div class="card">
-      <h3>DIFERENCIA CON OTROS ENTRENAMIENTOS</h3>
+      <h3>Diferencia con otros entrenamientos</h3>
       <p>El cardio apunta a mejorar el sistema cardiovascular; el trabajo de flexibilidad, al rango de movimiento. El entrenamiento de fuerza busca específicamente mejorar la capacidad del músculo de producir tensión contra una resistencia.</p>
     </div>
   </div>
-  <h3 class="subsection-title big">TIPOS DE FUERZA</h3>
+  <h3 class="subsection-title big">Tipos de fuerza</h3>
   <div class="cards cards-3" style="margin-bottom:3rem">
     <div class="card">
-      <h3>FUERZA MÁXIMA</h3>
+      <h3>Fuerza máxima</h3>
       <p>La mayor tensión que un músculo puede generar en una sola repetición, sin importar el tiempo. Se entrena con cargas altas (85%+ del 1RM) y pocas repeticiones.</p>
       <span class="card-tag">Baja rep / Alta carga</span>
     </div>
     <div class="card">
-      <h3>FUERZA EXPLOSIVA / POTENCIA</h3>
+      <h3>Fuerza explosiva / potencia</h3>
       <p>Capacidad de generar la mayor fuerza posible en el menor tiempo posible. Combina fuerza y velocidad: saltos, lanzamientos, arrancadas olímpicas.</p>
       <span class="card-tag orange">Velocidad + carga</span>
     </div>
     <div class="card">
-      <h3>FUERZA RESISTENCIA</h3>
+      <h3>Fuerza resistencia</h3>
       <p>Capacidad de sostener niveles de fuerza submáximos durante períodos prolongados o muchas repeticiones, resistiendo la fatiga.</p>
       <span class="card-tag">Alta rep / Carga moderada</span>
     </div>
   </div>
-  <h3 class="subsection-title big">FISIOLOGÍA BÁSICA</h3>
+  <h3 class="subsection-title big">Fisiología básica</h3>
   <p class="lead-text">La fuerza no depende solo de qué tan grande es un músculo, sino de cómo el sistema nervioso lo activa, de qué tipo de fibras lo componen y de qué tipo de adaptación se está generando en cada etapa del entrenamiento.</p>
   <h4 class="subsection-title">Cómo se genera la fuerza: sistema nervioso, unidades motoras y reclutamiento</h4>
   <p style="color:var(--muted); font-size:0.88rem; line-height:1.8; max-width:750px; margin-bottom:1.2rem;">La fuerza no depende solo del tamaño del músculo: el sistema nervioso es el que decide cuánta fuerza se produce y cuándo. Tocá cada punto para ver el detalle.</p>
@@ -730,7 +720,7 @@
       </div>
     </div>
   </div>
-  <h3 class="subsection-title big">TIPOS DE CONTRACCIÓN MUSCULAR</h3>
+  <h3 class="subsection-title big">Tipos de contracción muscular</h3>
   <p class="lead-text">Concéntrica, excéntrica e isométrica. Esta base explica, más adelante, por qué algunos esquemas usan tempos específicos o trabajo isométrico como herramienta de progresión.</p>
   <div class="accordion">
     <div class="accordion-item" onclick="toggleAccordion(this)">
@@ -771,31 +761,31 @@
 <div class="section fade-in">
   <div class="section-header">
     <span class="section-num">02</span>
-    <h2>BENEFICIOS DEL<br><em>ENTRENAMIENTO DE FUERZA</em></h2>
+    <h2>Beneficios del<br><em>entrenamiento de fuerza</em></h2>
   </div>
   <div class="cards cards-3">
     <div class="card">
-      <h3>AUMENTO DE LA FUERZA MUSCULAR</h3>
+      <h3>Aumento de la fuerza muscular</h3>
       <p>Permite levantar pesos más pesados y realizar actividades cotidianas con mayor facilidad.</p>
     </div>
     <div class="card">
-      <h3>MEJORA DE LA MASA MUSCULAR</h3>
+      <h3>Mejora de la masa muscular</h3>
       <p>Contribuye al aumento del tamaño muscular, lo que puede ser beneficioso para la estética y el metabolismo.</p>
     </div>
     <div class="card">
-      <h3>FORTALECIMIENTO DE HUESOS Y ARTICULACIONES</h3>
+      <h3>Fortalecimiento de huesos y articulaciones</h3>
       <p>Reduce el riesgo de lesiones y mejora la salud ósea.</p>
     </div>
     <div class="card">
-      <h3>MEJORA DE LA COMPOSICIÓN CORPORAL</h3>
+      <h3>Mejora de la composición corporal</h3>
       <p>Ayuda a quemar grasa y a aumentar la masa muscular, lo que puede llevar a una composición corporal más saludable.</p>
     </div>
     <div class="card">
-      <h3>BENEFICIOS PSICOLÓGICOS</h3>
+      <h3>Beneficios psicológicos</h3>
       <p>Aumenta la confianza, la autoestima y puede ayudar a reducir el estrés y la ansiedad.</p>
     </div>
     <div class="card">
-      <h3>MEJORA DEL RENDIMIENTO DEPORTIVO</h3>
+      <h3>Mejora del rendimiento deportivo</h3>
       <p>En deportes que requieren fuerza, potencia o resistencia, el entrenamiento de fuerza puede mejorar significativamente el rendimiento.</p>
     </div>
   </div>
@@ -806,20 +796,20 @@
 <div class="section fade-in">
   <div class="section-header">
     <span class="section-num">03</span>
-    <h2>PRINCIPIOS DEL<br><em>ENTRENAMIENTO DE FUERZA</em></h2>
+    <h2>Principios del<br><em>entrenamiento de fuerza</em></h2>
   </div>
   <p style="color:var(--muted); font-size:0.9rem; margin-bottom:2.5rem; max-width:700px;">Son la base para cualquier tipo de entrenamiento de fuerza, sea orientado a masa muscular o rendimiento.</p>
   <div class="principle-block expandable" onclick="togglePrincipio(this)">
     <div class="principle-num">01</div>
     <div>
-      <div class="principle-title">SOBRECARGA PROGRESIVA</div>
+      <div class="principle-title">Sobrecarga progresiva</div>
       <p class="principle-desc">El músculo necesita estímulos cada vez más demandantes para seguir adaptándose. Puede ser más peso, más repeticiones, más series, menos descanso, mayor rango de movimiento o mayor control técnico.</p>
       <span class="principle-toggle-label" data-closed="+ VER MODELOS DE PROGRESIÓN" data-open="− CERRAR">+ VER MODELOS DE PROGRESIÓN</span>
       <div class="principle-extra">
         <div class="principle-block">
           <div class="principle-num">01</div>
           <div>
-            <div class="principle-title">PROGRESIÓN LINEAL</div>
+            <div class="principle-title">Progresión lineal</div>
             <p class="principle-desc">El modelo de progresión más simple y efectivo al empezar: <strong style="color:var(--text)">añadir peso cada sesión</strong>. Funciona porque al inicio el sistema nervioso se adapta muy rápido — no porque haga falta un ejercicio distinto al de alguien más avanzado. Cuando deja de funcionar sesión a sesión, se pasa a progresión semanal, usando los mismos ejercicios de base.</p>
             <div class="principle-formula">Sesión 1: 80kg × 5 → Sesión 2: 82.5kg × 5 → Sesión 3: 85kg × 5</div>
           </div>
@@ -827,7 +817,7 @@
         <div class="principle-block">
           <div class="principle-num">02</div>
           <div>
-            <div class="principle-title">PROGRESIÓN DOBLE (REP + PESO)</div>
+            <div class="principle-title">Progresión doble (rep + peso)</div>
             <p class="principle-desc">Cuando la progresión lineal se agota, usás un rango de repeticiones. <strong style="color:var(--text)">Primero llegás al límite superior del rango, luego subís el peso y volvés al límite inferior</strong>. Muy usado en el entrenamiento de fuerza 3–5 o 4–6 repeticiones.</p>
             <div class="principle-formula">3×3 @ 100kg → 3×4 @ 100kg → 3×5 @ 100kg → 3×3 @ 105kg</div>
           </div>
@@ -835,7 +825,7 @@
         <div class="principle-block">
           <div class="principle-num">03</div>
           <div>
-            <div class="principle-title">PROGRESIÓN POR SERIES (VOLUMEN)</div>
+            <div class="principle-title">Progresión por series (volumen)</div>
             <p class="principle-desc">Incrementás el número de series manteniendo el peso estable. Útil cuando la técnica no está lista para más carga, o como herramienta de acumulación de volumen antes de un bloque intensivo.</p>
             <div class="principle-formula">2×5 @ 90kg → 3×5 @ 90kg → 4×5 @ 90kg → 3×5 @ 95kg</div>
           </div>
@@ -843,7 +833,7 @@
         <div class="principle-block">
           <div class="principle-num">04</div>
           <div>
-            <div class="principle-title">AUTORREGULACIÓN / RPE</div>
+            <div class="principle-title">Autorregulación / RPE</div>
             <p class="principle-desc">El <strong style="color:var(--text)">RPE (Rate of Perceived Exertion)</strong> es una escala del 1 al 10 que indica el esfuerzo percibido. Un RPE 8 significa que podrías hacer 2 reps más. Este sistema permite ajustar la carga según tu estado real del día (sueño, estrés, fatiga acumulada), siendo más inteligente que porcentajes fijos siempre.</p>
             <div class="principle-formula">Objetivo: 4×3 @ RPE 8 → Hoy tenés sueño → Bajás 5kg → igual cumplís el objetivo real</div>
           </div>
@@ -851,7 +841,7 @@
         <div class="principle-block">
           <div class="principle-num">05</div>
           <div>
-            <div class="principle-title">PRINCIPIO DE DELOAD</div>
+            <div class="principle-title">Principio de deload</div>
             <p class="principle-desc">Cada 4–6 semanas de acumulación de carga, es necesario una <strong style="color:var(--text)">semana de descarga</strong>: reducís volumen e intensidad un 40–60%. Esto no es descanso pasivo: el deload activo permite que el sistema nervioso y los tejidos se recuperen completamente, resultando en un rendimiento superior en el siguiente bloque.</p>
             <div class="principle-formula">Semanas 1–5: carga progresiva → Semana 6: deload (60% del volumen, -10% intensidad)</div>
           </div>
@@ -862,42 +852,42 @@
   <div class="principle-block">
     <div class="principle-num">02</div>
     <div>
-      <div class="principle-title">ESPECIFICIDAD</div>
+      <div class="principle-title">Especificidad</div>
       <p class="principle-desc">El cuerpo se adapta a lo que le pedís. Si entrenás pesado y pocas repeticiones, vas a ganar más fuerza máxima; si entrenás con más volumen y repeticiones moderadas, vas a favorecer la hipertrofia.</p>
     </div>
   </div>
   <div class="principle-block">
     <div class="principle-num">03</div>
     <div>
-      <div class="principle-title">INDIVIDUALIDAD</div>
+      <div class="principle-title">Individualidad</div>
       <p class="principle-desc">La respuesta al entrenamiento varía según genética, experiencia, edad, recuperación, alimentación y estilo de vida.</p>
     </div>
   </div>
   <div class="principle-block expandable" onclick="togglePrincipio(this)">
     <div class="principle-num">04</div>
     <div>
-      <div class="principle-title">PERIODIZACIÓN (O VARIEDAD)</div>
+      <div class="principle-title">Periodización (o variedad)</div>
       <p class="principle-desc">El estímulo debe cambiar a lo largo del tiempo para evitar estancamientos: ajustar principalmente volumen, intensidad y descansos. Esto no significa rotar ejercicios o equipamiento constantemente — el ACSM 2026 muestra que el tipo de equipo o la complejidad del ejercicio no impactan significativamente el resultado en el adulto sano promedio. La consistencia con los básicos rinde más que la variedad por sí misma.</p>
       <span class="principle-toggle-label" data-closed="+ VER ORGANIZACIÓN DEL ENTRENAMIENTO" data-open="− CERRAR">+ VER ORGANIZACIÓN DEL ENTRENAMIENTO</span>
       <div class="principle-extra">
         <div class="cards cards-2" style="margin-bottom:3rem">
           <div class="card">
-            <h3>PERIODIZACIÓN LINEAL</h3>
+            <h3>Periodización lineal</h3>
             <p>Aumentás peso semana a semana de forma constante. Simple y efectiva para principiantes e intermedios. Cuando se acaban los incrementos, se pasa a periodización ondulante o por bloques.</p>
             <span class="card-tag">Principiantes / Intermedios</span>
           </div>
           <div class="card">
-            <h3>PERIODIZACIÓN ONDULANTE (DUP)</h3>
+            <h3>Periodización ondulante (DUP)</h3>
             <p>Variás volumen e intensidad dentro de la misma semana. Ej: Lunes fuerza (3×3), Miércoles hipertrofia (4×8), Viernes potencia (5×2). Mayor variabilidad de estímulo, ideal para intermedios avanzados.</p>
             <span class="card-tag orange">Intermedios / Avanzados</span>
           </div>
         </div>
-        <h3 style="font-family:var(--display); font-weight:800; font-size:1.5rem; letter-spacing:0.04em; margin-bottom:1.5rem;">EJEMPLO DE MESOCICLO — 6 SEMANAS</h3>
+        <h3 style="font-family:var(--display); font-weight:600; font-size:1.5rem; letter-spacing:0.04em; margin-bottom:1.5rem;">Ejemplo de mesociclo — 6 semanas</h3>
         <div class="timeline">
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-week">SEMANAS 1–2</div>
-            <div class="timeline-title">ACUMULACIÓN BASE</div>
+            <div class="timeline-title">Acumulación base</div>
             <div class="timeline-desc">Volumen moderado-alto, intensidad moderada. 4×5 @ 75–80% 1RM. Objetivo: acumular trabajo, reforzar técnica, generar base de adaptación.</div>
             <div class="timeline-intensity">
               <div class="int-bar filled"></div><div class="int-bar filled"></div><div class="int-bar filled"></div><div class="int-bar"></div><div class="int-bar"></div>
@@ -906,7 +896,7 @@
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-week">SEMANAS 3–4</div>
-            <div class="timeline-title">INTENSIFICACIÓN</div>
+            <div class="timeline-title">Intensificación</div>
             <div class="timeline-desc">Volumen disminuye, intensidad sube. 4×3 @ 85–88% 1RM. El cuerpo ya está adaptado, ahora se forza la adaptación neurológica a cargas más altas.</div>
             <div class="timeline-intensity">
               <div class="int-bar filled"></div><div class="int-bar filled"></div><div class="int-bar filled"></div><div class="int-bar filled"></div><div class="int-bar"></div>
@@ -915,7 +905,7 @@
           <div class="timeline-item">
             <div class="timeline-dot" style="background:var(--accent2)"></div>
             <div class="timeline-week">SEMANA 5</div>
-            <div class="timeline-title">PEAK / REALIZACIÓN</div>
+            <div class="timeline-title">Peak / realización</div>
             <div class="timeline-desc">Volumen bajo, intensidad máxima. 3×2 @ 90–93% 1RM. Se busca expresar la fuerza acumulada. Test de 1RM estimado o real al final de la semana.</div>
             <div class="timeline-intensity">
               <div class="int-bar filled orange"></div><div class="int-bar filled orange"></div><div class="int-bar filled orange"></div><div class="int-bar filled orange"></div><div class="int-bar filled orange"></div>
@@ -924,7 +914,7 @@
           <div class="timeline-item">
             <div class="timeline-dot" style="background:var(--muted)"></div>
             <div class="timeline-week">SEMANA 6</div>
-            <div class="timeline-title">DELOAD</div>
+            <div class="timeline-title">Deload</div>
             <div class="timeline-desc">40–60% del volumen habitual, 60–70% 1RM. Recuperación activa del SNC y tejidos. Sin esta semana, la fatiga acumulada impide el progreso en el siguiente ciclo.</div>
             <div class="timeline-intensity">
               <div class="int-bar filled"></div><div class="int-bar"></div><div class="int-bar"></div><div class="int-bar"></div><div class="int-bar"></div>
@@ -932,7 +922,7 @@
           </div>
         </div>
         <br>
-        <h3 style="font-family:var(--display); font-weight:800; font-size:1.5rem; letter-spacing:0.04em; margin-bottom:1.5rem;">ESCALA RPE — AUTORREGULACIÓN</h3>
+        <h3 style="font-family:var(--display); font-weight:600; font-size:1.5rem; letter-spacing:0.04em; margin-bottom:1.5rem;">Escala RPE — autorregulación</h3>
         <div class="rpe-grid">
           <div class="rpe-card" data-level="low"><div class="rpe-val">6</div><div class="rpe-label">Muy fácil</div><div class="rpe-desc">Podrías hacer 4+ reps más. Calentamiento, técnica, deload.</div></div>
           <div class="rpe-card" data-level="low"><div class="rpe-val">7</div><div class="rpe-label">Fácil</div><div class="rpe-desc">3 reps en reserva. Trabajo de acumulación, primeras series.</div></div>
@@ -947,14 +937,14 @@
   <div class="principle-block">
     <div class="principle-num">05</div>
     <div>
-      <div class="principle-title">RECUPERACIÓN</div>
+      <div class="principle-title">Recuperación</div>
       <p class="principle-desc">El músculo crece y mejora fuera del gimnasio. Dormir bien, alimentarse adecuadamente y dar suficiente tiempo entre sesiones de un mismo grupo muscular son esenciales. La fuerza se gana en el descanso, no en el entrenamiento: estímulo → fatiga → recuperación → supercompensación. Si no descansás adecuadamente, el ciclo no se completa y la progresión se estanca.</p>
     </div>
   </div>
   <div class="principle-block">
     <div class="principle-num">06</div>
     <div>
-      <div class="principle-title">ADHERENCIA</div>
+      <div class="principle-title">Adherencia</div>
       <p class="principle-desc">La mejor rutina es la que podés mantener durante meses o años. Un plan perfecto en papel no sirve si no lo podés cumplir.</p>
     </div>
   </div>
@@ -965,7 +955,7 @@
 <div class="section fade-in">
   <div class="section-header">
     <span class="section-num">04</span>
-    <h2>PIRÁMIDE DEL<br><em>ENTRENAMIENTO</em></h2>
+    <h2>Pirámide del<br><em>entrenamiento</em></h2>
   </div>
   <p style="color:var(--muted); font-size:0.9rem; margin-bottom:2.5rem; max-width:700px;">De la base a la punta, el orden de prioridades para progresar: primero lo que más impacto tiene, después los ajustes finos. Los últimos cuatro niveles forman parte de la periodización.</p>
   <div class="pyramid-outer">
@@ -974,27 +964,27 @@
         <div class="pyramid-apex"></div>
         <div class="pyramid-level pyramid-l6">
           <div class="pyramid-num">06</div>
-          <div class="pyramid-title">TEMPO</div>
+          <div class="pyramid-title">Tempo</div>
         </div>
         <div class="pyramid-level pyramid-l5">
           <div class="pyramid-num">05</div>
-          <div class="pyramid-title">TIEMPOS DE DESCANSO</div>
+          <div class="pyramid-title">Tiempos de descanso</div>
         </div>
         <div class="pyramid-level pyramid-l4">
           <div class="pyramid-num">04</div>
-          <div class="pyramid-title">SELECCIÓN DE EJERCICIOS</div>
+          <div class="pyramid-title">Selección de ejercicios</div>
         </div>
         <div class="pyramid-level pyramid-l3">
           <div class="pyramid-num">03</div>
-          <div class="pyramid-title">PROGRESIÓN</div>
+          <div class="pyramid-title">Progresión</div>
         </div>
         <div class="pyramid-level pyramid-l2">
           <div class="pyramid-num">02</div>
-          <div class="pyramid-title">VOLUMEN, INTENSIDAD Y FRECUENCIA</div>
+          <div class="pyramid-title">Volumen, intensidad y frecuencia</div>
         </div>
         <div class="pyramid-level pyramid-l1">
           <div class="pyramid-num">01</div>
-          <div class="pyramid-title">ADHERENCIA</div>
+          <div class="pyramid-title">Adherencia</div>
         </div>
         <div class="pyramid-bracket"></div>
         <div class="pyramid-bracket-label">Periodización</div>
@@ -1012,22 +1002,22 @@
 <div class="section fade-in">
   <div class="section-header">
     <span class="section-num">05</span>
-    <h2>TRES PILARES PARA<br><em>EL CRECIMIENTO MUSCULAR</em></h2>
+    <h2>Tres pilares para<br><em>el crecimiento muscular</em></h2>
   </div>
   <p class="lead-text">Tensión mecánica, daño muscular y estrés metabólico. Tres preguntas resumen buena parte de lo que hay que saber sobre cómo estimular la hipertrofia: ¿qué es la tensión mecánica en el entrenamiento?, ¿cuánto debo levantar para ganar masa muscular?, ¿cuántas repeticiones debo hacer?</p>
   <div class="cards cards-3">
     <div class="card">
-      <h3>TENSIÓN MECÁNICA</h3>
+      <h3>Tensión mecánica</h3>
       <p>Es la fuerza que se aplica al músculo durante la contracción, y se relaciona con la intensidad del ejercicio (peso levantado) y el tiempo bajo tensión. Para optimizarla, se puede variar la intensidad y la duración del ejercicio. Se cree que es un factor clave para desencadenar las respuestas moleculares y celulares que conducen al crecimiento muscular.</p>
       <span class="card-tag">Peso + tiempo bajo tensión</span>
     </div>
     <div class="card">
-      <h3>ESTRÉS METABÓLICO</h3>
+      <h3>Estrés metabólico</h3>
       <p>Se genera por la acumulación de metabolitos como el lactato y el hidrógeno durante el ejercicio, especialmente con altas repeticiones y descansos cortos. Este estrés puede inducir la liberación de hormonas anabólicas y favorecer el entorno anabólico en el músculo. Se promueve con entrenamientos de altas repeticiones, series extendidas y descansos reducidos.</p>
       <span class="card-tag orange">Altas reps + descansos cortos</span>
     </div>
     <div class="card">
-      <h3>DAÑO MUSCULAR</h3>
+      <h3>Daño muscular</h3>
       <p>Es el resultado de microdesgarros en las fibras musculares causados por el ejercicio intenso. Desencadena una respuesta inflamatoria y la liberación de factores de crecimiento que promueven la reparación y el crecimiento muscular. Se puede inducir variando los ejercicios, usando negativos lentos y aumentando el rango de movimiento.</p>
       <span class="card-tag">Negativos lentos + ROM completo</span>
     </div>
@@ -1037,7 +1027,7 @@
     <p>La tensión mecánica, el estrés metabólico y el daño muscular interactúan entre sí para estimular la hipertrofia. No existe un consenso sobre cuál de estos factores es el más importante, pero todos son considerados estímulos efectivos para el crecimiento muscular. Es recomendable combinar diferentes tipos de entrenamiento que involucren estos tres factores para obtener mejores resultados.</p>
   </div>
   <div style="margin-top:3.5rem;">
-    <h3 class="subsection-title">DESCANSO IDEAL EN HIPERTROFIA</h3>
+    <h3 class="subsection-title">Descanso ideal en hipertrofia</h3>
     <p class="lead-text">Para descansar de manera correcta entrenando fuerza orientada a ganar masa muscular, en general conviene plantear descansos subjetivos. Se dividen en descansos <strong style="color:var(--text)">completos</strong> y descansos <strong style="color:var(--text)">parciales</strong>. No tienen un tiempo establecido: funcionan por la percepción de fatiga propia de cada persona.</p>
     <div class="info-box orange">
       <div class="info-box-title">Descanso recomendado entre series</div>
@@ -1046,11 +1036,11 @@
     </div>
     <div class="cards cards-2" style="margin-top:1px;">
       <div class="card">
-        <h3>DESCANSOS AUTO-REGULADOS</h3>
+        <h3>Descansos auto-regulados</h3>
         <p>Son subjetivos y dependen de cómo te encuentres en ese momento para encarar la siguiente serie. <strong style="color:var(--text)">Completos</strong> = 100% recuperado (+3 minutos aprox). <strong style="color:var(--text)">Parciales</strong> = recuperado, pero no al 100% (–3 minutos aprox).</p>
       </div>
       <div class="card">
-        <h3>SEGÚN TIPO DE EJERCICIO</h3>
+        <h3>Según tipo de ejercicio</h3>
         <p>Tendé a hacer descansos completos en ejercicios multiarticulares (sentadilla, peso muerto, press) y descansos parciales en ejercicios de "aislamiento" (curl de bíceps, extensión de cuádriceps).</p>
       </div>
     </div>
@@ -1062,7 +1052,7 @@
 <div class="section fade-in">
   <div class="section-header">
     <span class="section-num">06</span>
-    <h2>ESQUEMAS DE<br><em>SERIES Y REPETICIONES</em></h2>
+    <h2>Esquemas de<br><em>series y repeticiones</em></h2>
   </div>
   <p style="color:var(--muted); font-size:0.9rem; margin-bottom:2rem; max-width:700px;">Para fuerza máxima, el rango de repeticiones va de 1 a 5. Cada esquema tiene un propósito diferente dentro del mesociclo. No existe uno universalmente superior: todos se usan en distintas fases.</p>
   <div class="scheme-grid">
@@ -1115,7 +1105,7 @@
       </ul>
     </div>
     <div class="scheme-card secondary">
-      <div class="scheme-name">RAMPA</div>
+      <div class="scheme-name">Rampa</div>
       <div class="scheme-sub">Series ascendentes al top set</div>
       <div class="scheme-sets">
         <span class="set-pill">60%×5</span>
@@ -1131,7 +1121,7 @@
       </ul>
     </div>
     <div class="scheme-card tertiary">
-      <div class="scheme-name">CLUSTERS</div>
+      <div class="scheme-name">Clusters</div>
       <div class="scheme-sub">Mini-pausa intra-serie para más calidad</div>
       <div class="scheme-sets">
         <span class="set-pill">3+2+2</span>
@@ -1169,7 +1159,7 @@
     <p>1–3 reps → 90–100% 1RM &nbsp;|&nbsp; 4–5 reps → 82–88% 1RM &nbsp;|&nbsp; 6–8 reps → 75–82% 1RM &nbsp;|&nbsp; 8+ reps → menor de 75%.<br>Para fuerza máxima, la mayor parte del trabajo se hace entre el 75–95% del 1RM.</p>
   </div>
   <div style="margin-top:4rem;">
-    <h3 class="subsection-title">SERIES POR SESIÓN Y POR SEMANA</h3>
+    <h3 class="subsection-title">Series por sesión y por semana</h3>
     <p class="lead-text">La evidencia más reciente sugiere que la cantidad óptima de series por sesión y por semana para ganar fuerza y masa muscular depende del objetivo específico, el nivel de entrenamiento y el grupo muscular involucrado. Un resumen basado en estudios actuales:</p>
     <div class="info-box orange">
       <div class="info-box-title">Para ganar fuerza (sentadilla, banca, peso muerto, dominadas)</div>
@@ -1206,7 +1196,7 @@
     <p style="font-size:0.82rem; color:var(--muted); margin-top:0.8rem;">Esta tabla escala el <em style="color:var(--text); font-style:normal;">volumen tolerado</em> según nivel, no los ejercicios en sí. El ACSM 2026 aclara que los básicos (sentadilla, banca, peso muerto, remo, etc.) funcionan igual de bien para principiantes y avanzados: la experiencia de entrenamiento no cambia qué ejercicio elegir, sólo cuánta dosis podés tolerar y progresar.</p>
   </div>
   <div style="margin-top:4rem;">
-    <h3 class="subsection-title">REPETICIONES: FUERZA E HIPERTROFIA</h3>
+    <h3 class="subsection-title">Repeticiones: fuerza e hipertrofia</h3>
     <div class="info-box orange">
       <div class="info-box-title">Repeticiones para ganar fuerza</div>
       <p>El rango más efectivo para desarrollar fuerza máxima es de 1 a 5 repeticiones, con cargas del 85–100% del 1RM (ver la referencia de intensidades más arriba). A esa intensidad no hace falta llegar al fallo muscular: el objetivo es mover cargas cercanas al máximo con buena técnica, priorizando la calidad de cada repetición y la adaptación neuromuscular.</p>
@@ -1232,40 +1222,40 @@
 <div class="section fade-in">
   <div class="section-header">
     <span class="section-num">07</span>
-    <h2>ENTRADA EN<br><em>CALOR DE MOVILIDAD</em></h2>
+    <h2>Entrada en<br><em>calor de movilidad</em></h2>
   </div>
   <p class="lead-text">Es una serie de movimientos de baja intensidad y carga externa nula (o mínima) que preparan articulaciones, tejido y sistema nervioso para el patrón de movimiento específico que vas a cargar después. No es "estiramiento" clásico ni trabajo de fuerza — es preparación.</p>
   <div style="margin-top:2.5rem;">
-    <h3 class="subsection-title">QUÉ PASA ESPECÍFICAMENTE EN EL CUERPO</h3>
+    <h3 class="subsection-title">Qué pasa específicamente en el cuerpo</h3>
     <div class="cards cards-3">
       <div class="card">
-        <h3>TEMPERATURA Y TEJIDO</h3>
+        <h3>Temperatura y tejido</h3>
         <p>El movimiento activo aumenta la temperatura del músculo y el tendón, reduciendo su viscosidad interna. Un tejido más caliente se desliza con menos fricción entre fibras y responde más rápido a la activación nerviosa.</p>
         <span class="card-tag">Menor viscosidad muscular</span>
       </div>
       <div class="card">
-        <h3>LÍQUIDO SINOVIAL Y RANGO</h3>
+        <h3>Líquido sinovial y rango</h3>
         <p>El movimiento articular estimula la producción y distribución de líquido sinovial, mejorando la lubricación. El rango activo aumenta transitoriamente por menor inhibición refleja, no por elongación permanente del músculo.</p>
         <span class="card-tag orange">Mejor lubricación articular</span>
       </div>
       <div class="card">
-        <h3>SISTEMA NERVIOSO Y FLUJO</h3>
+        <h3>Sistema nervioso y flujo</h3>
         <p>Mover una articulación en el patrón específico despierta las vías nerviosas necesarias, mejorando reclutamiento y coordinación. También aumenta el aporte de sangre y oxígeno a los tejidos que vas a usar.</p>
         <span class="card-tag">Mejor reclutamiento</span>
       </div>
     </div>
   </div>
   <div style="margin-top:3.5rem;">
-    <h3 class="subsection-title">ENTRADA EN CALOR VS. SERIES DE APROXIMACIÓN</h3>
+    <h3 class="subsection-title">Entrada en calor vs. series de aproximación</h3>
     <p class="lead-text">Son dos capas de preparación distintas y complementarias, no una alternativa a la otra.</p>
     <div class="cards cards-2">
       <div class="card">
-        <h3>ENTRADA EN CALOR</h3>
+        <h3>Entrada en calor</h3>
         <p>General y sin carga externa relevante. Trabaja la articulación y el tejido en sí mismos: rango, temperatura, lubricación y activación neuromuscular del patrón que vas a usar.</p>
         <span class="card-tag">General, sin carga</span>
       </div>
       <div class="card">
-        <h3>SERIES DE APROXIMACIÓN</h3>
+        <h3>Series de aproximación</h3>
         <p>El mismo ejercicio que vas a entrenar, con carga creciente hasta el peso de trabajo. Graba el patrón motor exacto, activa el SNC (potenciación post-activación) y te permite autorregular según cómo estés ese día.</p>
         <span class="card-tag orange">Específica, con carga</span>
       </div>
@@ -1277,7 +1267,7 @@
     <p style="margin-top:0.8rem;">Si saltás las series de aproximación y vas directo al peso de trabajo después de la movilidad, el sistema nervioso no está calibrado para esa carga específica ni tenés información de cómo estás rindiendo ese día — el resultado típico es una técnica que se rompe en el peso "de siempre" porque el cuerpo no llegó preparado a ese nivel de tensión.</p>
   </div>
   <div style="margin-top:3.5rem;">
-    <h3 class="subsection-title">CÓMO ARMAR TU ENTRADA EN CALOR</h3>
+    <h3 class="subsection-title">Cómo armar tu entrada en calor</h3>
     <div class="progress-protocol">
       <div class="protocol-steps">
         <div class="protocol-step"><span class="step-n">1</span><span>Identificá los patrones que vas a entrenar ese día (sentadilla, empuje horizontal/vertical, bisagra de cadera, tracción vertical).</span></div>
@@ -1289,7 +1279,7 @@
     <p style="font-size:0.82rem; color:var(--muted); margin-top:1rem;">Regla de oro: una entrada en calor no debería fatigar. Si un ejercicio te deja con sensación de "serie de trabajo", sobra ahí.</p>
   </div>
   <div style="margin-top:3.5rem;">
-    <h3 class="subsection-title">QUÉ NECESITA CADA PATRÓN</h3>
+    <h3 class="subsection-title">Qué necesita cada patrón</h3>
     <div class="prog-table-wrap">
       <table>
         <thead><tr><th>Patrón</th><th>Necesita</th></tr></thead>
@@ -1303,16 +1293,16 @@
     </div>
   </div>
   <div style="margin-top:3.5rem;">
-    <h3 class="subsection-title">PLANOS DE MOVIMIENTO A CUBRIR</h3>
+    <h3 class="subsection-title">Planos de movimiento a cubrir</h3>
     <div class="cards cards-3">
-      <div class="card"><h3>SAGITAL</h3><p>Flexo-extensión: cuadrupedia, sentadilla, peso muerto, press.</p></div>
-      <div class="card"><h3>FRONTAL</h3><p>Abducción/aducción de cadera: levantamiento lateral de cadera.</p></div>
-      <div class="card"><h3>TRANSVERSAL</h3><p>Rotación: rotación torácica, 90/90, spiderman lunge + rotación.</p></div>
+      <div class="card"><h3>Sagital</h3><p>Flexo-extensión: cuadrupedia, sentadilla, peso muerto, press.</p></div>
+      <div class="card"><h3>Frontal</h3><p>Abducción/aducción de cadera: levantamiento lateral de cadera.</p></div>
+      <div class="card"><h3>Transversal</h3><p>Rotación: rotación torácica, 90/90, spiderman lunge + rotación.</p></div>
     </div>
     <p style="font-size:0.82rem; color:var(--muted); margin-top:1rem;">Una entrada en calor completa toca al menos dos planos distintos, no solo el sagital (que es al que todos tendemos por default).</p>
   </div>
   <div style="margin-top:3.5rem;">
-    <h3 class="subsection-title">LIBRERÍA DE EJERCICIOS POR CATEGORÍA</h3>
+    <h3 class="subsection-title">Librería de ejercicios por categoría</h3>
     <div class="scheme-grid">
       <div class="scheme-card primary">
         <div class="scheme-name">A</div>
@@ -1391,7 +1381,7 @@
     </div>
   </div>
   <div style="margin-top:3.5rem;">
-    <h3 class="subsection-title">PLANTILLAS POR TIPO DE DÍA</h3>
+    <h3 class="subsection-title">Plantillas por tipo de día</h3>
     <div class="prog-table-wrap">
       <table>
         <thead><tr><th>Día</th><th>Categorías a cubrir</th></tr></thead>
@@ -1406,7 +1396,7 @@
     </div>
   </div>
   <div style="margin-top:3.5rem;">
-    <h3 class="subsection-title">EJEMPLO ARMADO — DÍA FULL BODY</h3>
+    <h3 class="subsection-title">Ejemplo armado — día full body</h3>
     <div class="prog-table-wrap">
       <table>
         <thead><tr><th>#</th><th>Ejercicio</th><th>Volumen</th><th>Tiempo aprox.</th></tr></thead>
@@ -1422,7 +1412,7 @@
     <p style="font-size:0.82rem; color:var(--muted); margin-top:1rem;"><strong style="color:var(--text)">Total:</strong> ~5–6 min con transiciones.</p>
   </div>
   <div class="calc-container" style="margin-top:3.5rem;">
-    <div class="calc-title">SERIES DE APROXIMACIÓN</div>
+    <div class="calc-title">Series de aproximación</div>
     <p style="color:var(--muted); font-size:0.85rem; margin-bottom:2rem;">Antes de la serie de trabajo, subí la carga de forma progresiva. Ingresá el peso y las reps de tu serie de trabajo para ver la escalera de aproximación.</p>
     <div class="calc-inputs">
       <div class="calc-field">
@@ -1451,13 +1441,13 @@
 <div class="section fade-in">
   <div class="section-header">
     <span class="section-num">08</span>
-    <h2>EJERCICIOS BÁSICOS Y<br><em>PROTOCOLOS DE PROGRESIÓN</em></h2>
+    <h2>Ejercicios básicos y<br><em>protocolos de progresión</em></h2>
   </div>
   <p style="color:var(--muted); font-size:0.88rem; margin-bottom:2rem;">Hacé click en cada ejercicio para ver el protocolo de progresión específico.</p>
   <div class="exercise-list">
     <div class="exercise-item" onclick="toggle(this)">
       <div>
-        <div class="exercise-name">SENTADILLA CON BARRA TRASERA</div>
+        <div class="exercise-name">Sentadilla con barra trasera</div>
         <div class="exercise-meta">SQUAT · PATRÓN DOMINANTE DE RODILLA · MOTOR PRINCIPAL</div>
       </div>
       <div class="exercise-toggle">+ VER PROTOCOLO</div>
@@ -1477,7 +1467,7 @@
     </div>
     <div class="exercise-item" onclick="toggle(this)">
       <div>
-        <div class="exercise-name">PRESS DE BANCA</div>
+        <div class="exercise-name">Press de banca</div>
         <div class="exercise-meta">BENCH PRESS · PATRÓN DE EMPUJE HORIZONTAL · PECHO / TRÍCEPS / DELTOIDES</div>
       </div>
       <div class="exercise-toggle">+ VER PROTOCOLO</div>
@@ -1497,7 +1487,7 @@
     </div>
     <div class="exercise-item" onclick="toggle(this)">
       <div>
-        <div class="exercise-name">PRESS MILITAR</div>
+        <div class="exercise-name">Press militar</div>
         <div class="exercise-meta">OVERHEAD PRESS · EMPUJE VERTICAL · HOMBROS / TRÍCEPS / CORE</div>
       </div>
       <div class="exercise-toggle">+ VER PROTOCOLO</div>
@@ -1517,7 +1507,7 @@
     </div>
     <div class="exercise-item" onclick="toggle(this)">
       <div>
-        <div class="exercise-name">DOMINADAS LASTRADAS</div>
+        <div class="exercise-name">Dominadas lastradas</div>
         <div class="exercise-meta">WEIGHTED PULL-UPS · TRACCIÓN VERTICAL · DORSAL / BÍCEPS / CORE</div>
       </div>
       <div class="exercise-toggle">+ VER PROTOCOLO</div>
@@ -1537,7 +1527,7 @@
     </div>
     <div class="exercise-item" onclick="toggle(this)">
       <div>
-        <div class="exercise-name">PESO MUERTO</div>
+        <div class="exercise-name">Peso muerto</div>
         <div class="exercise-meta">DEADLIFT · PATRÓN DE BISAGRA · CADENA POSTERIOR COMPLETA</div>
       </div>
       <div class="exercise-toggle">+ VER PROTOCOLO</div>
@@ -1563,10 +1553,10 @@
 <div class="section fade-in">
   <div class="section-header">
     <span class="section-num">09</span>
-    <h2>CALCULADORA DE<br><em>CARGAS DE ENTRENAMIENTO</em></h2>
+    <h2>Calculadora de<br><em>cargas de entrenamiento</em></h2>
   </div>
   <div class="calc-container">
-    <div class="calc-title">CALCULÁ TUS ZONAS DE TRABAJO</div>
+    <div class="calc-title">Calculá tus zonas de trabajo</div>
     <p style="color:var(--muted); font-size:0.85rem; margin-bottom:2rem;">Ingresá tu 1RM conocido o estimado y el ejercicio para ver las cargas recomendadas por fase.</p>
     <div class="calc-inputs">
       <div class="calc-field">
@@ -1602,23 +1592,23 @@
 <div class="section fade-in">
   <div class="section-header">
     <span class="section-num">10</span>
-    <h2>ERRORES COMUNES Y<br><em>CÓMO EVITARLOS</em></h2>
+    <h2>Errores comunes y<br><em>cómo evitarlos</em></h2>
   </div>
   <div class="cards cards-2">
     <div class="card" style="border-top:2px solid var(--text)">
-      <h3>PROGRESAR SIN REGISTRO</h3>
+      <h3>Progresar sin registro</h3>
       <p>Sin llevar un diario de entrenamiento, no podés saber si estás progresando realmente. Anotá siempre el peso, series, reps y RPE percibido de cada sesión. Lo que no se mide, no se mejora.</p>
     </div>
     <div class="card" style="border-top:2px solid var(--text)">
-      <h3>IGNORAR EL DELOAD</h3>
+      <h3>Ignorar el deload</h3>
       <p>Saltear la semana de descarga es el error más común. La fatiga acumulada enmascara la fuerza real. Después de un deload bien hecho, los lifters suelen mover más peso del que creían capaces.</p>
     </div>
     <div class="card" style="border-top:2px solid var(--text)">
-      <h3>ESCALAR DEMASIADO RÁPIDO</h3>
+      <h3>Escalar demasiado rápido</h3>
       <p>Agregar demasiado peso demasiado rápido lleva al fracaso técnico y al sobreentrenamiento. La sobrecarga progresiva debe ser <em>progresiva</em>: pequeños incrementos sostenidos siempre ganan a saltos grandes y erráticos.</p>
     </div>
     <div class="card" style="border-top:2px solid var(--text)">
-      <h3>DESCUIDAR ACCESORIOS</h3>
+      <h3>Descuidar accesorios</h3>
       <p>Los ejercicios básicos son el núcleo, pero los accesorios (hip thrust, remo, press cerrado, hip hinge) corrigen desequilibrios musculares que frenan el progreso en los básicos. No son opcionales.</p>
     </div>
   </div>
@@ -1812,7 +1802,7 @@
     text-align: center;
   }
   .gate-logo {
-    font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 2rem;
+    font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 2rem;
     letter-spacing: 0.05em; color: #faf8f5; margin-bottom: 0.5rem;
   }
   .gate-label {
@@ -1829,7 +1819,7 @@
   .gate-input:focus { border-color: #e8ff00; }
   .gate-btn {
     width: 100%; background: #faf8f5; color: #000; border: none;
-    font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 1.1rem; letter-spacing: 0.02em;
+    font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; letter-spacing: 0.02em;
     padding: 0.8rem; cursor: pointer; transition: all 0.2s;
   }
   .gate-btn:hover { background: #fff; }
